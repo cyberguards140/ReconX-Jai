@@ -3,3 +3,4 @@ questionary
 pyyaml
 flask
 flask-sock
+websockets
