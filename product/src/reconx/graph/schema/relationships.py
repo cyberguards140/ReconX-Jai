@@ -1,0 +1,33 @@
+from enum import Enum
+
+class RelType(str, Enum):
+    # Infrastructure
+    RESOLVES_TO = "RESOLVES_TO"
+    HOSTED_ON = "HOSTED_ON"
+    OWNS = "OWNS"
+    BELONGS_TO = "BELONGS_TO"
+    PROVIDES = "PROVIDES"
+
+    # Threat Intelligence
+    USES = "USES"
+    TARGETS = "TARGETS"
+    INDICATES = "INDICATES"
+    RELATED_TO = "RELATED_TO"
+    ATTRIBUTED_TO = "ATTRIBUTED_TO"
+
+    # SOC
+    GENERATED = "GENERATED"
+    TRIGGERED = "TRIGGERED"
+    LINKED_TO = "LINKED_TO"
+    ASSOCIATED_WITH = "ASSOCIATED_WITH"
+
+    # Cloud
+    RUNS_ON = "RUNS_ON"
+    DEPLOYS = "DEPLOYS"
+    COMMUNICATES_WITH = "COMMUNICATES_WITH"
+    EXPOSES = "EXPOSES"
+
+    # Executive
+    IMPACTS = "IMPACTS"
+    MITIGATES = "MITIGATES"
+    GOVERNS = "GOVERNS"

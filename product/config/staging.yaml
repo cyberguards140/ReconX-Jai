@@ -1,0 +1,10 @@
+app:
+  name: "ReconX"
+  env: "staging"
+  debug: false
+  auto_reload: false
+  secure_cookies: true
+logging:
+  level: "INFO"
+database:
+  url: "postgresql+asyncpg://reconx:reconx@localhost/reconx_staging"

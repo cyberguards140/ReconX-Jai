@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reconx-workflow-worker
+  namespace: reconx-prod
+  labels:
+    app: reconx
+    component: worker
+spec:
+  replicas: 5 # High concurrency for distributed task execution
+  selector:
+    matchLabels:
+      app: reconx
+      component: worker
+  template:
+    metadata:
+      labels:
+        app: reconx
+        component: worker
+    spec:
+      containers:
+      - name: celery-worker
+        image: reconx/api:latest
+        imagePullPolicy: Always
+        command: ["celery", "-A", "reconx.workflow.execution.execution_engine.celery_app", "worker", "--loglevel=info", "--concurrency=8"]
+        envFrom:
+        - secretRef:
+            name: reconx-db-secrets
+        env:
+        - name: CELERY_BROKER_URL
+          value: "redis://redis-service:6379/1"
+        - name: CELERY_RESULT_BACKEND
+          value: "redis://redis-service:6379/2"
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 1Gi
+          limits:
+            cpu: 2000m
+            memory: 2Gi
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: reconx-worker-hpa
+  namespace: reconx-prod
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: reconx-workflow-worker
+  minReplicas: 3
+  maxReplicas: 50
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70

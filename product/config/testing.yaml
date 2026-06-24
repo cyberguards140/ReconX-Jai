@@ -1,0 +1,10 @@
+app:
+  name: "ReconX"
+  env: "testing"
+  debug: true
+  auto_reload: false
+  secure_cookies: false
+logging:
+  level: "ERROR"
+database:
+  url: "sqlite+aiosqlite:///:memory:"

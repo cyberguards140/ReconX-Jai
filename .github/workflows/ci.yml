@@ -22,4 +22,4 @@ jobs:
         pip install pytest
     - name: Run Unit Tests
       run: |
-        PYTHONPATH=. pytest -v
+        PYTHONPATH=product/src pytest product/tests/ -v

@@ -1,0 +1,387 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.12, pytest-9.0.3, pluggy-1.6.0
+rootdir: /home/kali/ReconX/product
+configfile: pytest.ini
+testpaths: tests
+plugins: asyncio-1.4.0, cov-7.1.0, anyio-4.12.1, typeguard-4.4.4
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=function, asyncio_default_test_loop_scope=function
+collected 101 items
+
+tests/integration/api/test_api.py ..                                     [  1%]
+tests/integration/cli/test_cli.py ..                                     [  3%]
+tests/unit/auth/test_auth.py .....                                       [  8%]
+tests/unit/database/test_database.py ....                                [ 12%]
+tests/unit/database/test_session.py ..                                   [ 14%]
+tests/unit/intelligence/test_intelligence.py .....                       [ 19%]
+tests/unit/plugins/test_mocked_subprocess.py F                           [ 20%]
+tests/unit/plugins/test_plugin_registry.py ...                           [ 23%]
+tests/unit/plugins/test_plugins.py F..FFF                                [ 29%]
+tests/unit/reporting/test_reporting.py ......                            [ 35%]
+tests/unit/test_aggregator.py .                                          [ 36%]
+tests/unit/test_api_routers.py ........                                  [ 44%]
+tests/unit/test_auth.py ....                                             [ 48%]
+tests/unit/test_cli.py .....                                             [ 53%]
+tests/unit/test_cli_commands.py ...                                      [ 56%]
+tests/unit/test_dns_client.py ...                                        [ 59%]
+tests/unit/test_http_client.py .....                                     [ 64%]
+tests/unit/test_intelligence.py ....                                     [ 68%]
+tests/unit/test_intelligence_ingestion.py ...                            [ 71%]
+tests/unit/test_plugin_loader.py FFF                                     [ 74%]
+tests/unit/test_reporting.py ..                                          [ 76%]
+tests/unit/test_repositories.py .....                                    [ 81%]
+tests/unit/test_smoke.py .                                               [ 82%]
+tests/unit/test_validators.py ......                                     [ 88%]
+tests/unit/test_workflow.py ...                                          [ 91%]
+tests/unit/test_workflow_resilience.py ..                                [ 93%]
+tests/unit/workflow/test_dependency_graph.py F.F                         [ 96%]
+tests/unit/workflows/test_workflow.py ....                               [100%]
+
+=================================== FAILURES ===================================
+___________________________ test_mock_external_tool ____________________________
+
+mock_exec = <AsyncMock name='create_subprocess_exec' id='140031177422032'>
+
+    @pytest.mark.asyncio
+    @patch('asyncio.create_subprocess_exec')
+    async def test_mock_external_tool(mock_exec):
+        mock_process = AsyncMock()
+        mock_process.communicate.return_value = (b'{"status": "open"}', b'')
+        mock_process.returncode = 0
+        mock_exec.return_value = mock_process
+    
+>       adapter = HttpxAdapter()
+                  ^^^^^^^^^^^^^^
+E       TypeError: Can't instantiate abstract class ReconXPlugin without an implementation for abstract method 'run'
+
+tests/unit/plugins/test_mocked_subprocess.py:14: TypeError
+____________________________ test_plugin_discovery _____________________________
+
+temp_plugin_dir = PosixPath('/tmp/tmp1awocjyj')
+
+    @pytest.mark.asyncio
+    async def test_plugin_discovery(temp_plugin_dir):
+        create_mock_plugin(
+            temp_plugin_dir,
+            "test_plugin",
+            "from reconx.plugins.base import ReconXPlugin\nclass TestPlugin(ReconXPlugin):\n    async def execute(self, t): pass\ndef register(): return TestPlugin\n",
+            {"name": "test_plugin", "version": "1.0", "author": "test"},
+        )
+    
+        manager = PluginManager(str(temp_plugin_dir))
+        manager.load_all()
+        plugins = manager.list_plugins()
+>       assert len(plugins) == 1
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests/unit/plugins/test_plugins.py:55: AssertionError
+____________________________ test_plugin_execution _____________________________
+
+temp_plugin_dir = PosixPath('/tmp/tmpxmxqq702')
+
+    @pytest.mark.asyncio
+    async def test_plugin_execution(temp_plugin_dir):
+        create_mock_plugin(
+            temp_plugin_dir,
+            "exec_plugin",
+            """from reconx.plugins.base import ReconXPlugin, PluginResult
+    class ExecPlugin(ReconXPlugin):
+        async def validate(self): return True
+        async def execute(self, t): return PluginResult(status="success", findings=[{"foo":"bar"}])
+    def register(): return ExecPlugin
+        """,
+            {"name": "exec_plugin", "version": "1.0", "author": "test"},
+        )
+    
+        manager = PluginManager(str(temp_plugin_dir))
+        async with SessionLocal() as db:
+>           result = await manager.execute_plugin(
+                db, "exec_plugin", "test_target_id", "example.com"
+            )
+
+tests/unit/plugins/test_plugins.py:105: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/reconx/plugins/manager.py:66: in execute_plugin
+    self.load_plugin(name)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <reconx.plugins.manager.PluginManager object at 0x7f5b7ff156e0>
+name = 'exec_plugin'
+
+    def load_plugin(self, name: str) -> None:
+        # Find the plugin dir
+        plugin_paths = self.registry.discover_plugins()
+        target_path = None
+        for p in plugin_paths:
+            try:
+                with open(p, "r", encoding="utf-8") as f:
+                    meta = yaml.safe_load(f)
+                    if meta.get("name") == name:
+                        target_path = p.parent
+                        self.metadata[name] = meta
+                        break
+            except Exception:
+                continue  # nosec B112
+    
+        if not target_path:
+>           raise PluginError(f"Plugin {name} not found")
+E           reconx.plugins.exceptions.PluginError: Plugin exec_plugin not found
+
+src/reconx/plugins/manager.py:37: PluginError
+_____________________________ test_plugin_timeout ______________________________
+
+temp_plugin_dir = PosixPath('/tmp/tmp4lc5awwv')
+
+    @pytest.mark.asyncio
+    async def test_plugin_timeout(temp_plugin_dir):
+        create_mock_plugin(
+            temp_plugin_dir,
+            "slow_plugin",
+            """import asyncio
+    from reconx.plugins.base import ReconXPlugin, PluginResult
+    class SlowPlugin(ReconXPlugin):
+        async def validate(self): return True
+        async def execute(self, t):
+            await asyncio.sleep(10)
+            return PluginResult(status="success")
+    def register(): return SlowPlugin
+        """,
+            {"name": "slow_plugin", "version": "1.0", "author": "test"},
+        )
+    
+        manager = PluginManager(str(temp_plugin_dir))
+    
+        # We monkeypatch the sandbox timeout for the test
+        async with SessionLocal() as db:
+            from reconx.plugins.executor import PluginExecutor
+            from reconx.plugins.sandbox import PluginSandbox
+    
+>           manager.load_plugin("slow_plugin")
+
+tests/unit/plugins/test_plugins.py:136: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <reconx.plugins.manager.PluginManager object at 0x7f5b7ffd0950>
+name = 'slow_plugin'
+
+    def load_plugin(self, name: str) -> None:
+        # Find the plugin dir
+        plugin_paths = self.registry.discover_plugins()
+        target_path = None
+        for p in plugin_paths:
+            try:
+                with open(p, "r", encoding="utf-8") as f:
+                    meta = yaml.safe_load(f)
+                    if meta.get("name") == name:
+                        target_path = p.parent
+                        self.metadata[name] = meta
+                        break
+            except Exception:
+                continue  # nosec B112
+    
+        if not target_path:
+>           raise PluginError(f"Plugin {name} not found")
+E           reconx.plugins.exceptions.PluginError: Plugin slow_plugin not found
+
+src/reconx/plugins/manager.py:37: PluginError
+_________________________ test_plugin_permission_check _________________________
+
+temp_plugin_dir = PosixPath('/tmp/tmp5ytsd7m1')
+
+    @pytest.mark.asyncio
+    async def test_plugin_permission_check(temp_plugin_dir):
+        create_mock_plugin(
+            temp_plugin_dir,
+            "perm_plugin",
+            """from reconx.plugins.base import ReconXPlugin, PluginResult
+    class PermPlugin(ReconXPlugin):
+        async def validate(self): return True
+        async def execute(self, t): return PluginResult(status="success")
+    def register(): return PermPlugin
+        """,
+            {
+                "name": "perm_plugin",
+                "version": "1.0",
+                "author": "test",
+                "permissions": ["unauthorized_access"],
+            },
+        )
+    
+        manager = PluginManager(str(temp_plugin_dir))
+    
+        # If the permission is not recognized, the validator should ideally flag it, or loader should fail
+        # Since we didn't add strict enum parsing in loader, let's just make sure the plugin loads and has the permissions set.
+>       manager.load_plugin("perm_plugin")
+
+tests/unit/plugins/test_plugins.py:172: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <reconx.plugins.manager.PluginManager object at 0x7f5b8c933ac0>
+name = 'perm_plugin'
+
+    def load_plugin(self, name: str) -> None:
+        # Find the plugin dir
+        plugin_paths = self.registry.discover_plugins()
+        target_path = None
+        for p in plugin_paths:
+            try:
+                with open(p, "r", encoding="utf-8") as f:
+                    meta = yaml.safe_load(f)
+                    if meta.get("name") == name:
+                        target_path = p.parent
+                        self.metadata[name] = meta
+                        break
+            except Exception:
+                continue  # nosec B112
+    
+        if not target_path:
+>           raise PluginError(f"Plugin {name} not found")
+E           reconx.plugins.exceptions.PluginError: Plugin perm_plugin not found
+
+src/reconx/plugins/manager.py:37: PluginError
+___________________________ test_plugin_loader_safe ____________________________
+
+fake_plugin_dir = PosixPath('/home/kali/ReconX/product/src/reconx/plugins/test_safe_plugin')
+
+    def test_plugin_loader_safe(fake_plugin_dir):
+>       plugin_cls = PluginLoader.load_plugin(fake_plugin_dir)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_plugin_loader.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/reconx/plugins/loader.py:92: in load_plugin
+    spec.loader.exec_module(module)
+<frozen importlib._bootstrap_external>:1019: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1156: in get_code
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <_frozen_importlib_external.SourceFileLoader object at 0x7f5b7e5ada30>
+path = '/home/kali/ReconX/product/src/reconx/plugins/test_safe_plugin/adapter.py'
+
+>   ???
+E   FileNotFoundError: [Errno 2] No such file or directory: '/home/kali/ReconX/product/src/reconx/plugins/test_safe_plugin/adapter.py'
+
+<frozen importlib._bootstrap_external>:1214: FileNotFoundError
+_________________________ test_plugin_loader_traversal _________________________
+
+tmp_path = PosixPath('/tmp/pytest-of-kali/pytest-0/test_plugin_loader_traversal0')
+
+    def test_plugin_loader_traversal(tmp_path):
+        # Create a plugin OUTSIDE the trusted PLUGINS_DIR
+        target_dir = tmp_path / "evil_plugin"
+        target_dir.mkdir(parents=True, exist_ok=True)
+    
+        with pytest.raises(PluginValidationError) as exc:
+>           PluginLoader.load_plugin(target_dir)
+
+tests/unit/test_plugin_loader.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/reconx/plugins/loader.py:92: in load_plugin
+    spec.loader.exec_module(module)
+<frozen importlib._bootstrap_external>:1019: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1156: in get_code
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <_frozen_importlib_external.SourceFileLoader object at 0x7f5b7e5aeed0>
+path = '/tmp/pytest-of-kali/pytest-0/test_plugin_loader_traversal0/evil_plugin/adapter.py'
+
+>   ???
+E   FileNotFoundError: [Errno 2] No such file or directory: '/tmp/pytest-of-kali/pytest-0/test_plugin_loader_traversal0/evil_plugin/adapter.py'
+
+<frozen importlib._bootstrap_external>:1214: FileNotFoundError
+_______________________ test_plugin_loader_unsafe_module _______________________
+
+fake_plugin_dir = PosixPath('/home/kali/ReconX/product/src/reconx/plugins/test_safe_plugin')
+
+    def test_plugin_loader_unsafe_module(fake_plugin_dir):
+        # Add execution at module level
+        py_file = fake_plugin_dir / "plugin.py"
+        with open(py_file, "a") as f:
+            f.write("\nprint('I am executing!')\n")
+    
+        with pytest.raises(PluginValidationError) as exc:
+>           PluginLoader.load_plugin(fake_plugin_dir)
+
+tests/unit/test_plugin_loader.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/reconx/plugins/loader.py:92: in load_plugin
+    spec.loader.exec_module(module)
+<frozen importlib._bootstrap_external>:1019: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1156: in get_code
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <_frozen_importlib_external.SourceFileLoader object at 0x7f5b7e5af290>
+path = '/home/kali/ReconX/product/src/reconx/plugins/test_safe_plugin/adapter.py'
+
+>   ???
+E   FileNotFoundError: [Errno 2] No such file or directory: '/home/kali/ReconX/product/src/reconx/plugins/test_safe_plugin/adapter.py'
+
+<frozen importlib._bootstrap_external>:1214: FileNotFoundError
+_______________________________ test_dag_builds ________________________________
+
+    def test_dag_builds():
+        tasks = [
+            Task(id="task_1", plugin="test_plugin", depends_on=[], timeout=300, retries=3),
+            Task(id="task_2", plugin="test_plugin", depends_on=["task_1"], timeout=300, retries=3)
+        ]
+        graph = DependencyGraph(tasks)
+>       assert len(graph.nodes) == 2
+                   ^^^^^^^^^^^
+E       AttributeError: 'DependencyGraph' object has no attribute 'nodes'
+
+tests/unit/workflow/test_dependency_graph.py:11: AttributeError
+____________________________ test_dependency_order _____________________________
+
+    def test_dependency_order():
+        tasks = [
+            Task(id="task_2", plugin="test_plugin", depends_on=["task_1"], timeout=300, retries=3),
+            Task(id="task_1", plugin="test_plugin", depends_on=[], timeout=300, retries=3)
+        ]
+        graph = DependencyGraph(tasks)
+>       order = graph.get_execution_order()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'DependencyGraph' object has no attribute 'get_execution_order'
+
+tests/unit/workflow/test_dependency_graph.py:30: AttributeError
+=============================== warnings summary ===============================
+tests/unit/test_auth.py::test_authenticate_user_invalid
+  /home/kali/ReconX/product/src/reconx/database/repositories/base.py:25: RuntimeWarning: coroutine 'AsyncMockMixin._execute_mock_call' was never awaited
+    db.add(db_obj)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_intelligence_ingestion.py::test_intelligence_store_deduplication
+  /home/kali/ReconX/product/src/reconx/services/intelligence/intelligence_store.py:57: RuntimeWarning: coroutine 'AsyncMockMixin._execute_mock_call' was never awaited
+    self.db.add(new_asset)
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+tests/unit/test_intelligence_ingestion.py::test_intelligence_store_deduplication
+  /home/kali/ReconX/product/src/reconx/services/intelligence/intelligence_store.py:62: RuntimeWarning: coroutine 'AsyncMockMixin._execute_mock_call' was never awaited
+    self.db.add(AssetHistory(asset_id=new_asset.id, event="Discovered"))
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.13.12-final-0 _______________
+
+Coverage HTML written to dir htmlcov
+=========================== short test summary info ============================
+FAILED tests/unit/plugins/test_mocked_subprocess.py::test_mock_external_tool
+FAILED tests/unit/plugins/test_plugins.py::test_plugin_discovery - assert 0 == 1
+FAILED tests/unit/plugins/test_plugins.py::test_plugin_execution - reconx.plu...
+FAILED tests/unit/plugins/test_plugins.py::test_plugin_timeout - reconx.plugi...
+FAILED tests/unit/plugins/test_plugins.py::test_plugin_permission_check - rec...
+FAILED tests/unit/test_plugin_loader.py::test_plugin_loader_safe - FileNotFou...
+FAILED tests/unit/test_plugin_loader.py::test_plugin_loader_traversal - FileN...
+FAILED tests/unit/test_plugin_loader.py::test_plugin_loader_unsafe_module - F...
+FAILED tests/unit/workflow/test_dependency_graph.py::test_dag_builds - Attrib...
+FAILED tests/unit/workflow/test_dependency_graph.py::test_dependency_order - ...
+================== 10 failed, 91 passed, 3 warnings in 10.00s ==================

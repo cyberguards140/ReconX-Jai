@@ -1,0 +1,10 @@
+app:
+  name: "ReconX"
+  env: "development"
+  debug: true
+  auto_reload: true
+  secure_cookies: false
+logging:
+  level: "DEBUG"
+database:
+  url: "sqlite+aiosqlite:///reconx.db"

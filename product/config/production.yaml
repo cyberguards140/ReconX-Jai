@@ -1,0 +1,10 @@
+app:
+  name: "ReconX"
+  env: "production"
+  debug: false
+  auto_reload: false
+  secure_cookies: true
+logging:
+  level: "WARNING"
+database:
+  url: "postgresql+asyncpg://reconx:reconx@postgres/reconx"

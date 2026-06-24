@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}ReconX Report{% endblock %}</title>
+    <style>
+        /* Base WeasyPrint Print Styles */
+        @page {
+            size: A4;
+            margin: 20mm;
+            @bottom-right {
+                content: "Page " counter(page) " of " counter(pages);
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                font-size: 10pt;
+                color: #6b7280;
+            }
+            @bottom-left {
+                content: "ReconX Intelligence Report - CONFIDENTIAL";
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                font-size: 10pt;
+                color: #6b7280;
+            }
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            color: #1f2937;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2, h3, h4, h5 {
+            color: #111827;
+            font-weight: 600;
+        }
+
+        h1 { font-size: 24pt; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; margin-top: 0; }
+        h2 { font-size: 18pt; margin-top: 20pt; }
+        h3 { font-size: 14pt; color: #374151; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40pt;
+            padding-bottom: 20pt;
+            border-bottom: 4px solid #3b82f6;
+        }
+
+        .header-logo {
+            font-size: 28pt;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 10pt;
+        }
+
+        .metadata {
+            margin-bottom: 30pt;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .metadata table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .metadata th {
+            text-align: left;
+            padding: 5pt 10pt 5pt 0;
+            color: #6b7280;
+            font-weight: 500;
+            width: 150pt;
+        }
+
+        .metadata td {
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 30pt;
+            page-break-inside: avoid;
+        }
+
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15pt;
+        }
+
+        table.data-table th, table.data-table td {
+            border: 1px solid #e5e7eb;
+            padding: 8pt;
+            text-align: left;
+        }
+
+        table.data-table th {
+            background-color: #f3f4f6;
+            color: #374151;
+            font-weight: 600;
+        }
+
+        .severity-badge {
+            display: inline-block;
+            padding: 2pt 6pt;
+            border-radius: 4pt;
+            color: white;
+            font-weight: 600;
+            font-size: 9pt;
+            text-transform: uppercase;
+        }
+        
+        .page-break {
+            page-break-before: always;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="header">
+        <div class="header-logo">ReconX</div>
+        <h1>{% block report_heading %}Intelligence Report{% endblock %}</h1>
+    </div>
+
+    <div class="metadata">
+        <table>
+            <tr>
+                <th>Generated On:</th>
+                <td>{{ generated_at|datetime }}</td>
+            </tr>
+            <tr>
+                <th>Report Title:</th>
+                <td>{{ title }}</td>
+            </tr>
+            <tr>
+                <th>Target Scope:</th>
+                <td>{{ target_scope }}</td>
+            </tr>
+            <tr>
+                <th>Classification:</th>
+                <td style="color: #dc2626;">CONFIDENTIAL</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

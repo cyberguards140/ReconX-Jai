@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Executive Briefing - {{ title }}{% endblock %}
+
+{% block report_heading %}Executive Briefing{% endblock %}
+
+{% block extra_css %}
+<style>
+    .summary-cards {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30pt;
+    }
+    
+    .card {
+        border: 1px solid #e5e7eb;
+        border-radius: 8pt;
+        padding: 15pt;
+        width: 30%;
+        text-align: center;
+        background-color: #f9fafb;
+    }
+    
+    .card-title {
+        color: #6b7280;
+        font-size: 11pt;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-bottom: 10pt;
+    }
+    
+    .card-value {
+        font-size: 28pt;
+        font-weight: 700;
+        color: #111827;
+    }
+
+    .risk-high { color: #dc2626; }
+    .risk-medium { color: #eab308; }
+    .risk-low { color: #3b82f6; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="section">
+    <h2>Executive Summary</h2>
+    <p>{{ summary }}</p>
+</div>
+
+<div class="section">
+    <h2>Risk Overview</h2>
+    <div class="summary-cards">
+        <div class="card">
+            <div class="card-title">Overall Risk Score</div>
+            <div class="card-value {% if risk_score > 70 %}risk-high{% elif risk_score > 40 %}risk-medium{% else %}risk-low{% endif %}">
+                {{ risk_score }}/100
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">Critical Vulnerabilities</div>
+            <div class="card-value risk-high">{{ critical_findings_count }}</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Total Assets</div>
+            <div class="card-value">{{ total_assets }}</div>
+        </div>
+    </div>
+</div>
+
+<div class="section page-break">
+    <h2>Key Findings</h2>
+    {% if findings %}
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Severity</th>
+                    <th>Title</th>
+                    <th>Asset</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for finding in findings %}
+                <tr>
+                    <td>
+                        <span class="severity-badge" style="background-color: {{ finding.severity|severity_color }};">
+                            {{ finding.severity }}
+                        </span>
+                    </td>
+                    <td>{{ finding.title }}</td>
+                    <td>{{ finding.asset_value }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No critical or high severity findings detected during this reporting period.</p>
+    {% endif %}
+</div>
+
+<div class="section">
+    <h2>Recommendations</h2>
+    <ul>
+        {% for recommendation in recommendations %}
+            <li>{{ recommendation }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,236 @@
+
+==================================== ERRORS ====================================
+___________________ ERROR collecting tests/auth/test_auth.py ___________________
+ImportError while importing test module '/home/kali/ReconX/product/tests/auth/test_auth.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/auth/test_auth.py:2: in <module>
+    import pytest_asyncio
+E   ModuleNotFoundError: No module named 'pytest_asyncio'
+_______________ ERROR collecting tests/database/test_database.py _______________
+ImportError while importing test module '/home/kali/ReconX/product/tests/database/test_database.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/database/test_database.py:2: in <module>
+    import pytest_asyncio
+E   ModuleNotFoundError: No module named 'pytest_asyncio'
+___________ ERROR collecting tests/intelligence/test_intelligence.py ___________
+ImportError while importing test module '/home/kali/ReconX/product/tests/intelligence/test_intelligence.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/intelligence/test_intelligence.py:1: in <module>
+    from reconx.services.intelligence.asset_normalizer import AssetNormalizer
+E   ModuleNotFoundError: No module named 'reconx'
+________________ ERROR collecting tests/plugins/test_plugins.py ________________
+ImportError while importing test module '/home/kali/ReconX/product/tests/plugins/test_plugins.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/plugins/test_plugins.py:2: in <module>
+    import pytest_asyncio
+E   ModuleNotFoundError: No module named 'pytest_asyncio'
+______________ ERROR collecting tests/reporting/test_reporting.py ______________
+ImportError while importing test module '/home/kali/ReconX/product/tests/reporting/test_reporting.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/reporting/test_reporting.py:2: in <module>
+    from reconx.reporting.trend_analyzer import TrendAnalyzer
+E   ModuleNotFoundError: No module named 'reconx'
+________________ ERROR collecting tests/unit/test_aggregator.py ________________
+ImportError while importing test module '/home/kali/ReconX/product/tests/unit/test_aggregator.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_aggregator.py:3: in <module>
+    from reconx.workflow.result_aggregator import ResultAggregator
+E   ModuleNotFoundError: No module named 'reconx'
+_______________ ERROR collecting tests/unit/test_api_routers.py ________________
+ImportError while importing test module '/home/kali/ReconX/product/tests/unit/test_api_routers.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_api_routers.py:2: in <module>
+    from reconx.api.main import app
+E   ModuleNotFoundError: No module named 'reconx'
+___________________ ERROR collecting tests/unit/test_auth.py ___________________
+ImportError while importing test module '/home/kali/ReconX/product/tests/unit/test_auth.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_auth.py:3: in <module>
+    from reconx.services.auth.auth_service import register_user, authenticate_user
+E   ModuleNotFoundError: No module named 'reconx'
+___________________ ERROR collecting tests/unit/test_cli.py ____________________
+ImportError while importing test module '/home/kali/ReconX/product/tests/unit/test_cli.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_cli.py:1: in <module>
+    from typer.testing import CliRunner
+E   ModuleNotFoundError: No module named 'typer'
+_______________ ERROR collecting tests/unit/test_cli_commands.py _______________
+ImportError while importing test module '/home/kali/ReconX/product/tests/unit/test_cli_commands.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_cli_commands.py:1: in <module>
+    from typer.testing import CliRunner
+E   ModuleNotFoundError: No module named 'typer'
+________________ ERROR collecting tests/unit/test_dns_client.py ________________
+ImportError while importing test module '/home/kali/ReconX/product/tests/unit/test_dns_client.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_dns_client.py:3: in <module>
+    from reconx.utils.dns_client import DnsClient
+E   ModuleNotFoundError: No module named 'reconx'
+_______________ ERROR collecting tests/unit/test_http_client.py ________________
+ImportError while importing test module '/home/kali/ReconX/product/tests/unit/test_http_client.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_http_client.py:3: in <module>
+    from reconx.utils.http_client import HttpClient, is_private_ip, resolve_and_check_ssrf
+E   ModuleNotFoundError: No module named 'reconx'
+_______________ ERROR collecting tests/unit/test_intelligence.py _______________
+ImportError while importing test module '/home/kali/ReconX/product/tests/unit/test_intelligence.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_intelligence.py:1: in <module>
+    from reconx.services.intelligence.asset_normalizer import AssetNormalizer
+E   ModuleNotFoundError: No module named 'reconx'
+__________ ERROR collecting tests/unit/test_intelligence_ingestion.py __________
+ImportError while importing test module '/home/kali/ReconX/product/tests/unit/test_intelligence_ingestion.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_intelligence_ingestion.py:3: in <module>
+    from reconx.services.intelligence.schemas import AssetSchema
+E   ModuleNotFoundError: No module named 'reconx'
+______________ ERROR collecting tests/unit/test_plugin_loader.py _______________
+ImportError while importing test module '/home/kali/ReconX/product/tests/unit/test_plugin_loader.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_plugin_loader.py:4: in <module>
+    from reconx.plugins.exceptions import PluginValidationError
+E   ModuleNotFoundError: No module named 'reconx'
+________________ ERROR collecting tests/unit/test_reporting.py _________________
+ImportError while importing test module '/home/kali/ReconX/product/tests/unit/test_reporting.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_reporting.py:4: in <module>
+    from reconx.reporting.json_exporter import JSONExporter
+E   ModuleNotFoundError: No module named 'reconx'
+_______________ ERROR collecting tests/unit/test_repositories.py _______________
+ImportError while importing test module '/home/kali/ReconX/product/tests/unit/test_repositories.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_repositories.py:3: in <module>
+    from reconx.database.repositories.user import UserRepository
+E   ModuleNotFoundError: No module named 'reconx'
+________________ ERROR collecting tests/unit/test_validators.py ________________
+ImportError while importing test module '/home/kali/ReconX/product/tests/unit/test_validators.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_validators.py:2: in <module>
+    from reconx.services.validation.validators import (
+E   ModuleNotFoundError: No module named 'reconx'
+_________________ ERROR collecting tests/unit/test_workflow.py _________________
+ImportError while importing test module '/home/kali/ReconX/product/tests/unit/test_workflow.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_workflow.py:2: in <module>
+    from reconx.workflow.dependency_graph import DependencyGraph
+E   ModuleNotFoundError: No module named 'reconx'
+___________ ERROR collecting tests/unit/test_workflow_resilience.py ____________
+ImportError while importing test module '/home/kali/ReconX/product/tests/unit/test_workflow_resilience.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_workflow_resilience.py:4: in <module>
+    from reconx.workflow.task import Task, TaskStatus
+E   ModuleNotFoundError: No module named 'reconx'
+______________ ERROR collecting tests/workflows/test_workflow.py _______________
+ImportError while importing test module '/home/kali/ReconX/product/tests/workflows/test_workflow.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/workflows/test_workflow.py:3: in <module>
+    from reconx.workflow.task import Task
+E   ModuleNotFoundError: No module named 'reconx'
+=========================== short test summary info ============================
+ERROR tests/auth/test_auth.py
+ERROR tests/database/test_database.py
+ERROR tests/intelligence/test_intelligence.py
+ERROR tests/plugins/test_plugins.py
+ERROR tests/reporting/test_reporting.py
+ERROR tests/unit/test_aggregator.py
+ERROR tests/unit/test_api_routers.py
+ERROR tests/unit/test_auth.py
+ERROR tests/unit/test_cli.py
+ERROR tests/unit/test_cli_commands.py
+ERROR tests/unit/test_dns_client.py
+ERROR tests/unit/test_http_client.py
+ERROR tests/unit/test_intelligence.py
+ERROR tests/unit/test_intelligence_ingestion.py
+ERROR tests/unit/test_plugin_loader.py
+ERROR tests/unit/test_reporting.py
+ERROR tests/unit/test_repositories.py
+ERROR tests/unit/test_validators.py
+ERROR tests/unit/test_workflow.py
+ERROR tests/unit/test_workflow_resilience.py
+ERROR tests/workflows/test_workflow.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 21 errors during collection !!!!!!!!!!!!!!!!!!!
+21 errors in 0.44s
