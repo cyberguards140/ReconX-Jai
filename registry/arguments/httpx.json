@@ -1,0 +1,65 @@
+[
+  {
+    "flag": "-sc",
+    "name": "Status Code",
+    "type": "toggle",
+    "default": false,
+    "required": false
+  },
+  {
+    "flag": "-title",
+    "name": "Title",
+    "type": "toggle",
+    "default": false,
+    "required": false
+  },
+  {
+    "flag": "-td",
+    "name": "Tech Detect",
+    "type": "toggle",
+    "default": false,
+    "required": false
+  },
+  {
+    "flag": "-tls",
+    "name": "TLS Probes",
+    "type": "toggle",
+    "default": false,
+    "required": false
+  },
+  {
+    "flag": "-cdn",
+    "name": "CDN Detection",
+    "type": "toggle",
+    "default": false,
+    "required": false
+  },
+  {
+    "flag": "-screenshot",
+    "name": "Screenshot",
+    "type": "toggle",
+    "default": false,
+    "required": false
+  },
+  {
+    "flag": "-json",
+    "name": "JSON Output",
+    "type": "toggle",
+    "default": false,
+    "required": false
+  },
+  {
+    "flag": "-p",
+    "name": "Ports",
+    "type": "text",
+    "default": "",
+    "required": false
+  },
+  {
+    "flag": "-t",
+    "name": "Threads",
+    "type": "number",
+    "default": 50,
+    "required": false
+  }
+]

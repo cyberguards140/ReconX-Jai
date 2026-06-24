@@ -1,0 +1,143 @@
+[
+  {
+    "flag": "-sS",
+    "name": "SYN Scan",
+    "type": "toggle",
+    "default": false,
+    "required": false
+  },
+  {
+    "flag": "-sV",
+    "name": "Version Detection",
+    "type": "toggle",
+    "default": false,
+    "required": false
+  },
+  {
+    "flag": "-O",
+    "name": "OS Detection",
+    "type": "toggle",
+    "default": false,
+    "required": false
+  },
+  {
+    "flag": "-sC",
+    "name": "Default Scripts",
+    "type": "toggle",
+    "default": false,
+    "required": false
+  },
+  {
+    "flag": "-Pn",
+    "name": "Skip Host Discovery",
+    "type": "toggle",
+    "default": false,
+    "required": false
+  },
+  {
+    "flag": "-p",
+    "name": "Ports",
+    "type": "text",
+    "default": "",
+    "required": false
+  },
+  {
+    "flag": "-T",
+    "name": "Timing",
+    "type": "dropdown",
+    "options": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
+    ],
+    "default": "3",
+    "required": false
+  },
+  {
+    "flag": "--script",
+    "name": "NSE Scripts",
+    "type": "text",
+    "default": "",
+    "required": false
+  },
+  {
+    "flag": "-oN",
+    "name": "Normal Output",
+    "type": "text",
+    "default": "",
+    "required": false
+  },
+  {
+    "flag": "-oX",
+    "name": "XML Output",
+    "type": "text",
+    "default": "",
+    "required": false
+  },
+  {
+    "flag": "-oG",
+    "name": "Grepable Output",
+    "type": "text",
+    "default": "",
+    "required": false
+  },
+  {
+    "flag": "-v",
+    "name": "Verbosity",
+    "type": "toggle",
+    "default": false,
+    "required": false
+  },
+  {
+    "flag": "--max-retries",
+    "name": "Max Retries",
+    "type": "number",
+    "default": 10,
+    "required": false
+  },
+  {
+    "flag": "--min-rate",
+    "name": "Min Rate",
+    "type": "number",
+    "default": 0,
+    "required": false
+  },
+  {
+    "flag": "--max-rate",
+    "name": "Max Rate",
+    "type": "number",
+    "default": 0,
+    "required": false
+  },
+  {
+    "flag": "--script-args",
+    "name": "Script Args",
+    "type": "text",
+    "default": "",
+    "required": false
+  },
+  {
+    "flag": "--dns-servers",
+    "name": "DNS Servers",
+    "type": "text",
+    "default": "",
+    "required": false
+  },
+  {
+    "flag": "-f",
+    "name": "Fragment Packets",
+    "type": "toggle",
+    "default": false,
+    "required": false
+  },
+  {
+    "flag": "--mtu",
+    "name": "MTU",
+    "type": "number",
+    "default": 0,
+    "required": false
+  }
+]

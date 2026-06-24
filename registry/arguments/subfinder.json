@@ -1,0 +1,76 @@
+[
+  {
+    "flag": "-s",
+    "name": "Sources",
+    "type": "multiselect",
+    "options": [
+      "alienvault",
+      "anondns",
+      "binaryedge",
+      "bufferover",
+      "censys",
+      "certspotter",
+      "chaos",
+      "crtsh",
+      "dnsdumpster"
+    ],
+    "default": [],
+    "required": false
+  },
+  {
+    "flag": "-recursive",
+    "name": "Recursive",
+    "type": "toggle",
+    "default": false,
+    "required": false
+  },
+  {
+    "flag": "-t",
+    "name": "Threads",
+    "type": "number",
+    "default": 10,
+    "required": false
+  },
+  {
+    "flag": "-max-time",
+    "name": "Timeout",
+    "type": "number",
+    "default": 10,
+    "required": false
+  },
+  {
+    "flag": "-rl",
+    "name": "Rate Limit",
+    "type": "number",
+    "default": 0,
+    "required": false
+  },
+  {
+    "flag": "-silent",
+    "name": "Silent",
+    "type": "toggle",
+    "default": false,
+    "required": false
+  },
+  {
+    "flag": "-json",
+    "name": "JSON Output",
+    "type": "toggle",
+    "default": false,
+    "required": false
+  },
+  {
+    "flag": "-o",
+    "name": "Output File",
+    "type": "text",
+    "default": "",
+    "required": false
+  },
+  {
+    "flag": "-r",
+    "name": "Resolvers",
+    "type": "file",
+    "default": "",
+    "required": false
+  }
+]

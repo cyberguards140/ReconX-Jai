@@ -1,0 +1,4 @@
+class DnsxParser:
+    def extract(self, raw_output):
+        assets = []
+        return assets

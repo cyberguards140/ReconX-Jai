@@ -1,0 +1,51 @@
+[
+  {
+    "flag": "-d",
+    "name": "Depth",
+    "type": "number",
+    "default": 3,
+    "required": false
+  },
+  {
+    "flag": "-hl",
+    "name": "Headless",
+    "type": "toggle",
+    "default": false,
+    "required": false
+  },
+  {
+    "flag": "-jc",
+    "name": "JavaScript Parsing",
+    "type": "toggle",
+    "default": false,
+    "required": false
+  },
+  {
+    "flag": "-e",
+    "name": "Extensions",
+    "type": "text",
+    "default": "",
+    "required": false
+  },
+  {
+    "flag": "-proxy",
+    "name": "Proxy",
+    "type": "text",
+    "default": "",
+    "required": false
+  },
+  {
+    "flag": "-rl",
+    "name": "Rate Limit",
+    "type": "number",
+    "default": 150,
+    "required": false
+  },
+  {
+    "flag": "-c",
+    "name": "Concurrency",
+    "type": "number",
+    "default": 10,
+    "required": false
+  }
+]

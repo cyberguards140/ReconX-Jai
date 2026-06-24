@@ -1,0 +1,9 @@
+[
+  { "id": "recon_info", "name": "Recon & Info" },
+  { "id": "web", "name": "Web Enum" },
+  { "id": "vulnerability", "name": "Vuln Scan" },
+  { "id": "cloud", "name": "Cloud" },
+  { "id": "osint", "name": "OSINT" },
+  { "id": "screenshot", "name": "Screenshot" },
+  { "id": "secrets", "name": "Secrets" }
+]

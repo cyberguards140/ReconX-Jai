@@ -1,0 +1,37 @@
+[
+  {
+    "flag": "api_key",
+    "name": "API Key",
+    "type": "apikey",
+    "default": "",
+    "required": false
+  },
+  {
+    "flag": "query",
+    "name": "Query",
+    "type": "text",
+    "default": "",
+    "required": false
+  },
+  {
+    "flag": "filters",
+    "name": "Filters",
+    "type": "text",
+    "default": "",
+    "required": false
+  },
+  {
+    "flag": "facets",
+    "name": "Facets",
+    "type": "text",
+    "default": "",
+    "required": false
+  },
+  {
+    "flag": "export",
+    "name": "Export",
+    "type": "toggle",
+    "default": false,
+    "required": false
+  }
+]
