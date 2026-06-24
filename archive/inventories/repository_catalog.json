@@ -1,0 +1,991 @@
+[
+    {
+        "Repository Name": "AcquiFinder-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Python",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "main.py"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Python",
+        "Classification": "DIRECTLY_USABLE"
+    },
+    {
+        "Repository Name": "active-ip-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Go",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "main.go"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Go",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "awesome-hacking-lists-master",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Unknown",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Unknown",
+        "Classification": "ARCHIVE_ONLY"
+    },
+    {
+        "Repository Name": "BCHackTool-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Shell",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "bchacktool.sh"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Shell",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "BigBountyRecon-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Unknown",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Unknown",
+        "Classification": "ARCHIVE_ONLY"
+    },
+    {
+        "Repository Name": "breach-check-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Python",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Python",
+        "Classification": "DIRECTLY_USABLE"
+    },
+    {
+        "Repository Name": "Bug-Bounty-Agents-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Shell",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "install.sh"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Shell",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "crlfi-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "JavaScript/TypeScript",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for JavaScript/TypeScript",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "csprecon-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Go",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Go",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "CyberDeck-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Unknown",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Unknown",
+        "Classification": "ARCHIVE_ONLY"
+    },
+    {
+        "Repository Name": "dalfox-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "JavaScript/TypeScript",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for JavaScript/TypeScript",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "deksterecon-master",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Shell",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "dekster.sh",
+            "getdir.sh",
+            "install.sh"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Shell",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "DirX-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Python",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "bruteforce.py",
+            "config.py",
+            "dirx.py"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Python",
+        "Classification": "DIRECTLY_USABLE"
+    },
+    {
+        "Repository Name": "FinalRecon-master",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Python",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "finalrecon.py",
+            "settings.py"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Python",
+        "Classification": "DIRECTLY_USABLE"
+    },
+    {
+        "Repository Name": "Garud-master",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Shell",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "install.sh"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Shell",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "GhostRecon-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Shell",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "GhostRecon.sh"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Shell",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "go-dork-master",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Go",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "main.go"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Go",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "Gxss-master",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Go",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "main.go"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Go",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "Infeagle-Recon-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Python",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "infeagle.sh"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Python",
+        "Classification": "DIRECTLY_USABLE"
+    },
+    {
+        "Repository Name": "inql-master",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "JavaScript/TypeScript",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "detekt.sh"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for JavaScript/TypeScript",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "JSFScan.sh-master",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Shell",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "install.sh",
+            "JSFScan.sh",
+            "report.sh"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Shell",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "JShunter-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Go",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Go",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "magicRecon-master",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Shell",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "install.sh",
+            "magicrecon.sh"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Shell",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "metabigor-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Go",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Go",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "METATRON-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Python",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "db.py",
+            "export.py",
+            "llm.py"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Python",
+        "Classification": "DIRECTLY_USABLE"
+    },
+    {
+        "Repository Name": "metlo-develop",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Go",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "manage-deployment.py"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Go",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "MottaHunter-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Python",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "email_validation.py",
+            "google_scraper.py",
+            "harvester.py"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Python",
+        "Classification": "DIRECTLY_USABLE"
+    },
+    {
+        "Repository Name": "pccc",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Unknown",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Unknown",
+        "Classification": "ARCHIVE_ONLY"
+    },
+    {
+        "Repository Name": "portwave-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Shell",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "install.sh",
+            "uninstall.sh"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Shell",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "ppfuzz-master",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "JavaScript/TypeScript",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for JavaScript/TypeScript",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "ppmap-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Go",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "setup.sh"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Go",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "Probe-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Python",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "make.py",
+            "probe.py",
+            "recon.py"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Python",
+        "Classification": "DIRECTLY_USABLE"
+    },
+    {
+        "Repository Name": "programs-watcher-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Python",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "main.py"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Python",
+        "Classification": "DIRECTLY_USABLE"
+    },
+    {
+        "Repository Name": "RecoMation-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Shell",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "enum.sh",
+            "jsfiles.sh",
+            "response.sh"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Shell",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "RECON-master",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Unknown",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Unknown",
+        "Classification": "ARCHIVE_ONLY"
+    },
+    {
+        "Repository Name": "recon-ng-master",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Python",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Python",
+        "Classification": "DIRECTLY_USABLE"
+    },
+    {
+        "Repository Name": "Recon88r-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Python",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "recon88r.py",
+            "install.sh",
+            "recon88r.sh"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Python",
+        "Classification": "DIRECTLY_USABLE"
+    },
+    {
+        "Repository Name": "ReconDorker-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Python",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "setup.py"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Python",
+        "Classification": "DIRECTLY_USABLE"
+    },
+    {
+        "Repository Name": "reconftw-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Shell",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "install.sh",
+            "reconftw.sh"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Shell",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "Reconky-Automated_Bash_Script-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Shell",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "install.sh",
+            "reconky.sh"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Shell",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "ReconX",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Python",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "reconx.py",
+            "smoke_test.py"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Python",
+        "Classification": "DIRECTLY_USABLE"
+    },
+    {
+        "Repository Name": "Red-Team-OSINT-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Python",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "osint_script.py"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Python",
+        "Classification": "DIRECTLY_USABLE"
+    },
+    {
+        "Repository Name": "s3cXSSer-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "JavaScript/TypeScript",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for JavaScript/TypeScript",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "scan4all-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Go",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "main.go",
+            "upSubMod.sh"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Go",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "ScopeSentry-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Go",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Go",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "secfiles-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Shell",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Shell",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "shortscan-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Go",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Go",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "Web-Recon-Automation-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Shell",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "recon.sh"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Shell",
+        "Classification": "REQUIRES_WRAPPER"
+    },
+    {
+        "Repository Name": "WEBFANG-main",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Python",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "setup.sh"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Python",
+        "Classification": "DIRECTLY_USABLE"
+    },
+    {
+        "Repository Name": "yataf-master",
+        "Purpose": "Security Tool / Recon / Automation",
+        "Language": "Go",
+        "Dependencies": "requirements.txt/go.mod/package.json",
+        "Entrypoints": [
+            "main.go"
+        ],
+        "Features": [
+            "Reconnaissance",
+            "Scanning"
+        ],
+        "Reusable Components": [
+            "CLI Interface",
+            "Scanners"
+        ],
+        "Integration Complexity": "Medium",
+        "Migration Recommendation": "Wrap using standard module adapter for Go",
+        "Classification": "REQUIRES_WRAPPER"
+    }
+]

@@ -1,0 +1,4 @@
+theme: dark
+dashboard_port: 3000
+auto_open_browser: true
+log_level: info

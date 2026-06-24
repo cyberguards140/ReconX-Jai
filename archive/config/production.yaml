@@ -1,0 +1,3 @@
+default:
+  database_url: "sqlite+aiosqlite:///reconx.db"
+  log_level: "INFO"

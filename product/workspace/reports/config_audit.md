@@ -1,0 +1,145 @@
+# Configuration Audit
+
+## Hardcoded Secrets
+- api\auth.py:13 -> `user_scopes = cls.API_KEYS[token]["scopes"]`
+- api\auth.py:14 -> `if required_scope not in user_scopes and "admin" != cls.API_KEYS[token]["role"]:`
+- api\server.py:27 -> `token = auth_header.split(" ")[1]`
+- api\routes\auth.py:8 -> `return StandardResponse(success=True, message="Login successful", data={"token": "mock_token"})`
+- config\startup_checks.py:9 -> `if not settings.security.jwt_secret or settings.security.jwt_secret == "CHANGE_ME":`
+- config\startup_checks.py:10 -> `raise ConfigurationError("JWT_SECRET must be securely configured.")`
+- core\engagement.py:15 -> `eng.configure_auth("admin", "password", login_url="https://example.com/login")`
+- core\engagement.py:60 -> `"passwords": [`
+- core\engagement.py:61 -> `"/usr/share/seclists/Passwords/darkweb2017-top100.txt",`
+- core\engagement.py:64 -> `"wordlists/passwords.txt",`
+- core\engagement.py:182 -> `token:      str        = ""`
+- core\engagement.py:203 -> `token = base64.b64encode(f"{username}:{password}".encode()).decode()`
+- core\engagement.py:206 -> `headers={"Authorization": f"Basic {token}"},`
+- core\engagement.py:212 -> `"""Configure Bearer token authentication."""`
+- core\engagement.py:214 -> `name=name, auth_type="bearer", token=token,`
+- core\engagement.py:215 -> `headers={"Authorization": f"Bearer {token}"},`
+- core\engagement.py:224 -> `name=name, auth_type="apikey",`
+- core\engagement.py:235 -> `password_field: str = "password",`
+- core\engagement.py:236 -> `token_path: str = "token",           # dot-notation JSON path`
+- core\engagement.py:243 -> `log.info("JWT login: %s as %s", login_url, username)`
+- core\engagement.py:256 -> `token = ""`
+- core\engagement.py:260 -> `token = self._extract_json_path(data, token_path) or ""`
+- core\engagement.py:263 -> `m = re.search(r'"(?:token|access_token|jwt)"\s*:\s*"([^"]{20,})"', body)`
+- core\engagement.py:268 -> `log.warning("JWT login failed (status=%d): could not extract token via path=%s",`
+- core\engagement.py:272 -> `name=name, auth_type="jwt", token=token,`
+- core\engagement.py:273 -> `headers={"Authorization": f"Bearer {token}"} if token else {},`
+- core\engagement.py:282 -> `password_field: str = "password") -> AuthProfile:`
+- core\engagement.py:386 -> `"passwords": [`
+- core\engagement.py:387 -> `"admin", "password", "123456", "password123", "admin123",`
+- core\plugin_registry.py:1865 -> `"name": "jwt_jku_x5u_ssrf",`
+- core\plugin_registry.py:1867 -> `"path": "plugins\\recon\\jwt_jku_x5u_ssrf\\plugin.py"`
+- core\plugin_registry.py:2200 -> `"name": "password_reset_weak",`
+- core\plugin_registry.py:2202 -> `"path": "plugins\\recon\\password_reset_weak\\plugin.py"`
+- core\plugin_registry.py:3995 -> `"name": "secret-scanner-agent",`
+- core\plugin_registry.py:3997 -> `"path": "plugins\\cloud\\secret-scanner-agent\\plugin.py"`
+- core\plugin_registry.py:5045 -> `"name": "test_probe_jwt_jku_x5u_ssrf",`
+- core\plugin_registry.py:5047 -> `"path": "plugins\\vulnerabilities\\test_probe_jwt_jku_x5u_ssrf\\plugin.py"`
+- core\plugin_registry.py:5080 -> `"name": "TOKEN-OPTIMIZATION",`
+- core\plugin_registry.py:5082 -> `"path": "plugins\\vulnerabilities\\TOKEN-OPTIMIZATION\\plugin.py"`
+- core\plugin_registry.py:6235 -> `"name": "test_probe_password_reset_weak",`
+- core\plugin_registry.py:6237 -> `"path": "plugins\\osint\\test_probe_password_reset_weak\\plugin.py"`
+- core\plugin_registry.py:6635 -> `"name": "asset_secrets_scan",`
+- core\plugin_registry.py:6637 -> `"path": "plugins\\recon\\asset_secrets_scan\\plugin.py"`
+- core\plugin_registry.py:9495 -> `"name": "secretscfg",`
+- core\plugin_registry.py:9497 -> `"path": "plugins\\recon\\secretscfg\\plugin.py"`
+- core\plugin_registry.py:10110 -> `"name": "test_probe_asset_secrets",`
+- core\plugin_registry.py:10112 -> `"path": "plugins\\recon\\test_probe_asset_secrets\\plugin.py"`
+- core\secrets_manager.py:8 -> `"""Manages secure injection of secrets into plugin environments."""`
+- core\secrets_manager.py:17 -> `for key in ["SHODAN_API_KEY", "VIRUSTOTAL_API_KEY", "GITHUB_TOKEN", "OPENAI_API_KEY"]:`
+- core\alerts\alert_system.py:28 -> `elif asset.get("type") == "SECRET":`
+- core\api_gateway\router.py:12 -> `audit_logger.log("UNKNOWN", action, target, "FAILED", "Invalid or expired token")`
+- core\defense_analysis\validator.py:15 -> `mitigations.append("Implement robust JWT validation")`
+- core\defense_analysis\validator.py:17 -> `elif entry.type.value == "SECRET":`
+- core\defense_analysis\validator.py:18 -> `mitigations.append("Rotate secret immediately")`
+- core\mitre_mapping\mapper.py:14 -> `"EXPOSED_SECRET": {`
+- core\mitre_mapping\mapper.py:17 -> `"description": "Hardcoded AWS keys or JWTs found in client-side code."`
+- core\mitre_mapping\mapper.py:34 -> `return self.rules["EXPOSED_SECRET"]`
+- core\models\enums.py:21 -> `SECRET = "SECRET"`
+- core\security\auth.py:10 -> `def create_access_token(sub: str, role: str = "user") -> str:`
+- core\security\auth.py:22 -> `def create_refresh_token(sub: str, role: str = "user") -> str:`
+- core\security\auth.py:37 -> `# PyJWT rejects 'none' algorithm by default when algorithms list is provided`
+- core\security\auth.py:41 -> `raise AuthenticationError("Token has expired")`
+- core\security\auth.py:43 -> `raise AuthenticationError("Invalid token signature")`
+- core\security\auth.py:45 -> `raise AuthenticationError(f"Invalid token: {str(e)}")`
+- modules\javascript\secret_detector.py:15 -> `secrets.append({"type": "AWS_KEY", "value": match})`
+- modules\javascript\secret_detector.py:21 -> `secrets.append({"type": "GCP_KEY", "value": match})`
+- modules\javascript\secret_detector.py:24 -> `jwt_pattern = r'(eyJ[a-zA-Z0-9_-]+\.eyJ[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+)'`
+- modules\javascript\secret_detector.py:27 -> `secrets.append({"type": "JWT", "value": match})`
+- plugins\cloud\secret-scanner-agent\plugin.py:19 -> `PLUGIN_NAME = "secret-scanner-agent"`
+- plugins\cloud\secret-scanner-agent\plugin.py:22 -> `PLUGIN_DESCRIPTION = "Auto-generated description for secret-scanner-agent"`
+- plugins\experimental\discovery\recon\asset_secrets_scan\plugin.py:19 -> `PLUGIN_NAME = "asset_secrets_scan"`
+- plugins\experimental\discovery\recon\asset_secrets_scan\plugin.py:22 -> `PLUGIN_DESCRIPTION = "Auto-generated description for asset_secrets_scan"`
+- plugins\experimental\discovery\recon\jwt_jku_x5u_ssrf\plugin.py:19 -> `PLUGIN_NAME = "jwt_jku_x5u_ssrf"`
+- plugins\experimental\discovery\recon\jwt_jku_x5u_ssrf\plugin.py:22 -> `PLUGIN_DESCRIPTION = "Auto-generated description for jwt_jku_x5u_ssrf"`
+- plugins\experimental\discovery\recon\llm_analysis\plugin.py:149 -> `recommendations.append("Enforce SSH key-based authentication; disable password login")`
+- plugins\experimental\discovery\recon\password_reset_weak\plugin.py:19 -> `PLUGIN_NAME = "password_reset_weak"`
+- plugins\experimental\discovery\recon\password_reset_weak\plugin.py:22 -> `PLUGIN_DESCRIPTION = "Auto-generated description for password_reset_weak"`
+- plugins\experimental\discovery\recon\secretscfg\plugin.py:19 -> `PLUGIN_NAME = "secretscfg"`
+- plugins\experimental\discovery\recon\secretscfg\plugin.py:22 -> `PLUGIN_DESCRIPTION = "Auto-generated description for secretscfg"`
+- plugins\experimental\discovery\recon\test_probe_asset_secrets\plugin.py:19 -> `PLUGIN_NAME = "test_probe_asset_secrets"`
+- plugins\experimental\discovery\recon\test_probe_asset_secrets\plugin.py:22 -> `PLUGIN_DESCRIPTION = "Auto-generated description for test_probe_asset_secrets"`
+- plugins\experimental\vuln\vulnerabilities\test_probe_jwt_jku_x5u_ssrf\plugin.py:19 -> `PLUGIN_NAME = "test_probe_jwt_jku_x5u_ssrf"`
+- plugins\experimental\vuln\vulnerabilities\test_probe_jwt_jku_x5u_ssrf\plugin.py:22 -> `PLUGIN_DESCRIPTION = "Auto-generated description for test_probe_jwt_jku_x5u_ssrf"`
+- plugins\experimental\vuln\vulnerabilities\TOKEN-OPTIMIZATION\plugin.py:19 -> `PLUGIN_NAME = "TOKEN-OPTIMIZATION"`
+- plugins\experimental\vuln\vulnerabilities\TOKEN-OPTIMIZATION\plugin.py:22 -> `PLUGIN_DESCRIPTION = "Auto-generated description for TOKEN-OPTIMIZATION"`
+- plugins\osint\test_probe_password_reset_weak\plugin.py:19 -> `PLUGIN_NAME = "test_probe_password_reset_weak"`
+- plugins\osint\test_probe_password_reset_weak\plugin.py:22 -> `PLUGIN_DESCRIPTION = "Auto-generated description for test_probe_password_reset_weak"`
+- plugins\web\gau.py:15 -> `return {"raw_output": f"https://{target}/admin?id=1\nhttps://{target}/api/v1/user?token=abc"}`
+- saas\auth.py:3 -> `"token_orgA_owner": {"tenant_id": "org_1", "role": "Owner"},`
+- saas\auth.py:4 -> `"token_orgA_viewer": {"tenant_id": "org_1", "role": "Viewer"},`
+- saas\auth.py:5 -> `"token_orgB_admin": {"tenant_id": "org_2", "role": "Admin"}`
+- saas\auth.py:11 -> `raise ValueError("401 Unauthorized: Invalid SSO/API Token")`
+
+## Hardcoded URLs
+- cli\dashboard.py:10 -> `console.print("[green]Starting dashboard on http://127.0.0.1:8000[/green]")`
+- core\config\manager.py:25 -> `"host": "127.0.0.1",`
+- core\validators\validators.py:23 -> `r'localhost|' #localhost...`
+- plugins\experimental\discovery\active_ip.py:15 -> `return {"ip": "127.0.0.1"} # Mock`
+- plugins\experimental\discovery\recon\dns_intelligence\plugin.py:11 -> `target = context.get("target", "localhost")`
+- plugins\experimental\discovery\recon\network_discovery\plugin.py:11 -> `target = context.get("target", "localhost")`
+- plugins\experimental\discovery\recon\web_recon\plugin.py:9 -> `target = context.get("target", "localhost")`
+
+## Hardcoded Credentials
+- agent\planner.py:3 -> `if goal == "Find admin panels":`
+- ai\heuristics.py:2 -> `HIGH_RISK_KEYWORDS = ["admin", "login", "api", "dashboard", "portal"]`
+- ai\prioritization.py:10 -> `elif "admin" in target or "login" in target:`
+- api\auth.py:3 -> `"rex_admin_999": {"role": "admin", "scopes": ["scan:run", "results:read", "campaign:delete"]},`
+- api\auth.py:14 -> `if required_scope not in user_scopes and "admin" != cls.API_KEYS[token]["role"]:`
+- core\engagement.py:15 -> `eng.configure_auth("admin", "password", login_url="https://example.com/login")`
+- core\engagement.py:374 -> `"admin", "api", "backup", "config", "dashboard", "data",`
+- core\engagement.py:378 -> `"v1", "v2", "vendor", "wp-admin", "wp-login.php",`
+- core\engagement.py:382 -> `"api", "dev", "staging", "test", "uat", "admin", "portal",`
+- core\engagement.py:387 -> `"admin", "password", "123456", "password123", "admin123",`
+- core\engagement.py:388 -> `"letmein", "qwerty", "welcome", "root", "toor", "pass",`
+- core\engagement.py:392 -> `"admin", "administrator", "root", "user", "test", "guest",`
+- core\orchestrator.py:22 -> `reg_path = ROOT / "core" / "plugin_registry.json"`
+- core\secrets_manager.py:54 -> `sr = os.environ.get("SYSTEMROOT")`
+- core\secrets_manager.py:56 -> `env["SYSTEMROOT"] = sr`
+- core\alerts\alert_system.py:24 -> `if "admin" in value:`
+- core\auth\rbac.py:4 -> `ADMIN = "Administrator"`
+- core\defense_analysis\validator.py:13 -> `if "admin" in entry.value:`
+- core\defense_analysis\validator.py:14 -> `mitigations.append("Ensure VPN/Zero-Trust requirement for /admin routes")`
+- core\registry\capability_registry.py:7 -> `Capability(name="discovery.domains", category=CapabilityCategory.DISCOVERY, description="Discover root domains"),`
+- core\security\rbac.py:3 -> `"ADMIN": 100,`
+- meta\scoring.py:4 -> `relevance = 0.9 if "api" in asset or "admin" in asset else 0.4`
+- modules\adapters\katana_adapter.py:17 -> `return {"raw_output": f"http://{target}/api\nhttp://{target}/admin\n"}`
+- modules\api\api_recon.py:80 -> `# For this execution, let's probe a standard /api/admin to demo the engine`
+- modules\api\api_recon.py:81 -> `endpoints_to_probe = [f"{target.rstrip('/')}/api/admin"]`
+- modules\api\classifier.py:17 -> `# If it returns 403, it's forbidden/admin restricted`
+- modules\api\classifier.py:19 -> `return "ADMIN/FORBIDDEN"`
+- modules\javascript\endpoint_extractor.py:13 -> `pattern = r'(?:["\'])(/(?:api|internal|v1|v2|graphql|admin)/[^"\']+)(?:["\'])'`
+- modules\osint\email.py:9 -> `return [f"admin@{target}", f"support@{target}"]`
+- plugins\experimental\discovery\recon\surface_mapping\plugin.py:38 -> `if "react" in body.lower() or "data-reactroot" in body: techs.append("React")`
+- plugins\experimental\discovery\recon\web_assets\plugin.py:38 -> `if "react" in body.lower() or "data-reactroot" in body: techs.append("React")`
+- plugins\osint\theharvester.py:15 -> `return {"raw_output": f"admin@{target}\ncontact@{target}"}`
+- plugins\web\ffuf.py:16 -> `return {"raw_output": f'{{"results": [{{"url": "http://{target}/admin_ffuf", "status": 200}}]}}'}`
+- plugins\web\gau.py:15 -> `return {"raw_output": f"https://{target}/admin?id=1\nhttps://{target}/api/v1/user?token=abc"}`
+- plugins\web\gobuster.py:15 -> `return {"raw_output": f"/{target}_admin (Status: 200)"}`
+- reporting\agent_exporter.py:8 -> `f.write("- 2 admin interfaces detected (Heuristic Match).\n\n")`
+- reporting\agent_exporter.py:13 -> `f.write("Focus on API authentication testing for the discovered admin interfaces.\n")`
+- saas\auth.py:5 -> `"token_orgB_admin": {"tenant_id": "org_2", "role": "Admin"}`
+
