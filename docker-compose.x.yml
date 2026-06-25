@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # The Core API Gateway
+  api-gateway:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://reconx:secret@postgres:5432/reconx_db
+      - NEO4J_URI=bolt://neo4j:7687
+      - REDIS_URL=redis://redis:6379/0
+      - KAFKA_BROKER=kafka:9092
+    depends_on:
+      - postgres
+      - neo4j
+      - redis
+      - kafka
+
+  # The Autonomous Discovery Daemon (Phase 77)
+  autonomous-daemon:
+    build: .
+    command: python -m src.ai.autonomous.discovery_loop
+    depends_on:
+      - api-gateway
+
+  # Regional Scanners (Phases 81-90)
+  worker-us-east:
+    build: .
+    command: celery -A core.tasks worker -Q us-east -l info
+    depends_on:
+      - redis
+      - kafka
+
+  # Databases
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: reconx
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: reconx_db
+
+  neo4j:
+    image: neo4j:5.11
+    environment:
+      NEO4J_AUTH: neo4j/reconx_graph
+
+  redis:
+    image: redis:7-alpine
+
+  kafka:
+    image: bitnami/kafka:latest
+    environment:
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER

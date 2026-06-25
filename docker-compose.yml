@@ -9,10 +9,10 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgresql+asyncpg://reconx:reconx_secure_pass@postgres:5432/reconx_db
+      - DATABASE_URL=postgresql+asyncpg://reconx:${POSTGRES_PASSWORD}@postgres:5432/reconx_db
       - NEO4J_URI=bolt://neo4j:7687
       - NEO4J_USER=neo4j
-      - NEO4J_PASSWORD=reconx_secure_graph
+      - NEO4J_PASSWORD=${NEO4J_PASSWORD}
       - REDIS_URL=redis://redis:6379/0
       - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     depends_on:
@@ -38,7 +38,7 @@ services:
     image: postgres:15-alpine
     environment:
       - POSTGRES_USER=reconx
-      - POSTGRES_PASSWORD=reconx_secure_pass
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=reconx_db
     ports:
       - "5432:5432"
@@ -48,7 +48,7 @@ services:
   neo4j:
     image: neo4j:5-community
     environment:
-      - NEO4J_AUTH=neo4j/reconx_secure_graph
+      - NEO4J_AUTH=neo4j/${NEO4J_PASSWORD}
     ports:
       - "7474:7474"
       - "7687:7687"

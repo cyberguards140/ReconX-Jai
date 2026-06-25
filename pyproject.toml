@@ -51,7 +51,11 @@ dependencies = [
     "celery",
     "dnspython",
     "email-validator",
-    "websockets"
+    "websockets",
+    "questionary",
+    "psutil",
+    "flask",
+    "flask-sock"
 ]
 
 [project.optional-dependencies]
@@ -77,7 +81,7 @@ exclude = ["archive*", "workspace*"]
 reconx = ["config/*.yaml"]
 
 [project.scripts]
-reconx = "reconx.__main__:main"
+reconx = "apps.cli.__main__:main"
 [tool.ruff]
 line-length = 250
 

@@ -1,2 +1,2 @@
 [console_scripts]
-reconx = reconx.cli.main:app
+reconx = apps.cli.__main__:main
