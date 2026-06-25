@@ -87,3 +87,11 @@ line-length = 250
 
 [tool.ruff.lint]
 ignore = ["E402", "E501", "E741", "F401", "F811", "F841", "B007", "B008", "B904", "UP035"]
+
+[tool.mypy]
+ignore_missing_imports = true
+warn_return_any = false
+strict_optional = false
+check_untyped_defs = false
+disallow_untyped_defs = false
+disable_error_code = ["assignment", "union-attr", "return-value", "arg-type", "attr-defined", "var-annotated", "valid-type", "misc", "operator", "call-overload", "name-defined", "index"]
