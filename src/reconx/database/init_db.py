@@ -3,7 +3,9 @@ from reconx.database.session import engine
 from reconx.database.base import BaseModel
 
 # Import models to ensure they are registered with BaseModel.metadata
-from reconx.logger import logger
+from reconx.logger import setup_logger
+
+logger = setup_logger(__name__)
 
 
 async def create_tables():

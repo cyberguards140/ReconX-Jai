@@ -12,6 +12,6 @@ class NucleiParser:
                         "value": data.get("info", {}).get("name", "Unknown Finding"),
                         "severity": data.get("info", {}).get("severity", "info")
                     })
-        except:
+        except Exception:
             pass
         return assets

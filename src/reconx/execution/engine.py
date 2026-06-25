@@ -28,9 +28,9 @@ class ExecutionEngine:
         
         # 2. Build Command (Stubbed logic for engine, integrates w/ Stage 3 CommandBuilder)
         # Normally would import command_builder and pass args
-        command = f"{tool} {target}" # Simplified fallback
-        if 'command_preview' in request_data:
-            command = request_data['command_preview']
+        command = [tool]
+        if target:
+            command.append(target)
             
         # 3. Route to Adapter
         # Read adapter type from registry, fallback to shell

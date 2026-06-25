@@ -19,7 +19,7 @@ class PluginLoader:
                             manifest = json.load(f)
                             manifest["_path"] = path
                             discovered.append(manifest)
-                        except:
+                        except Exception:
                             pass
         return discovered
 

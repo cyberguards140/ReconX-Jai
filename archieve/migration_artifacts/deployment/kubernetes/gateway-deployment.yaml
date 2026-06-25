@@ -1,1 +1,0 @@
-apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: reconx-gateway\nspec:\n  replicas: 3\n  selector:\n    matchLabels:\n      app: reconx-gateway\n  template:\n    metadata:\n      labels:\n        app: reconx-gateway\n    spec:\n      containers:\n      - name: gateway\n        image: reconx/gateway:latest\n        ports:\n        - containerPort: 8000

@@ -1,10 +1,10 @@
-from reconx.config.startup_checks import run_startup_checks
-from reconx.logger import logger
+from reconx.logger import setup_logger
+
+logger = setup_logger("reconx")
 
 
 def main():
     try:
-        run_startup_checks()
         logger.info("Configuration loaded successfully")
     except Exception as e:
         logger.error(f"Startup failed: {e}")

@@ -1,5 +1,0 @@
-name: basic
-description: A basic workflow
-stages:
-  - id: scan
-    plugin: basic_plugin
