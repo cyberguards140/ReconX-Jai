@@ -29,9 +29,10 @@ class ExecutionEngine:
         job_id = self.job_tracker.create_job(tool, project, target, args)
 
         # 2. Build Command
-        from .command_builder import CommandBuilder
         import re
-        
+
+        from .command_builder import CommandBuilder
+
         command = CommandBuilder().build(tool, args)
         if target:
             if not re.match(r"^[a-zA-Z0-9\.\-\/:]+$", target) or target.startswith("-"):

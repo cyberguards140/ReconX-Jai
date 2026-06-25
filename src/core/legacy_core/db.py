@@ -1,13 +1,17 @@
 import os
-from sqlalchemy import create_engine, Column, String, Integer, DateTime, JSON, Boolean
-from sqlalchemy.orm import declarative_base, sessionmaker
-from datetime import datetime
 import uuid
+from datetime import datetime
 
-DB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', '..', 'workspace', 'projects.db'))
+from sqlalchemy import JSON, Boolean, Column, DateTime, Integer, String, create_engine
+from sqlalchemy.orm import declarative_base, sessionmaker
+
+DB_PATH = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", "workspace", "projects.db")
+)
 engine = create_engine(f"sqlite:///{DB_PATH}")
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
+
 
 class Project(Base):
     __tablename__ = "projects"
@@ -25,6 +29,7 @@ class Project(Base):
     archived = Column(Boolean, default=False)
     archived_date = Column(DateTime, nullable=True)
 
+
 class Target(Base):
     __tablename__ = "targets"
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
@@ -34,6 +39,7 @@ class Target(Base):
     added = Column(DateTime, default=datetime.utcnow)
     tag = Column(String, default="")
 
+
 class Note(Base):
     __tablename__ = "notes"
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
@@ -42,6 +48,7 @@ class Note(Base):
     content = Column(String)
     created = Column(DateTime, default=datetime.utcnow)
 
+
 class History(Base):
     __tablename__ = "history"
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
@@ -49,7 +56,9 @@ class History(Base):
     action = Column(String)
     timestamp = Column(DateTime, default=datetime.utcnow)
 
+
 Base.metadata.create_all(bind=engine)
+
 
 def get_db():
     db = SessionLocal()

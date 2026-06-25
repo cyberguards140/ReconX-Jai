@@ -1,10 +1,13 @@
 import json
+
 from core.models.asset import ReconAsset
+
 
 class KatanaParser:
     """
     Parses Katana crawler JSON output.
     """
+
     def parse(self, json_line: str) -> ReconAsset:
         try:
             data = json.loads(json_line)
@@ -16,11 +19,11 @@ class KatanaParser:
             return None
 
         method = data.get("request", {}).get("method", "GET")
-        
+
         return ReconAsset(
             asset_type="endpoint",
             value=url,
             sources=["Katana"],
             confidence=1.0,
-            metadata={"method": method}
+            metadata={"method": method},
         )

@@ -1,6 +1,6 @@
+import hashlib
 import os
 import subprocess
-import hashlib
 
 
 def run_command(cmd):

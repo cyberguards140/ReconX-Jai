@@ -11,8 +11,14 @@ def run_startup_checks():
         raise ConfigurationError("JWT_SECRET must be securely configured.")
 
     import os
-    if os.getenv("ENCRYPTION_MASTER_KEY") == "uE4F7jC9gLzRkXbQyNpVt3H+V8s2M6wY0zF/K5Xq/8Y=" and settings.app.env == "production":
-        raise ConfigurationError("ENCRYPTION_MASTER_KEY cannot use the default value in production.")
+
+    if (
+        os.getenv("ENCRYPTION_MASTER_KEY") == "uE4F7jC9gLzRkXbQyNpVt3H+V8s2M6wY0zF/K5Xq/8Y="
+        and settings.app.env == "production"
+    ):
+        raise ConfigurationError(
+            "ENCRYPTION_MASTER_KEY cannot use the default value in production."
+        )
 
     valid_envs = {"development", "testing", "staging", "production"}
     if settings.app.env not in valid_envs:

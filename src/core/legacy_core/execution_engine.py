@@ -1,5 +1,6 @@
-from core.legacy_core.queue_manager import QueueManager
 from core.legacy_core.process_manager import ProcessManager
+from core.legacy_core.queue_manager import QueueManager
+
 
 class ExecutionEngine:
     @staticmethod

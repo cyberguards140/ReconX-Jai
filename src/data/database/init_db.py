@@ -1,10 +1,9 @@
 import asyncio
 
-from data.database.base import BaseModel
-from data.database.session import engine
-
 # Import models to ensure they are registered with BaseModel.metadata
 from core.logging.logger import setup_logger
+from data.database.base import BaseModel
+from data.database.session import engine
 
 logger = setup_logger(__name__)
 

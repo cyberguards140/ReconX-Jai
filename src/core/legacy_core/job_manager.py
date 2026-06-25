@@ -1,16 +1,14 @@
-from core.legacy_core.job_db import SessionLocal, Job, JobLog
 from datetime import datetime
+
+from core.legacy_core.job_db import Job, JobLog, SessionLocal
+
 
 class JobManager:
     @staticmethod
     def create_job(tool_id, project_id, target, command):
         db = SessionLocal()
         job = Job(
-            tool_id=tool_id,
-            project_id=project_id,
-            target=target,
-            command=command,
-            status="queued"
+            tool_id=tool_id, project_id=project_id, target=target, command=command, status="queued"
         )
         db.add(job)
         db.commit()
@@ -47,10 +45,15 @@ class JobManager:
         job = db.query(Job).filter(Job.id == job_id).first()
         if job:
             res = {
-                "id": job.id, "tool_id": job.tool_id, "project_id": job.project_id,
-                "target": job.target, "command": job.command, "status": job.status,
-                "pid": job.pid, "started": job.started.isoformat() if job.started else None,
-                "finished": job.finished.isoformat() if job.finished else None
+                "id": job.id,
+                "tool_id": job.tool_id,
+                "project_id": job.project_id,
+                "target": job.target,
+                "command": job.command,
+                "status": job.status,
+                "pid": job.pid,
+                "started": job.started.isoformat() if job.started else None,
+                "finished": job.finished.isoformat() if job.finished else None,
             }
         else:
             res = None

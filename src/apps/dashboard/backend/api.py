@@ -14,7 +14,14 @@ from core.legacy_core.analytics_db import (
 )
 from core.legacy_core.analytics_db import SessionLocal as AnalyticsSession
 from core.legacy_core.argument_engine import ArgumentEngine
-from core.legacy_core.auth_db import ActivityLog, ApprovalRequest, AuditLog, Organization, Role, Team
+from core.legacy_core.auth_db import (
+    ActivityLog,
+    ApprovalRequest,
+    AuditLog,
+    Organization,
+    Role,
+    Team,
+)
 from core.legacy_core.auth_db import SessionLocal as AuthSession
 from core.legacy_core.campaign_db import (
     AssessmentScope,
@@ -68,7 +75,14 @@ from core.legacy_core.report_db import SessionLocal as ReportSession
 from core.legacy_core.screenshot_db import OCRResult, Screenshot, VisualChange, VisualFinding
 from core.legacy_core.screenshot_db import SessionLocal as ScreenSession
 from core.legacy_core.session import SessionManager
-from core.legacy_core.threat_db import ASNData, CVEData, ExposureEvent, IOCData, PassiveDNS, ReputationData
+from core.legacy_core.threat_db import (
+    ASNData,
+    CVEData,
+    ExposureEvent,
+    IOCData,
+    PassiveDNS,
+    ReputationData,
+)
 from core.legacy_core.threat_db import SessionLocal as ThreatSession
 from core.legacy_core.tool_registry import ToolRegistry
 from core.legacy_core.validator import Validator

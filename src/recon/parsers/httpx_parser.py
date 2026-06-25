@@ -17,7 +17,7 @@ def parse(line):
                 t_clean = t.strip()
                 if t_clean.isdigit():
                     continue
-                
+
                 # Basic classification matrix
                 category = "technology"
                 t_lower = t_clean.lower()
@@ -29,12 +29,8 @@ def parse(line):
                     category = "language"
                 elif any(server in t_lower for server in ["nginx", "apache", "iis", "litespeed"]):
                     category = "web_server"
-                
-                related.append({
-                    "type": category,
-                    "value": t_clean,
-                    "relation": "uses"
-                })
+
+                related.append({"type": category, "value": t_clean, "relation": "uses"})
 
         return {"type": "url", "value": url, "related": related}
     return None

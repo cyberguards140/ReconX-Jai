@@ -3,12 +3,12 @@ from typing import Any
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 
-from core.auth.middleware import SecurityMiddleware
 from apps.command_center.command_bus.router import command_bus
 from apps.command_center.coordination.timeline import global_timeline
 from apps.command_center.decisions.center import decision_center
 from apps.command_center.governance.mission_control import mission_control
 from apps.command_center.secos_core.state import secos_state
+from core.auth.middleware import SecurityMiddleware
 from plugins.enterprise.isolation.tenant_context import get_current_tenant_id
 
 router = APIRouter(

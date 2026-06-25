@@ -1,58 +1,69 @@
 from pydantic import BaseModel, Field
-from typing import List, Optional
+
 
 class KnowledgeGraphEntity(BaseModel):
     """
     Base model for all entities in the Digital Twin Neo4j graph.
     """
+
     id: str
     tenant_id: str
-    labels: List[str]
+    labels: list[str]
+
 
 class EmployeeNode(KnowledgeGraphEntity):
     """
     Represents an employee or contractor linked to the organization.
     """
+
     name: str
     email: str
-    department: Optional[str] = None
+    department: str | None = None
     is_privileged: bool = False
-    labels: List[str] = ["Employee"]
+    labels: list[str] = ["Employee"]
+
 
 class CloudResourceNode(KnowledgeGraphEntity):
     """
     Represents a managed cloud asset (S3, EC2, Lambda, IAM Role).
     """
-    provider: str # e.g. "aws", "azure", "gcp"
-    resource_type: str # e.g. "s3_bucket"
-    arn: Optional[str] = None
+
+    provider: str  # e.g. "aws", "azure", "gcp"
+    resource_type: str  # e.g. "s3_bucket"
+    arn: str | None = None
     is_public: bool = False
-    labels: List[str] = ["CloudResource", "Asset"]
+    labels: list[str] = ["CloudResource", "Asset"]
+
 
 class CertificateNode(KnowledgeGraphEntity):
     """
     Represents an SSL/TLS certificate.
     """
+
     common_name: str
     issuer: str
     expiration_date: str
     is_expired: bool = False
-    labels: List[str] = ["Certificate"]
+    labels: list[str] = ["Certificate"]
+
 
 class ThreatActorNode(KnowledgeGraphEntity):
     """
     Represents a known APT or cybercriminal group (Phase 50/52).
     """
+
     name: str
-    aliases: List[str] = []
+    aliases: list[str] = []
     motivation: str
-    labels: List[str] = ["ThreatActor"]
+    labels: list[str] = ["ThreatActor"]
+
 
 class KnowledgeGraphRelationship(BaseModel):
     """
     Defines complex relationships between the Digital Twin entities.
     """
+
     source_id: str
     target_id: str
-    relation_type: str # e.g. "OWNS", "TRUSTS", "USES", "EXPOSES"
+    relation_type: str  # e.g. "OWNS", "TRUSTS", "USES", "EXPOSES"
     properties: dict = Field(default_factory=dict)

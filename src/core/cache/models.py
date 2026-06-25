@@ -1,11 +1,14 @@
-from pydantic import BaseModel, Field
 from datetime import datetime
-from typing import Dict, Any, Optional
+from typing import Any
+
+from pydantic import BaseModel, Field
+
 
 class CacheEntry(BaseModel):
     key: str
     value: Any
-    expires_at: Optional[datetime] = None
+    expires_at: datetime | None = None
+
 
 class SessionData(BaseModel):
     session_id: str
@@ -13,7 +16,8 @@ class SessionData(BaseModel):
     role: str
     created_at: datetime = Field(default_factory=datetime.utcnow)
     expires_at: datetime
-    metadata: Dict[str, Any] = Field(default_factory=dict)
+    metadata: dict[str, Any] = Field(default_factory=dict)
+
 
 class RateLimitRecord(BaseModel):
     identifier: str
@@ -21,8 +25,9 @@ class RateLimitRecord(BaseModel):
     hits: int
     window_start: datetime
 
+
 class TaskQueueItem(BaseModel):
     task_id: str
     queue_name: str
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
     enqueued_at: datetime = Field(default_factory=datetime.utcnow)

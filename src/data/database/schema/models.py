@@ -94,14 +94,14 @@ class FindingModel(Base):
 
     id = Column(String, primary_key=True, index=True)
     scan_id = Column(String, ForeignKey("scans.id", ondelete="CASCADE"), index=True, nullable=False)
-    title = Column(String, index=True) # Added Index
+    title = Column(String, index=True)  # Added Index
     severity = Column(String, index=True)
     asset_id = Column(
         String, ForeignKey("assets.id", ondelete="CASCADE"), nullable=True, index=True
     )
     capability = Column(String, index=True)
-    source = Column(String, index=True) # Added Index
-    created_at = Column(DateTime, default=datetime.datetime.utcnow, index=True) # Added Index
+    source = Column(String, index=True)  # Added Index
+    created_at = Column(DateTime, default=datetime.datetime.utcnow, index=True)  # Added Index
 
     scan = relationship("ScanModel", back_populates="findings")
     asset = relationship("AssetModel", back_populates="findings")

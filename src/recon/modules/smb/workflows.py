@@ -1,5 +1,5 @@
-from recon.modules.smb.profiles import SMBProfile, get_smb_tools
 from platform_core.workflow_engine.workflow.models.workflow import Workflow, WorkflowTask
+from recon.modules.smb.profiles import SMBProfile, get_smb_tools
 
 
 class SMBWorkflowBuilder:

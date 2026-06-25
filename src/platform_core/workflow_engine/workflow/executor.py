@@ -1,12 +1,12 @@
 import asyncio
 import datetime
 
-from data.database.session import async_session_factory
 from core.events.bus import event_bus
 from core.events.models import TaskEvent
 from core.logging.logger import setup_logger
-from platform_core.plugin_engine.manager import plugin_manager
+from data.database.session import async_session_factory
 from platform_core.orchestration.state.models import TaskStatus
+from platform_core.plugin_engine.manager import plugin_manager
 from platform_core.workflow_engine.workflow.execution_context import ExecutionContext
 from platform_core.workflow_engine.workflow.models.workflow import TaskExecutionState, WorkflowTask
 

@@ -1,10 +1,10 @@
 import os
-import json
 import sqlite3
-from base64 import b64encode, b64decode
+from base64 import b64decode, b64encode
 
 # A simple XOR wrapper for MVP 'encryption'. In a real scenario, use cryptography.fernet
-SECRET_KEY = b'ReconX_Secret_Key_12345!'
+SECRET_KEY = b"ReconX_Secret_Key_12345!"
+
 
 def xor_crypt(text, encode=False):
     key = SECRET_KEY
@@ -17,6 +17,7 @@ def xor_crypt(text, encode=False):
         return b64encode(res).decode()
     return res.decode()
 
+
 class SecretsManager:
     DB_PATH = "workspace/secrets.db"
 
@@ -26,8 +27,8 @@ class SecretsManager:
             os.makedirs("workspace")
         conn = sqlite3.connect(cls.DB_PATH)
         c = conn.cursor()
-        c.execute('''CREATE TABLE IF NOT EXISTS secrets
-                     (id TEXT PRIMARY KEY, value TEXT)''')
+        c.execute("""CREATE TABLE IF NOT EXISTS secrets
+                     (id TEXT PRIMARY KEY, value TEXT)""")
         conn.commit()
         return conn
 

@@ -84,9 +84,7 @@ class AttackPathAnalyzer:
 
         return paths
 
-    async def identify_chokepoints(
-        self, target_project_id: str
-    ) -> list[dict[str, Any]]:
+    async def identify_chokepoints(self, target_project_id: str) -> list[dict[str, Any]]:
         """
         Identifies nodes that many attack paths traverse through (high in-degree centralities).
         """
@@ -103,11 +101,13 @@ class AttackPathAnalyzer:
             try:
                 result = await session.run(query, project_id=target_project_id)
                 async for record in result:
-                    chokepoints.append({
-                        "id": record["id"],
-                        "value": record["value"],
-                        "inbound_paths": record["inbound_paths"]
-                    })
+                    chokepoints.append(
+                        {
+                            "id": record["id"],
+                            "value": record["value"],
+                            "inbound_paths": record["inbound_paths"],
+                        }
+                    )
             except Exception as e:
                 logger.error(f"Failed to calculate chokepoints: {e}")
         return chokepoints
@@ -132,11 +132,9 @@ class AttackPathAnalyzer:
             try:
                 result = await session.run(query, start_id=start_asset_id)
                 async for record in result:
-                    impacted.append({
-                        "id": record["id"],
-                        "value": record["value"],
-                        "labels": record["labels"]
-                    })
+                    impacted.append(
+                        {"id": record["id"], "value": record["value"], "labels": record["labels"]}
+                    )
             except Exception as e:
                 logger.error(f"Failed to calculate blast radius: {e}")
         return impacted
@@ -160,8 +158,18 @@ class AttackPathAnalyzer:
             try:
                 result = await session.run(query, project_id=project_id)
                 async for record in result:
-                    nodes = [{"id": n["id"], "labels": list(n.labels), "tags": n.get("exposure_tags", [])} for n in record["nodes"]]
-                    rels = [{"type": r.type, "start": r.start_node["id"], "end": r.end_node["id"]} for r in record["relationships"]]
+                    nodes = [
+                        {
+                            "id": n["id"],
+                            "labels": list(n.labels),
+                            "tags": n.get("exposure_tags", []),
+                        }
+                        for n in record["nodes"]
+                    ]
+                    rels = [
+                        {"type": r.type, "start": r.start_node["id"], "end": r.end_node["id"]}
+                        for r in record["relationships"]
+                    ]
                     chains.append({"nodes": nodes, "relationships": rels})
             except Exception as e:
                 logger.error(f"Failed to calculate high-risk chains: {e}")

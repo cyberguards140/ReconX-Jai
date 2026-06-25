@@ -1,30 +1,36 @@
 import os
-from sqlalchemy import create_engine, Column, String, DateTime
-from sqlalchemy.orm import declarative_base, sessionmaker
-from datetime import datetime
 import uuid
+from datetime import datetime
 
-DB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', '..', 'workspace', 'assets.db'))
+from sqlalchemy import Column, DateTime, String, create_engine
+from sqlalchemy.orm import declarative_base, sessionmaker
+
+DB_PATH = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", "workspace", "assets.db")
+)
 engine = create_engine(f"sqlite:///{DB_PATH}")
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
+
 class Asset(Base):
     __tablename__ = "assets"
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
-    asset_type = Column(String) # domain, subdomain, ip, port, service, technology, vulnerability
+    asset_type = Column(String)  # domain, subdomain, ip, port, service, technology, vulnerability
     value = Column(String)
     source = Column(String)
     project_id = Column(String)
     first_seen = Column(DateTime, default=datetime.utcnow)
     last_seen = Column(DateTime, default=datetime.utcnow)
 
+
 class Relationship(Base):
     __tablename__ = "relationships"
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     source_id = Column(String)
     target_id = Column(String)
-    relation_type = Column(String) # e.g. "has_port", "resolves_to"
+    relation_type = Column(String)  # e.g. "has_port", "resolves_to"
+
 
 class AssetHistory(Base):
     __tablename__ = "asset_history"
@@ -33,7 +39,9 @@ class AssetHistory(Base):
     event_description = Column(String)
     timestamp = Column(DateTime, default=datetime.utcnow)
 
+
 Base.metadata.create_all(bind=engine)
+
 
 def get_asset_db():
     db = SessionLocal()

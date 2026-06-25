@@ -1,5 +1,5 @@
-from recon.modules.content_discovery.profiles import ContentProfile, get_content_tools
 from platform_core.workflow_engine.workflow.models.workflow import Workflow, WorkflowTask
+from recon.modules.content_discovery.profiles import ContentProfile, get_content_tools
 
 
 class ContentWorkflowBuilder:

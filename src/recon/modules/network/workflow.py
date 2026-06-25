@@ -1,5 +1,5 @@
-from recon.modules.network.profiles import ScanProfile, get_profile_tools
 from platform_core.workflow_engine.workflow.models.workflow import Workflow, WorkflowTask
+from recon.modules.network.profiles import ScanProfile, get_profile_tools
 
 
 class NetworkWorkflowBuilder:

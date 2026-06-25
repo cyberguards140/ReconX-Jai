@@ -1,6 +1,8 @@
-from sqlalchemy.orm import Session
 from sqlalchemy import func
+from sqlalchemy.orm import Session
+
 from data.database.models import Asset
+
 
 class AnalyticsEngine:
     @staticmethod
@@ -10,11 +12,13 @@ class AnalyticsEngine:
         Returns counts for domains, subdomains, IPs, ports, and services.
         """
         # Get count of each asset_type
-        counts = db.query(Asset.asset_type, func.count(Asset.id)).filter(
-            Asset.project_id == project_id,
-            Asset.lifecycle_status != "retired"
-        ).group_by(Asset.asset_type).all()
-        
+        counts = (
+            db.query(Asset.asset_type, func.count(Asset.id))
+            .filter(Asset.project_id == project_id, Asset.lifecycle_status != "retired")
+            .group_by(Asset.asset_type)
+            .all()
+        )
+
         overview = {
             "domains": 0,
             "subdomains": 0,
@@ -22,15 +26,15 @@ class AnalyticsEngine:
             "ports": 0,
             "services": 0,
             "cloud_assets": 0,
-            "total_active": 0
+            "total_active": 0,
         }
-        
+
         for asset_type, count in counts:
             normalized_type = asset_type.lower()
             if normalized_type in overview:
                 overview[normalized_type] = count
             overview["total_active"] += count
-            
+
         return overview
 
     @staticmethod
@@ -39,6 +43,8 @@ class AnalyticsEngine:
         Placeholder for historical risk trends calculation.
         """
         return {
-            "critical_assets": db.query(Asset).filter(Asset.project_id == project_id, Asset.confidence > 0.9).count(),
-            "new_this_week": 0 # Would use created_at filtering
+            "critical_assets": db.query(Asset)
+            .filter(Asset.project_id == project_id, Asset.confidence > 0.9)
+            .count(),
+            "new_this_week": 0,  # Would use created_at filtering
         }

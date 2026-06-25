@@ -1,12 +1,20 @@
 import questionary
+
 from apps.cli.ui import console
+
+
 class ToolRegistry:
     @staticmethod
-    def get_tools(): return []
+    def get_tools():
+        return []
+
     @staticmethod
-    def get_tool(tool_id): return None
+    def get_tool(tool_id):
+        return None
+
     @staticmethod
-    def set_tool_status(tool_id, state): pass
+    def set_tool_status(tool_id, state):
+        pass
 
 
 def manage_tools():

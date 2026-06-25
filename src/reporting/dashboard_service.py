@@ -62,9 +62,9 @@ from data.database.repositories.finding import finding_repo
 from recon.modules.graph.visualization import GraphVisualization
 from recon.modules.reporting.evidence_manager import EvidenceManager
 from recon.modules.reporting.export_engine import ExportEngine
-from reporting.trend_analyzer import TrendAnalyzer
 from recon.services.health import HealthService
 from recon.services.intelligence.risk_scoring import RiskScoring
+from reporting.trend_analyzer import TrendAnalyzer
 
 
 class DashboardService:

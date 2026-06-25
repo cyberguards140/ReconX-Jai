@@ -1,7 +1,8 @@
-import logging
 import asyncio
+import logging
 
 logger = logging.getLogger(__name__)
+
 
 class ReconXUltimateEngine:
     """
@@ -9,6 +10,7 @@ class ReconXUltimateEngine:
     The monolithic capstone that initializes the entire 100-Phase architectural vision
     into a single cohesive Intelligence Platform.
     """
+
     def __init__(self):
         logger.info("[ReconX X] Initializing the Ultimate Enterprise Intelligence Platform...")
         # 1. Initialize Global Router
@@ -21,6 +23,7 @@ class ReconXUltimateEngine:
         logger.critical("[ReconX X] All 100 Phases Online. Global Intelligence Mesh Active.")
         while True:
             await asyncio.sleep(3600)
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

@@ -3,12 +3,12 @@ from typing import Any
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 
-from core.auth.middleware import SecurityMiddleware
 from attack_surface.assets.attack_models.simulator import attack_simulator
 from attack_surface.assets.forecasting.risk_predictor import risk_forecaster
 from attack_surface.assets.governance.tracker import simulation_tracker
 from attack_surface.assets.scenarios.what_if import what_if_engine
 from attack_surface.assets.twin_engine.modeler import twin_modeler
+from core.auth.middleware import SecurityMiddleware
 from plugins.enterprise.isolation.tenant_context import get_current_tenant_id
 
 router = APIRouter(tags=["Cyber Digital Twin"], dependencies=[Depends(SecurityMiddleware)])

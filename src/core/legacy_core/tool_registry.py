@@ -1,6 +1,7 @@
-from core.legacy_core.registry_db import SessionLocal, Category, Tool, ToolArgument, ToolDependency, ToolProfile, ToolTemplate
-import json
 import logging
+
+from core.legacy_core.registry_db import Category, SessionLocal, Tool, ToolArgument, ToolDependency
+
 
 class ToolRegistry:
     @staticmethod
@@ -15,7 +16,15 @@ class ToolRegistry:
     def get_tools():
         db = SessionLocal()
         tools = db.query(Tool).all()
-        result = [{"id": t.id, "name": t.name, "category": t.category_id, "status": "installed" if t.enabled else "disabled"} for t in tools]
+        result = [
+            {
+                "id": t.id,
+                "name": t.name,
+                "category": t.category_id,
+                "status": "installed" if t.enabled else "disabled",
+            }
+            for t in tools
+        ]
         db.close()
         return result
 
@@ -26,10 +35,10 @@ class ToolRegistry:
         if not t:
             db.close()
             return None
-        
+
         args = db.query(ToolArgument).filter(ToolArgument.tool_id == tool_id).all()
         deps = db.query(ToolDependency).filter(ToolDependency.tool_id == tool_id).all()
-        
+
         result = {
             "id": t.id,
             "name": t.name,
@@ -41,8 +50,10 @@ class ToolRegistry:
             "execution": {"type": t.execution_type},
             "output": {"live_terminal": t.live_terminal},
             "tags": t.tags,
-            "arguments": [{"flag": a.flag, "type": a.type, "default": a.default_value} for a in args],
-            "dependencies": [{"type": d.dep_type, "name": d.name} for d in deps]
+            "arguments": [
+                {"flag": a.flag, "type": a.type, "default": a.default_value} for a in args
+            ],
+            "dependencies": [{"type": d.dep_type, "name": d.name} for d in deps],
         }
         db.close()
         return result
@@ -71,7 +82,7 @@ class ToolRegistry:
         if t:
             t.enabled = enabled
             db.commit()
-            
+
             # Log action
             logger = logging.getLogger("registry")
             logger.info(f"Tool {tool_id} {'Enabled' if enabled else 'Disabled'}")

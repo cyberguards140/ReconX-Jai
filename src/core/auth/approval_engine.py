@@ -1,5 +1,5 @@
-from core.legacy_core.auth_db import ApprovalRequest, SessionLocal
 from apps.dashboard.backend.websocket import broadcast
+from core.legacy_core.auth_db import ApprovalRequest, SessionLocal
 
 
 class ApprovalEngine:

@@ -41,24 +41,28 @@ class IntelligenceEngine:
 
         return report
 
-import os
-import aiohttp
+
 import logging
-from typing import Dict, Any
+import os
+from typing import Any
+
+import aiohttp
 
 logger = logging.getLogger(__name__)
+
 
 class AIEngine:
     """
     Core AI Wrapper integrating LLMs for executive intelligence synthesis.
     Defaults to OpenAI compatible APIs.
     """
+
     def __init__(self):
         self.api_key = os.environ.get("OPENAI_API_KEY", "")
         self.api_url = "https://api.openai.com/v1/chat/completions"
         self.model = "gpt-4o"
 
-    async def synthesize_finding(self, finding_data: Dict[str, Any]) -> str:
+    async def synthesize_finding(self, finding_data: dict[str, Any]) -> str:
         """
         Takes raw vulnerability data and returns a human-readable mitigation report.
         """
@@ -78,27 +82,25 @@ class AIEngine:
             "model": self.model,
             "messages": [
                 {"role": "system", "content": "You are a senior security expert."},
-                {"role": "user", "content": prompt}
+                {"role": "user", "content": prompt},
             ],
-            "temperature": 0.2
+            "temperature": 0.2,
         }
 
-        headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json"
-        }
+        headers = {"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"}
 
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.post(self.api_url, json=payload, headers=headers) as response:
                     if response.status == 200:
                         data = await response.json()
-                        return data['choices'][0]['message']['content']
+                        return data["choices"][0]["message"]["content"]
                     else:
                         logger.error(f"AI API Error: {response.status}")
                         return "AI Analysis failed due to API error."
         except Exception as e:
             logger.error(f"AI Engine Exception: {e}")
             return "AI Analysis failed due to internal exception."
+
 
 ai_engine = AIEngine()

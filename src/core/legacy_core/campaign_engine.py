@@ -1,5 +1,7 @@
-from core.legacy_core.project_db import SessionLocal, Campaign
 from dashboard.backend.websocket import broadcast
+
+from core.legacy_core.project_db import Campaign, SessionLocal
+
 
 class CampaignEngine:
     @staticmethod
@@ -11,12 +13,12 @@ class CampaignEngine:
         db.refresh(camp)
         c_id = camp.id
         db.close()
-        
+
         msg = {
             "type": "campaign_started",
             "project_id": project_id,
             "campaign_id": c_id,
-            "campaign_name": name
+            "campaign_name": name,
         }
         broadcast(msg)
         return c_id
@@ -28,10 +30,7 @@ class CampaignEngine:
         if camp:
             camp.status = "completed"
             db.commit()
-            
-            msg = {
-                "type": "campaign_completed",
-                "campaign_id": campaign_id
-            }
+
+            msg = {"type": "campaign_completed", "campaign_id": campaign_id}
             broadcast(msg)
         db.close()

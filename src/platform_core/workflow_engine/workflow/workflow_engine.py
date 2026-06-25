@@ -6,10 +6,10 @@ from typing import Any
 import yaml
 
 from core.config.settings import settings
-from data.database.session import async_session_factory
 from core.events.bus import event_bus
 from core.events.models import WorkflowEvent
 from core.logging.logger import setup_logger
+from data.database.session import async_session_factory
 from platform_core.orchestration.state.manager import StateManager
 from platform_core.orchestration.state.models import WorkflowState
 from platform_core.workflow_engine.workflow.dependency_graph import DependencyGraph

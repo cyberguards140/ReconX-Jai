@@ -3,13 +3,13 @@ from typing import Any
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 
-from core.auth.middleware import SecurityMiddleware
 from ai.agents.autonomous.approvals.workflow import approval_engine
 from ai.agents.autonomous.governance.auditor import decision_auditor
 from ai.agents.autonomous.investigations.triage import triage_engine
 from ai.agents.autonomous.orchestration.coordinator import coordinator
 from ai.agents.autonomous.recommendations.generator import recommendation_engine
 from ai.agents.autonomous.remediation.planner import remediation_planner
+from core.auth.middleware import SecurityMiddleware
 from plugins.enterprise.isolation.tenant_context import get_current_tenant_id
 
 router = APIRouter(tags=["Autonomous Operations"], dependencies=[Depends(SecurityMiddleware)])

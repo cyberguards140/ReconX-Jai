@@ -4,7 +4,7 @@ class CommandBuilder:
         for key, value in args.items():
             if key == "target":
                 continue
-            
+
             # Simple key mapping for flags
             if len(key) == 1:
                 flag = f"-{key}"

@@ -1,10 +1,10 @@
-import os
-import json
 import asyncio
+import json
 import shutil
-from pathlib import Path
-from core.plugin_interface import PluginInterface
+
 from core.paths import OUTPUTS_DIR
+from core.plugin_interface import PluginInterface
+
 
 class ToolAdapter(PluginInterface):
     async def execute(self, config: dict, context: dict) -> dict:
@@ -18,7 +18,7 @@ class ToolAdapter(PluginInterface):
 
         project_dir = OUTPUTS_DIR / "projects" / target
         input_file = project_dir / "subdomains.txt"
-        
+
         # If no subdomains.txt from previous step, we fallback to the raw target
         if not input_file.exists():
             input_file = project_dir / "target.txt"
@@ -30,19 +30,19 @@ class ToolAdapter(PluginInterface):
         # Execute httpx: -l input_file -title -tech-detect -status-code -json -o out_file
         cmd = [
             httpx_path,
-            "-l", str(input_file),
+            "-l",
+            str(input_file),
             "-title",
             "-tech-detect",
             "-status-code",
             "-json",
-            "-o", str(out_file),
-            "-silent"
+            "-o",
+            str(out_file),
+            "-silent",
         ]
 
         process = await asyncio.create_subprocess_exec(
-            *cmd,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE
+            *cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
 
         stdout, stderr = await process.communicate()
@@ -55,26 +55,29 @@ class ToolAdapter(PluginInterface):
         findings = []
 
         if out_file.exists():
-            with open(out_file, "r") as f:
+            with open(out_file) as f:
                 for line in f:
-                    if not line.strip(): continue
+                    if not line.strip():
+                        continue
                     try:
                         data = json.loads(line)
                         url = data.get("url")
                         if url:
                             live_hosts.append(url)
-                        
+
                         techs = data.get("tech", [])
                         for t in techs:
                             technologies.add(t)
-                            
-                        findings.append({
-                            "type": "web_host",
-                            "url": url,
-                            "status_code": data.get("status_code"),
-                            "title": data.get("title"),
-                            "technologies": techs
-                        })
+
+                        findings.append(
+                            {
+                                "type": "web_host",
+                                "url": url,
+                                "status_code": data.get("status_code"),
+                                "title": data.get("title"),
+                                "technologies": techs,
+                            }
+                        )
                     except json.JSONDecodeError:
                         continue
 
@@ -89,5 +92,5 @@ class ToolAdapter(PluginInterface):
             "target": target,
             "live_hosts": len(live_hosts),
             "output_file": str(urls_file),
-            "findings": findings
+            "findings": findings,
         }

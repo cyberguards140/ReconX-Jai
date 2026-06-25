@@ -1,19 +1,26 @@
-from typing import List, Optional
+from sqlalchemy import or_, select
 from sqlalchemy.orm import Session
-from sqlalchemy import select, or_
 
 from data.database.models import Asset
 
+
 class AssetService:
     @staticmethod
-    def create_asset(db: Session, project_id: str, asset_type: str, value: str, tags: list = None, owner_id: str = None) -> Asset:
+    def create_asset(
+        db: Session,
+        project_id: str,
+        asset_type: str,
+        value: str,
+        tags: list = None,
+        owner_id: str = None,
+    ) -> Asset:
         asset = Asset(
             project_id=project_id,
             asset_type=asset_type,
             value=value,
             tags=tags or [],
             owner_id=owner_id,
-            lifecycle_status="active"
+            lifecycle_status="active",
         )
         db.add(asset)
         db.commit()
@@ -21,27 +28,31 @@ class AssetService:
         return asset
 
     @staticmethod
-    def get_asset(db: Session, asset_id: str) -> Optional[Asset]:
+    def get_asset(db: Session, asset_id: str) -> Asset | None:
         return db.get(Asset, asset_id)
 
     @staticmethod
-    def list_assets(db: Session, project_id: str, skip: int = 0, limit: int = 100, search: str = None) -> List[Asset]:
+    def list_assets(
+        db: Session, project_id: str, skip: int = 0, limit: int = 100, search: str = None
+    ) -> list[Asset]:
         stmt = select(Asset).where(Asset.project_id == project_id)
         if search:
-            stmt = stmt.where(or_(Asset.value.ilike(f"%{search}%"), Asset.asset_type.ilike(f"%{search}%")))
+            stmt = stmt.where(
+                or_(Asset.value.ilike(f"%{search}%"), Asset.asset_type.ilike(f"%{search}%"))
+            )
         stmt = stmt.offset(skip).limit(limit)
         return list(db.scalars(stmt))
 
     @staticmethod
-    def update_asset(db: Session, asset_id: str, updates: dict) -> Optional[Asset]:
+    def update_asset(db: Session, asset_id: str, updates: dict) -> Asset | None:
         asset = db.get(Asset, asset_id)
         if not asset:
             return None
-        
+
         for key, value in updates.items():
             if hasattr(asset, key):
                 setattr(asset, key, value)
-        
+
         db.commit()
         db.refresh(asset)
         return asset

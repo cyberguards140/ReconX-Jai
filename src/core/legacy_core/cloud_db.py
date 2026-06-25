@@ -1,18 +1,22 @@
 import os
-from sqlalchemy import create_engine, Column, String, Integer, DateTime, Boolean, ForeignKey
-from sqlalchemy.orm import declarative_base, sessionmaker
-from datetime import datetime
 import uuid
+from datetime import datetime
 
-DB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', '..', 'workspace', 'cloud_assets.db'))
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String, create_engine
+from sqlalchemy.orm import declarative_base, sessionmaker
+
+DB_PATH = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", "workspace", "cloud_assets.db")
+)
 engine = create_engine(f"sqlite:///{DB_PATH}")
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
+
 class CloudAsset(Base):
     __tablename__ = "cloud_assets"
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
-    provider = Column(String) # aws, azure, gcp
+    provider = Column(String)  # aws, azure, gcp
     service = Column(String)
     resource_type = Column(String)
     name = Column(String)
@@ -20,6 +24,7 @@ class CloudAsset(Base):
     project_id = Column(String)
     first_seen = Column(DateTime, default=datetime.utcnow)
     last_seen = Column(DateTime, default=datetime.utcnow)
+
 
 class StorageBucket(Base):
     __tablename__ = "storage_buckets"
@@ -30,13 +35,15 @@ class StorageBucket(Base):
     object_count = Column(Integer, default=0)
     project_id = Column(String)
 
+
 class IAMEntity(Base):
     __tablename__ = "iam_entities"
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     provider = Column(String)
-    entity_type = Column(String) # user, role, group, policy
+    entity_type = Column(String)  # user, role, group, policy
     name = Column(String)
     project_id = Column(String)
+
 
 class PublicExposure(Base):
     __tablename__ = "public_exposures"
@@ -46,13 +53,16 @@ class PublicExposure(Base):
     severity = Column(String)
     project_id = Column(String)
 
+
 class CloudRelationship(Base):
     __tablename__ = "cloud_relationships"
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     source_id = Column(String)
     target_id = Column(String)
 
+
 Base.metadata.create_all(bind=engine)
+
 
 def get_cloud_db():
     db = SessionLocal()

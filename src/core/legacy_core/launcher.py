@@ -1,22 +1,24 @@
-import os
-import sys
+import logging
 import threading
 import webbrowser
+
 from flask import Flask, send_from_directory
-import logging
 
 app = Flask(__name__)
 # Suppress flask output
-log = logging.getLogger('werkzeug')
+log = logging.getLogger("werkzeug")
 log.setLevel(logging.ERROR)
 
-@app.route('/')
-def index():
-    return send_from_directory('../dashboard', 'reconx-dashboard-v2.html')
 
-@app.route('/<path:path>')
+@app.route("/")
+def index():
+    return send_from_directory("../dashboard", "reconx-dashboard-v2.html")
+
+
+@app.route("/<path:path>")
 def serve_static(path):
-    return send_from_directory('../dashboard', path)
+    return send_from_directory("../dashboard", path)
+
 
 class DashboardLauncher:
     def __init__(self, port=3000, auto_open=True):
@@ -38,7 +40,7 @@ class DashboardLauncher:
             print("\n[!] Dashboard is already running.")
 
     def _run_server(self):
-        app.run(host='127.0.0.1', port=self.port, use_reloader=False)
+        app.run(host="127.0.0.1", port=self.port, use_reloader=False)
 
     def stop(self):
         pass

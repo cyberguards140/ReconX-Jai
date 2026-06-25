@@ -1,5 +1,5 @@
-from recon.modules.dns.profiles import DNSProfile, get_dns_profile_tools
 from platform_core.workflow_engine.workflow.models.workflow import Workflow, WorkflowTask
+from recon.modules.dns.profiles import DNSProfile, get_dns_profile_tools
 
 
 class DNSWorkflowBuilder:

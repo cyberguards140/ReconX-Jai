@@ -1,6 +1,7 @@
 import sys
 
 import questionary
+
 from apps.cli.doctor_menu import DoctorMenu
 from apps.cli.project_menu import create_project, manage_projects, open_project
 from apps.cli.ui import console, print_banner

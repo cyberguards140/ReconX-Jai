@@ -1,5 +1,5 @@
-from recon.modules.active_directory.profiles import ADProfile, get_ad_tools
 from platform_core.workflow_engine.workflow.models.workflow import Workflow, WorkflowTask
+from recon.modules.active_directory.profiles import ADProfile, get_ad_tools
 
 
 class ADWorkflowBuilder:

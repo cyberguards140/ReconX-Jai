@@ -1,9 +1,10 @@
 import json
 
-from data.database.session import async_session_factory
+from observability.metrics.registry import metrics_registry
+
 from core.events.models import BaseEvent, TaskEvent
 from core.logging.logger import setup_logger
-from observability.metrics.registry import metrics_registry
+from data.database.session import async_session_factory
 
 logger = setup_logger("EventHandlers")
 

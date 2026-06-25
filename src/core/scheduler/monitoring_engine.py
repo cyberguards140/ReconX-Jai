@@ -1,17 +1,18 @@
 import asyncio
 import logging
 from datetime import datetime, timedelta
-from sqlalchemy.orm import Session
+
 from data.database.models import Asset
 from data.database.session import SessionLocal
-from recon.services.pipeline_engine import pipeline_engine
 
 logger = logging.getLogger(__name__)
+
 
 class ContinuousMonitoringEngine:
     """
     Background daemon that monitors the database for asset drift and schedules automatic re-scans.
     """
+
     def __init__(self, scan_interval_days: int = 7):
         self.scan_interval_days = scan_interval_days
         self.running = False
@@ -27,7 +28,7 @@ class ContinuousMonitoringEngine:
                 await asyncio.to_thread(self._check_and_enqueue)
             except Exception as e:
                 logger.error(f"Monitoring engine error: {e}")
-            
+
             # Sleep for an hour before checking again
             await asyncio.sleep(3600)
 
@@ -43,7 +44,7 @@ class ContinuousMonitoringEngine:
                 # but since we're just injecting into a queue, we can dispatch it.
                 # Actually, pipeline_engine.enqueue is async, so we should schedule it in the loop.
                 pass
-        
+
         # Simplified for MVP since we can't easily await from sync context cleanly without the event loop
         # The logic is documented and prepared.
 
@@ -57,5 +58,6 @@ class ContinuousMonitoringEngine:
         if self._task:
             self._task.cancel()
         logger.info("Continuous Monitoring Engine stopped.")
+
 
 monitoring_engine = ContinuousMonitoringEngine()

@@ -1,11 +1,13 @@
 from abc import ABC, abstractmethod
-from typing import Dict, Any, List
+from typing import Any
+
 
 class ReconXPlugin(ABC):
     """
     Phase 61: ReconX Plugin Base Class.
     External developers inherit from this to create 3rd-party intelligence tools.
     """
+
     @property
     @abstractmethod
     def plugin_name(self) -> str:
@@ -17,7 +19,7 @@ class ReconXPlugin(ABC):
         pass
 
     @abstractmethod
-    def execute(self, target: str, context: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def execute(self, target: str, context: dict[str, Any]) -> list[dict[str, Any]]:
         """
         Executes the custom plugin logic against a target.
         Must return a list of findings or enrichments.

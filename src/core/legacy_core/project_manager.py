@@ -1,8 +1,8 @@
-import os
-import shutil
 import json
-from datetime import datetime
-from core.legacy_core.project_db import SessionLocal, Project, Target, HistoryEvent
+import os
+
+from core.legacy_core.project_db import HistoryEvent, Project, SessionLocal, Target
+
 
 class ProjectManager:
     @staticmethod
@@ -18,17 +18,31 @@ class ProjectManager:
         db.add(project)
         db.commit()
         db.refresh(project)
-        
+
         ProjectManager.scaffold_project_directories(project.name)
-        ProjectManager.log_history(db, project.id, "Project Created", f"Project {name} initialized.")
-        
+        ProjectManager.log_history(
+            db, project.id, "Project Created", f"Project {name} initialized."
+        )
+
         db.close()
         return project.id
 
     @staticmethod
     def scaffold_project_directories(project_name):
-        base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'projects', project_name))
-        dirs = ['assets', 'findings', 'cloud', 'reports', 'scans', 'screenshots', 'notes', 'exports', 'history']
+        base_dir = os.path.abspath(
+            os.path.join(os.path.dirname(__file__), "..", "projects", project_name)
+        )
+        dirs = [
+            "assets",
+            "findings",
+            "cloud",
+            "reports",
+            "scans",
+            "screenshots",
+            "notes",
+            "exports",
+            "history",
+        ]
         for d in dirs:
             os.makedirs(os.path.join(base_dir, d), exist_ok=True)
 
@@ -37,7 +51,9 @@ class ProjectManager:
         db = SessionLocal()
         t = Target(project_id=project_id, target_type=target_type, value=value)
         db.add(t)
-        ProjectManager.log_history(db, project_id, "Target Added", f"Added target {value} ({target_type}).")
+        ProjectManager.log_history(
+            db, project_id, "Target Added", f"Added target {value} ({target_type})."
+        )
         db.commit()
         db.close()
 
@@ -47,7 +63,9 @@ class ProjectManager:
         project = db.query(Project).filter(Project.id == project_id).first()
         if project:
             project.status = "Archived"
-            ProjectManager.log_history(db, project_id, "Project Archived", f"Project {project.name} archived.")
+            ProjectManager.log_history(
+                db, project_id, "Project Archived", f"Project {project.name} archived."
+            )
             db.commit()
         db.close()
 

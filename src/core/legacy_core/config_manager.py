@@ -1,6 +1,8 @@
-import os
 import json
+import os
+
 from core.legacy_core.session import SessionManager
+
 
 class ConfigManager:
     @staticmethod
@@ -15,11 +17,11 @@ class ConfigManager:
         session = SessionManager()
         if not session.current_project:
             return {}
-            
+
         path = ConfigManager.get_config_path(session.current_project, tool_id)
         if os.path.exists(path):
             try:
-                with open(path, 'r') as f:
+                with open(path) as f:
                     return json.load(f)
             except:
                 pass
@@ -30,10 +32,10 @@ class ConfigManager:
         session = SessionManager()
         if not session.current_project:
             return False
-            
+
         path = ConfigManager.get_config_path(session.current_project, tool_id)
         try:
-            with open(path, 'w') as f:
+            with open(path, "w") as f:
                 json.dump(config_dict, f, indent=2)
             return True
         except:

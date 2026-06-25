@@ -4,6 +4,7 @@ from datetime import datetime
 
 SESSION_FILE = "workspace/current_project.json"
 
+
 class SessionManager:
     def __init__(self):
         self.current_project = None
@@ -19,11 +20,11 @@ class SessionManager:
     def _load(self):
         if os.path.exists(SESSION_FILE):
             try:
-                with open(SESSION_FILE, 'r') as f:
+                with open(SESSION_FILE) as f:
                     data = json.load(f)
-                    self.current_project = data.get('project')
-                    self.project_id = data.get('id')
-                    self.last_opened_project = data.get('last_opened_project', self.current_project)
+                    self.current_project = data.get("project")
+                    self.project_id = data.get("id")
+                    self.last_opened_project = data.get("last_opened_project", self.current_project)
             except Exception:
                 pass
 
@@ -35,19 +36,19 @@ class SessionManager:
             "id": self.project_id,
             "last_opened_project": self.last_opened_project,
             "startup_time": self.startup_time,
-            "active_user": self.active_user
+            "active_user": self.active_user,
         }
-        with open(SESSION_FILE, 'w') as f:
+        with open(SESSION_FILE, "w") as f:
             json.dump(data, f)
 
         # Sync to dashboard state as well for easy access from legacy components
         dash_state = "dashboard_state.json"
         if os.path.exists(dash_state):
             try:
-                with open(dash_state, 'r') as f:
+                with open(dash_state) as f:
                     d_state = json.load(f)
-                d_state['project'] = self.current_project
-                with open(dash_state, 'w') as f:
+                d_state["project"] = self.current_project
+                with open(dash_state, "w") as f:
                     json.dump(d_state, f)
             except Exception:
                 pass

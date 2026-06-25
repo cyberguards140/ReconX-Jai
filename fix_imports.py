@@ -17,7 +17,6 @@ subs = [
     (r"import core\.legacy_core\.argument_engine\b", "import core.argument_engine"),
     (r"from core\.legacy_core\.logging\b", "from core.logging"),
     (r"from core\.legacy_core\.constants\b", "from core.constants"),
-    
     # Fix over-greedy platform replacements
     (r"from platform\.legacy_platform\.workflow_engine\b", "from platform.workflow_engine"),
     (r"import platform\.legacy_platform\.workflow_engine\b", "import platform.workflow_engine"),
@@ -26,10 +25,10 @@ subs = [
     (r"from platform\.legacy_platform\.rule_engine\b", "from platform.rule_engine"),
     (r"from platform\.legacy_platform\.task_engine\b", "from platform.task_engine"),
     (r"from platform\.legacy_platform\.orchestration\b", "from platform.orchestration"),
-    
     # Just generic fix for trailing dot:
     # Any time it wrote `core.legacy_core` where it should have been `core` because the trailing part was moved to `core`
 ]
+
 
 def fix_imports():
     for root, dirs, files in os.walk(SRC_DIR):
@@ -37,18 +36,19 @@ def fix_imports():
             if file.endswith(".py"):
                 filepath = os.path.join(root, file)
                 try:
-                    with open(filepath, "r", encoding="utf-8") as f:
+                    with open(filepath, encoding="utf-8") as f:
                         content = f.read()
-                    
+
                     new_content = content
                     for pattern, repl in subs:
                         new_content = re.sub(pattern, repl, new_content)
-                        
+
                     if new_content != content:
                         with open(filepath, "w", encoding="utf-8") as f:
                             f.write(new_content)
                 except Exception as e:
                     print(f"Failed to process {filepath}: {e}")
+
 
 if __name__ == "__main__":
     fix_imports()

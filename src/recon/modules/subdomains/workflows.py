@@ -1,5 +1,5 @@
-from recon.modules.subdomains.profiles import SubdomainProfile, get_subdomain_tools
 from platform_core.workflow_engine.workflow.models.workflow import Workflow, WorkflowTask
+from recon.modules.subdomains.profiles import SubdomainProfile, get_subdomain_tools
 
 
 class SubdomainWorkflowBuilder:

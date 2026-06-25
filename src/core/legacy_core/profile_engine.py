@@ -1,43 +1,33 @@
 import json
-from core.legacy_core.project_db import SessionLocal, ScanProfile
+
+from core.legacy_core.project_db import ScanProfile, SessionLocal
+
 
 class ProfileEngine:
     DEFAULT_PROFILES = [
-        {
-            "name": "Quick Recon",
-            "tools": ["subfinder", "dnsx", "httpx"],
-            "arguments": {}
-        },
+        {"name": "Quick Recon", "tools": ["subfinder", "dnsx", "httpx"], "arguments": {}},
         {
             "name": "Deep Recon",
             "tools": ["subfinder", "amass", "dnsx", "httpx", "naabu", "nmap"],
-            "arguments": {}
+            "arguments": {},
         },
-        {
-            "name": "Quick Vulnerability",
-            "tools": ["nuclei", "sslscan"],
-            "arguments": {}
-        },
-        {
-            "name": "Deep Vulnerability",
-            "tools": ["nuclei", "nikto", "testssl"],
-            "arguments": {}
-        },
+        {"name": "Quick Vulnerability", "tools": ["nuclei", "sslscan"], "arguments": {}},
+        {"name": "Deep Vulnerability", "tools": ["nuclei", "nikto", "testssl"], "arguments": {}},
         {
             "name": "Web Enumeration",
             "tools": ["katana", "ffuf", "linkfinder", "secretfinder"],
-            "arguments": {}
+            "arguments": {},
         },
         {
             "name": "Cloud Assessment",
             "tools": ["cloud_discovery", "storage", "iam"],
-            "arguments": {}
+            "arguments": {},
         },
         {
             "name": "Full Assessment",
             "tools": ["subfinder", "dnsx", "httpx", "katana", "ffuf", "nuclei", "cloud_discovery"],
-            "arguments": {}
-        }
+            "arguments": {},
+        },
     ]
 
     @staticmethod
@@ -50,7 +40,7 @@ class ProfileEngine:
                     name=p["name"],
                     tools=json.dumps(p["tools"]),
                     arguments=json.dumps(p["arguments"]),
-                    created_by="system"
+                    created_by="system",
                 )
                 db.add(prof)
         db.commit()

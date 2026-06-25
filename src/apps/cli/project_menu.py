@@ -1,10 +1,17 @@
 import questionary
+
 from apps.cli.ui import console
+
+
 class ProfileEngine:
     @staticmethod
-    def seed_profiles(): pass
+    def seed_profiles():
+        pass
+
     @staticmethod
-    def get_profiles(): return []
+    def get_profiles():
+        return []
+
 
 class Project:
     status = "Active"
@@ -12,17 +19,29 @@ class Project:
     description = "dummy"
     id = "dummy-id"
 
+
 class SessionLocal:
-    def query(self, *args): return self
-    def filter(self, *args): return self
-    def all(self): return []
-    def close(self): pass
+    def query(self, *args):
+        return self
+
+    def filter(self, *args):
+        return self
+
+    def all(self):
+        return []
+
+    def close(self):
+        pass
+
 
 class ProjectManager:
     @staticmethod
-    def create_project(*args): return "dummy-id"
+    def create_project(*args):
+        return "dummy-id"
+
     @staticmethod
-    def add_target(*args): pass
+    def add_target(*args):
+        pass
 
 
 def manage_projects(session):
@@ -151,6 +170,7 @@ def manage_reports(session):
     ).ask()
 
     from reporting.evidence_packager import EvidencePackager
+
     from reporting.report_engine import ReportEngine
 
     if choice == "Evidence Package":
@@ -251,9 +271,10 @@ def manage_intelligence(session):
         ],
     ).ask()
 
-    from core.legacy_core.intelligence_db import SessionLocal, UniversalAsset
     from core.intelligence.search_engine import SearchEngine
     from core.screenshots.screenshot_manager import ScreenshotManager
+
+    from core.legacy_core.intelligence_db import SessionLocal, UniversalAsset
 
     if choice == "Screenshot Center":
         console.print("\n=== Screenshot Center ===")

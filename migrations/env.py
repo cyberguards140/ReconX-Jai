@@ -1,15 +1,13 @@
 import asyncio
 from logging.config import fileConfig
 
+from alembic import context
+from reconx.database.base import BaseModel
+from reconx.database.config import DATABASE_URL
+from reconx.database.models import *  # Ensure all models are imported so metadata knows about them
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
-
-from alembic import context
-
-from reconx.database.config import DATABASE_URL
-from reconx.database.base import BaseModel
-from reconx.database.models import *  # Ensure all models are imported so metadata knows about them
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

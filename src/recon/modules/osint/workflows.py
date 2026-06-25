@@ -1,5 +1,5 @@
-from recon.modules.osint.profiles import OSINTProfile, get_osint_tools
 from platform_core.workflow_engine.workflow.models.workflow import Workflow, WorkflowTask
+from recon.modules.osint.profiles import OSINTProfile, get_osint_tools
 
 
 class OSINTWorkflowBuilder:

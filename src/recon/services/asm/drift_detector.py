@@ -1,5 +1,5 @@
-from core.legacy_core.models import AdapterResult
 from core.events.event_stream import event_stream
+from core.legacy_core.models import AdapterResult
 
 
 class DriftDetector:

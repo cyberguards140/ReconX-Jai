@@ -1,16 +1,29 @@
-from data.database.session import async_session_factory
 # Assuming Session model is missing or imported differently, replacing with dummy object temporarily to allow API to boot
 class Session:
     pass
-class SessionLocal:
-    def add(self, *args): pass
-    def commit(self, *args): pass
-    def refresh(self, *args): pass
-    def close(self, *args): pass
-    def query(self, *args): return self
-    def filter(self, *args): return self
-    def first(self, *args): return None
 
+
+class SessionLocal:
+    def add(self, *args):
+        pass
+
+    def commit(self, *args):
+        pass
+
+    def refresh(self, *args):
+        pass
+
+    def close(self, *args):
+        pass
+
+    def query(self, *args):
+        return self
+
+    def filter(self, *args):
+        return self
+
+    def first(self, *args):
+        return None
 
 
 class SessionManager:
@@ -34,7 +47,7 @@ class SessionManager:
             db.commit()
         db.close()
 
+
 async def validate_session(db_session, session_id):
     # Dummy async method for API boot
     return True
-

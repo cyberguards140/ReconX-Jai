@@ -60,9 +60,9 @@ from data.database.models import (
     VulnReference,
     VulnRiskProfile,
 )
+from recon.services.intelligence.intelligence_store import IntelligenceStore
 from reporting.dashboard_service import DashboardService
 from reporting.executive_summary import ExecutiveSummaryGenerator
-from recon.services.intelligence.intelligence_store import IntelligenceStore
 
 
 class ReportBuilder:

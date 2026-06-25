@@ -1,5 +1,5 @@
-from recon.modules.web_fingerprinting.profiles import WebProfile, get_web_tools
 from platform_core.workflow_engine.workflow.models.workflow import Workflow, WorkflowTask
+from recon.modules.web_fingerprinting.profiles import WebProfile, get_web_tools
 
 
 class WebWorkflowBuilder:

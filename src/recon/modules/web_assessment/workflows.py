@@ -1,5 +1,5 @@
-from recon.modules.web_assessment.profiles import AssessmentProfile, get_assessment_tools
 from platform_core.workflow_engine.workflow.models.workflow import Workflow, WorkflowTask
+from recon.modules.web_assessment.profiles import AssessmentProfile, get_assessment_tools
 
 
 class AssessmentWorkflowBuilder:

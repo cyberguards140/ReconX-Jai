@@ -8,9 +8,12 @@ from flask_sock import Sock
 # Make sure we can import from backend
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")))
 
+
 class Scheduler:
     @staticmethod
-    def start(): pass
+    def start():
+        pass
+
 
 from apps.dashboard.backend.api import api_bp
 from apps.dashboard.backend.websocket import setup_websocket

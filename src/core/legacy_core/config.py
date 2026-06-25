@@ -1,13 +1,15 @@
-import yaml
 import os
+
+import yaml
 
 CONFIG_FILE = "config/config.yaml"
 DEFAULT_CONFIG = {
     "theme": "dark",
     "dashboard_port": 3000,
     "auto_open_browser": True,
-    "log_level": "info"
+    "log_level": "info",
 }
+
 
 class ConfigLoader:
     def __init__(self):
@@ -17,7 +19,7 @@ class ConfigLoader:
     def load(self):
         if os.path.exists(CONFIG_FILE):
             try:
-                with open(CONFIG_FILE, 'r') as f:
+                with open(CONFIG_FILE) as f:
                     data = yaml.safe_load(f)
                     if data:
                         self.config.update(data)

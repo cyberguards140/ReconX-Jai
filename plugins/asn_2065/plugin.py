@@ -1,6 +1,6 @@
-import asyncio
 import aiohttp
 from core.plugin_interface import PluginInterface
+
 
 class ToolAdapter(PluginInterface):
     async def get_asn_info(self, query: str) -> dict:
@@ -22,37 +22,44 @@ class ToolAdapter(PluginInterface):
             return {"assets": [], "findings": [], "metadata": {}}
 
         asn_data = await self.get_asn_info(target)
-        
+
         assets = []
         findings = []
         metadata = {}
 
         if "error" in asn_data:
-            findings.append({"type": "error", "severity": "info", "title": "BGPView Error", "description": asn_data["error"]})
+            findings.append(
+                {
+                    "type": "error",
+                    "severity": "info",
+                    "title": "BGPView Error",
+                    "description": asn_data["error"],
+                }
+            )
         else:
             # Parse IPv4 prefixes
             ipv4_prefixes = asn_data.get("ipv4_prefixes", [])
             for prefix in ipv4_prefixes:
-                assets.append({
-                    "type": "cidr",
-                    "value": prefix.get("prefix"),
-                    "tags": ["asn", "metabigor", prefix.get("name", "")]
-                })
-            
+                assets.append(
+                    {
+                        "type": "cidr",
+                        "value": prefix.get("prefix"),
+                        "tags": ["asn", "metabigor", prefix.get("name", "")],
+                    }
+                )
+
             # Parse ASNs
             asns = asn_data.get("asns", [])
             for asn in asns:
                 asn_code = asn.get("asn")
-                assets.append({
-                    "type": "asn",
-                    "value": f"AS{asn_code}",
-                    "tags": ["metabigor", asn.get("name", "")]
-                })
-            
+                assets.append(
+                    {
+                        "type": "asn",
+                        "value": f"AS{asn_code}",
+                        "tags": ["metabigor", asn.get("name", "")],
+                    }
+                )
+
             metadata["bgpview_raw"] = asn_data
 
-        return {
-            "assets": assets,
-            "findings": findings,
-            "metadata": metadata
-        }
+        return {"assets": assets, "findings": findings, "metadata": metadata}

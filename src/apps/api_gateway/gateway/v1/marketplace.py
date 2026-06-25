@@ -1,7 +1,9 @@
-from fastapi import APIRouter, HTTPException
-from typing import Dict, Any, List
-from apps.api_gateway.gateway.router_registry import registry
 import logging
+from typing import Any
+
+from fastapi import APIRouter, HTTPException
+
+from apps.api_gateway.gateway.router_registry import registry
 
 logger = logging.getLogger(__name__)
 
@@ -10,15 +12,32 @@ registry.register(router, prefix="/marketplace", version="v1", tags=["marketplac
 
 # Mock Database for Marketplace Plugins
 MOCK_MARKETPLACE_DB = [
-    {"id": "plugin-nuclei-pro", "name": "Nuclei Enterprise Templates", "type": "official", "status": "available"},
-    {"id": "plugin-aws-stealer", "name": "AWS IAM Enumerator", "type": "community", "status": "installed"},
-    {"id": "plugin-shodan-enterprise", "name": "Shodan Firehose", "type": "official", "status": "available"}
+    {
+        "id": "plugin-nuclei-pro",
+        "name": "Nuclei Enterprise Templates",
+        "type": "official",
+        "status": "available",
+    },
+    {
+        "id": "plugin-aws-stealer",
+        "name": "AWS IAM Enumerator",
+        "type": "community",
+        "status": "installed",
+    },
+    {
+        "id": "plugin-shodan-enterprise",
+        "name": "Shodan Firehose",
+        "type": "official",
+        "status": "available",
+    },
 ]
 
+
 @router.get("/plugins")
-async def list_plugins() -> List[Dict[str, Any]]:
+async def list_plugins() -> list[dict[str, Any]]:
     """Lists available and installed plugins from the marketplace."""
     return MOCK_MARKETPLACE_DB
+
 
 @router.post("/plugins/{plugin_id}/install")
 async def install_plugin(plugin_id: str):
@@ -27,13 +46,14 @@ async def install_plugin(plugin_id: str):
         if plugin["id"] == plugin_id:
             if plugin["status"] == "installed":
                 raise HTTPException(status_code=400, detail="Plugin already installed")
-            
+
             plugin["status"] = "installed"
             logger.info(f"Installed Marketplace Plugin: {plugin_id}")
             # In reality, we would trigger `git clone` or `pip install` via a background worker here
             return {"status": "success", "message": f"Plugin {plugin_id} installed successfully"}
-            
+
     raise HTTPException(status_code=404, detail="Plugin not found")
+
 
 @router.post("/plugins/{plugin_id}/disable")
 async def disable_plugin(plugin_id: str):

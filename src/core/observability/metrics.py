@@ -1,13 +1,15 @@
-import time
 import logging
+import time
 
 logger = logging.getLogger(__name__)
+
 
 class MetricsRegistry:
     """
     Mock Prometheus/OpenTelemetry metrics registry for MVP.
     Tracks RED (Rate, Errors, Duration) metrics.
     """
+
     def __init__(self):
         self.scans_completed = 0
         self.scans_failed = 0
@@ -23,7 +25,7 @@ class MetricsRegistry:
 
     def update_workers(self, count: int):
         self.active_workers = count
-        
+
     def add_assets(self, count: int):
         self.total_assets_discovered += count
 
@@ -52,5 +54,6 @@ reconx_assets_discovered_total {self.total_assets_discovered}
 # TYPE reconx_uptime_seconds counter
 reconx_uptime_seconds {uptime:.2f}
 """
+
 
 metrics_registry = MetricsRegistry()
