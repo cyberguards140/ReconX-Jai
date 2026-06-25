@@ -1,5 +1,4 @@
 import re
-from typing import List
 
 
 class RegexParsers:
@@ -7,9 +6,9 @@ class RegexParsers:
     IPV4_REGEX = re.compile(r"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b")
 
     @staticmethod
-    def extract_emails(text: str) -> List[str]:
+    def extract_emails(text: str) -> list[str]:
         return list(set(RegexParsers.EMAIL_REGEX.findall(text)))
 
     @staticmethod
-    def extract_ipv4(text: str) -> List[str]:
+    def extract_ipv4(text: str) -> list[str]:
         return list(set(RegexParsers.IPV4_REGEX.findall(text)))

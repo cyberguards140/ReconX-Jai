@@ -1,10 +1,11 @@
 from reconx.modules.cloud_intel.schema import WorkloadModel
-from typing import Dict, Any
+
 
 class WorkloadMapper:
     """
     Maps logical applications, APIs, and microservices to dependencies.
     """
+
     def __init__(self):
         pass
 
@@ -15,10 +16,7 @@ class WorkloadMapper:
         exposure = "Internal Cloud Exposure"
         if workload_type == "api_gateway":
             exposure = "Public Cloud Exposure"
-            
+
         return WorkloadModel(
-            workload=name,
-            workload_type=workload_type,
-            exposure=exposure,
-            dependencies=dependencies
+            workload=name, workload_type=workload_type, exposure=exposure, dependencies=dependencies
         )

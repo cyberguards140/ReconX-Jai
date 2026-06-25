@@ -1,5 +1,3 @@
-import sys
-
 class CloudMenu:
     @staticmethod
     def show():
@@ -11,9 +9,9 @@ class CloudMenu:
             print("4. Cloud Findings & Exposures")
             print("5. Cloud Risk Center")
             print("6. Return to Main Menu")
-            
+
             choice = input("Select an option: ")
-            
+
             if choice == "1":
                 print("\n[+] Loading Cloud Inventory...")
             elif choice == "2":

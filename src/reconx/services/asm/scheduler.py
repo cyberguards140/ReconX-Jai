@@ -1,20 +1,19 @@
 """ASM scheduler for continuous attack surface monitoring."""
 
 import threading
-from typing import Callable, Dict, Optional
+from collections.abc import Callable
 
 
 class AsmScheduler:
     """Simple scheduler for periodic ASM scan jobs."""
 
     def __init__(self):
-        self._jobs: Dict[str, threading.Timer] = {}
+        self._jobs: dict[str, threading.Timer] = {}
         self._running = False
 
-    def schedule(
-        self, job_id: str, func: Callable, interval_seconds: int = 3600
-    ) -> None:
+    def schedule(self, job_id: str, func: Callable, interval_seconds: int = 3600) -> None:
         """Schedule a recurring job."""
+
         def _run():
             func()
             if self._running:

@@ -1,8 +1,9 @@
 import asyncio
 import logging
 import random
-from reconx.distributed.queue import JobQueue
+
 from reconx.distributed.messaging import MessageBroker
+from reconx.distributed.queue import JobQueue
 
 logger = logging.getLogger("reconx")
 
@@ -17,17 +18,13 @@ class WorkerNode:
         logger.info(f"[WORKER-{self.worker_id}] Online and listening for jobs.")
         while True:
             job = await self.queue.pop()
-            logger.info(
-                f"[WORKER-{self.worker_id}] Executing Job: {job.task} on {job.target}"
-            )
+            logger.info(f"[WORKER-{self.worker_id}] Executing Job: {job.task} on {job.target}")
 
             await asyncio.sleep(0.5)  # Simulate workload
 
             # Simulate 10% failure rate for Fault Tolerance
             if random.random() < 0.1:  # nosec B311
-                logger.error(
-                    f"[WORKER-{self.worker_id}] Task crashed! Emitting TASK_FAILED."
-                )
+                logger.error(f"[WORKER-{self.worker_id}] Task crashed! Emitting TASK_FAILED.")
                 await self.broker.publish("TASK_FAILED", job.model_dump())
             else:
                 simulated_findings = [f"node-{random.randint(1, 100)}.{job.target}"]  # nosec B311

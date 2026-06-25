@@ -1,6 +1,6 @@
 class CloudEnricher:
     """Heuristics to determine cloud/container target types."""
-    
+
     @staticmethod
     def is_aws_account(target: str) -> bool:
         return target.startswith("arn:aws:") or target == "aws"

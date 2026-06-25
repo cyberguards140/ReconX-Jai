@@ -1,5 +1,5 @@
-from core.auth_db import SessionLocal, Session
-from datetime import datetime
+from core.auth_db import Session, SessionLocal
+
 
 class SessionManager:
     @staticmethod

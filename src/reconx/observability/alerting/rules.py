@@ -1,5 +1,6 @@
-import yaml
 import os
+
+import yaml
 
 ALERT_RULES = {
     "groups": [
@@ -13,20 +14,20 @@ ALERT_RULES = {
                     "labels": {"severity": "critical"},
                     "annotations": {
                         "summary": "High API Error Rate (> 5%)",
-                        "description": "More than 5% of API requests are returning 5xx errors across the last 5 minutes."
-                    }
+                        "description": "More than 5% of API requests are returning 5xx errors across the last 5 minutes.",
+                    },
                 },
                 {
                     "alert": "HighAPILatency",
-                    "expr": 'histogram_quantile(0.95, rate(reconx_http_request_duration_seconds_bucket[5m])) > 1.0',
+                    "expr": "histogram_quantile(0.95, rate(reconx_http_request_duration_seconds_bucket[5m])) > 1.0",
                     "for": "5m",
                     "labels": {"severity": "warning"},
                     "annotations": {
                         "summary": "High API Latency (p95 > 1s)",
-                        "description": "The 95th percentile of API request latency is exceeding 1 second."
-                    }
-                }
-            ]
+                        "description": "The 95th percentile of API request latency is exceeding 1 second.",
+                    },
+                },
+            ],
         },
         {
             "name": "ReconX_Workflow_Alerts",
@@ -38,13 +39,14 @@ ALERT_RULES = {
                     "labels": {"severity": "critical"},
                     "annotations": {
                         "summary": "Spike in Workflow Failures",
-                        "description": "The workflow execution failure rate is abnormally high."
-                    }
+                        "description": "The workflow execution failure rate is abnormally high.",
+                    },
                 }
-            ]
-        }
+            ],
+        },
     ]
 }
+
 
 def generate_prometheus_alerts(output_path: str = "/app/config/prometheus_rules.yml"):
     """

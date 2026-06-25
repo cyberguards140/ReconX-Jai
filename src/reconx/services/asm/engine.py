@@ -7,9 +7,7 @@ class AsmEngine:
     def __init__(self):
         self.scheduler = asm_scheduler
 
-    def start_monitoring(
-        self, target: str, capabilities: list, interval_seconds: int = 3600
-    ):
+    def start_monitoring(self, target: str, capabilities: list, interval_seconds: int = 3600):
         """Starts a continuous monitoring job for a target."""
         from core.capabilities import capability_manager
 

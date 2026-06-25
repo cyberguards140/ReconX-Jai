@@ -1,5 +1,5 @@
 import shutil
-import subprocess
+
 
 class DependencyChecker:
     @staticmethod
@@ -7,7 +7,7 @@ class DependencyChecker:
         if not shutil.which(cmd):
             return {"dependency": name, "installed": False}
         return {"dependency": name, "installed": True}
-        
+
     @staticmethod
     def check_all():
         deps = [
@@ -17,6 +17,6 @@ class DependencyChecker:
             ("go", "Go"),
             ("git", "Git"),
             ("docker", "Docker"),
-            ("sqlite3", "SQLite")
+            ("sqlite3", "SQLite"),
         ]
         return [DependencyChecker.check_dependency(cmd, name) for cmd, name in deps]

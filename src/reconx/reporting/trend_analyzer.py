@@ -1,11 +1,9 @@
-from typing import Dict, Any
+from typing import Any
 
 
 class TrendAnalyzer:
     @staticmethod
-    def compare_scans(
-        current: Dict[str, Any], previous: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    def compare_scans(current: dict[str, Any], previous: dict[str, Any]) -> dict[str, Any]:
         cur_assets = len(current.get("assets", []))
         prev_assets = len(previous.get("assets", []))
 

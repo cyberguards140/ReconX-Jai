@@ -3,6 +3,6 @@ class AutomationWorkflowCore:
     def get_workflow_tasks(workflow_name: str) -> list[str]:
         workflows = {
             "QuickRecon": ["DNS", "Subdomains", "Technologies"],
-            "Standard": ["QuickRecon", "WebAssessment"]
+            "Standard": ["QuickRecon", "WebAssessment"],
         }
         return workflows.get(workflow_name, [])

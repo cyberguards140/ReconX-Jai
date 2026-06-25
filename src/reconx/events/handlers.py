@@ -1,10 +1,12 @@
-from reconx.events.models import BaseEvent, WorkflowEvent, TaskEvent
-from reconx.logger import setup_logger
-from reconx.metrics.registry import metrics_registry
-from reconx.database.session import async_session_factory
 import json
 
+from reconx.database.session import async_session_factory
+from reconx.events.models import BaseEvent, TaskEvent
+from reconx.logger import setup_logger
+from reconx.metrics.registry import metrics_registry
+
 logger = setup_logger("EventHandlers")
+
 
 class LoggingHandler:
     @staticmethod
@@ -13,12 +15,13 @@ class LoggingHandler:
         extra = {
             "event_id": event.event_id,
             "correlation_id": event.correlation_id,
-            "source": event.source
+            "source": event.source,
         }
         if isinstance(event, TaskEvent):
             extra["task_id"] = event.task_id
 
         logger.info(event.event_type, extra=extra)
+
 
 class MetricsHandler:
     @staticmethod
@@ -32,25 +35,37 @@ class MetricsHandler:
         elif event.event_type == "TaskFailed":
             metrics_registry.increment("tasks_failed")
 
+
 class PersistenceHandler:
     @staticmethod
     async def handle(event: BaseEvent):
         # Save event to EventLog table
         from reconx.database.models import EventLog
+
         async with async_session_factory() as db:
-            db.add(EventLog(
-                event_type=event.event_type,
-                timestamp=event.timestamp,
-                correlation_id=event.correlation_id,
-                payload=json.dumps(event.payload)
-            ))
+            db.add(
+                EventLog(
+                    event_type=event.event_type,
+                    timestamp=event.timestamp,
+                    correlation_id=event.correlation_id,
+                    payload=json.dumps(event.payload),
+                )
+            )
             await db.commit()
+
 
 def register_handlers(bus):
     # Core system events to log
     all_events = [
-        "WorkflowStarted", "WorkflowCompleted", "WorkflowFailed", "WorkflowCancelled",
-        "TaskStarted", "TaskCompleted", "TaskFailed", "TaskCancelled", "TaskSkipped"
+        "WorkflowStarted",
+        "WorkflowCompleted",
+        "WorkflowFailed",
+        "WorkflowCancelled",
+        "TaskStarted",
+        "TaskCompleted",
+        "TaskFailed",
+        "TaskCancelled",
+        "TaskSkipped",
     ]
     for e in all_events:
         bus.subscribe(e, LoggingHandler.handle)

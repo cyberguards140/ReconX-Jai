@@ -1,6 +1,7 @@
 import logging
-from reconx.meta.scoring import QualityScorer
+
 from reconx.meta.optimizer import PluginOptimizer
+from reconx.meta.scoring import QualityScorer
 from reconx.meta.workflow import WorkflowEvolver
 
 logger = logging.getLogger("reconx_meta")

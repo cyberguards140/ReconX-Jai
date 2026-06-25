@@ -1,5 +1,6 @@
+from typing import Any
+
 from pydantic import BaseModel, Field
-from typing import Dict, Any
 
 
 class ExecutionContext(BaseModel):
@@ -7,8 +8,8 @@ class ExecutionContext(BaseModel):
     project_id: str = "default"
     target: str
     user: str = "system"
-    variables: Dict[str, Any] = Field(default_factory=dict)
-    artifacts: Dict[str, Any] = Field(default_factory=dict)
+    variables: dict[str, Any] = Field(default_factory=dict)
+    artifacts: dict[str, Any] = Field(default_factory=dict)
 
     def set_artifact(self, key: str, value: Any):
         self.artifacts[key] = value

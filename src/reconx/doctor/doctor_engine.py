@@ -2,6 +2,7 @@ from doctor.binary_checker import BinaryChecker
 from doctor.dependency_checker import DependencyChecker
 from doctor.environment_validator import EnvironmentValidator
 
+
 class DoctorEngine:
     @staticmethod
     def scan():
@@ -26,5 +27,5 @@ class DoctorEngine:
             "dependencies": dependencies,
             "tools": binaries,
             "missing_tools": [t["tool"] for t in missing_tools],
-            "missing_dependencies": [d["dependency"] for d in missing_deps]
+            "missing_dependencies": [d["dependency"] for d in missing_deps],
         }

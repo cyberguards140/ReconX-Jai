@@ -1,8 +1,8 @@
 import os
-from celery import Celery
-from celery.schedules import crontab
 
-# Configure Celery with Redis backend and broker. 
+from celery import Celery
+
+# Configure Celery with Redis backend and broker.
 # Uses environment variables with sensible defaults for local dev.
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 
@@ -10,9 +10,7 @@ celery_app = Celery(
     "reconx_workflows",
     broker=REDIS_URL,
     backend=REDIS_URL,
-    include=[
-        "reconx.workflow.queue.task_queue"
-    ]
+    include=["reconx.workflow.queue.task_queue"],
 )
 
 celery_app.conf.update(
@@ -22,7 +20,7 @@ celery_app.conf.update(
     timezone="UTC",
     enable_utc=True,
     task_track_started=True,
-    task_time_limit=3600, # Max 1 hour
+    task_time_limit=3600,  # Max 1 hour
     worker_prefetch_multiplier=1,
 )
 

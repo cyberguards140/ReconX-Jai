@@ -1,6 +1,7 @@
-import os
-import json
 import importlib.util
+import json
+import os
+
 
 class PluginLoader:
     @staticmethod
@@ -8,13 +9,13 @@ class PluginLoader:
         discovered = []
         if not os.path.exists(plugin_dir):
             return discovered
-            
+
         for d in os.listdir(plugin_dir):
             path = os.path.join(plugin_dir, d)
             if os.path.isdir(path):
                 manifest_path = os.path.join(path, "manifest.json")
                 if os.path.exists(manifest_path):
-                    with open(manifest_path, 'r') as f:
+                    with open(manifest_path) as f:
                         try:
                             manifest = json.load(f)
                             manifest["_path"] = path
@@ -27,10 +28,10 @@ class PluginLoader:
     def load_plugin(manifest):
         path = manifest.get("_path")
         plugin_file = os.path.join(path, "plugin.py")
-        
+
         if not os.path.exists(plugin_file):
             return None
-            
+
         spec = importlib.util.spec_from_file_location(manifest["name"], plugin_file)
         module = importlib.util.module_from_spec(spec)
         try:

@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class WorkflowMetrics(BaseModel):
     workflow_id: str
     workflow_duration: float = 0.0

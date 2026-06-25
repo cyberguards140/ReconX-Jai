@@ -1,12 +1,16 @@
+from typing import Any
+
 from reconx.auth.identity import IdentityContext
 from reconx.auth.policies import allow
-from typing import Dict, Any, Tuple, Optional
 
-def authorize(identity: IdentityContext, permission: str, resource: Optional[Dict[str, Any]] = None) -> Tuple[bool, str]:
+
+def authorize(
+    identity: IdentityContext, permission: str, resource: dict[str, Any] | None = None
+) -> tuple[bool, str]:
     """
     Main entry point for the Authorization Engine.
     Evaluates permissions based on IdentityContext, RBAC, and ABAC policies.
-    
+
     Returns:
         Tuple[bool, str]: (is_allowed, reason)
     """

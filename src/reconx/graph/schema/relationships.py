@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class RelType(str, Enum):
     # Infrastructure
     RESOLVES_TO = "RESOLVES_TO"

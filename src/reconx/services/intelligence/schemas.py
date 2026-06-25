@@ -1,7 +1,10 @@
-from pydantic import BaseModel, ConfigDict, Field, field_validator
-from typing import Optional, Literal
-from reconx.services.validation.validators import validate_domain, validate_ip, validate_url
+from typing import Literal
+
+from pydantic import BaseModel, ConfigDict, field_validator
+
 from reconx.core.exceptions.errors import ValidationError
+from reconx.services.validation.validators import validate_domain, validate_ip, validate_url
+
 
 class AssetSchema(BaseModel):
     model_config = ConfigDict(strict=True)
@@ -26,6 +29,7 @@ class AssetSchema(BaseModel):
             raise ValueError(f"Invalid asset value for type {asset_type}: {e}")
         return v
 
+
 class FindingSchema(BaseModel):
     model_config = ConfigDict(strict=True)
 
@@ -34,4 +38,3 @@ class FindingSchema(BaseModel):
     description: str
     asset_value: str
     source: str = "unknown"
-

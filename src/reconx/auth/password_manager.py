@@ -1,5 +1,6 @@
 import hashlib
 
+
 class PasswordManager:
     @staticmethod
     def hash_password(password: str) -> str:

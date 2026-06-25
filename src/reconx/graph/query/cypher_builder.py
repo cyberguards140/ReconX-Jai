@@ -1,19 +1,23 @@
 import re
-from typing import Dict, Any, List, Tuple
+from typing import Any
+
 
 class CypherBuilder:
     """
     Safely builds Cypher queries with parameters to prevent injection.
     """
+
     def __init__(self):
-        self.query_parts: List[str] = []
-        self.parameters: Dict[str, Any] = {}
+        self.query_parts: list[str] = []
+        self.parameters: dict[str, Any] = {}
         self.param_counter = 0
 
-    def match_node(self, label: str, variable: str = "n", properties: Dict[str, Any] = None) -> 'CypherBuilder':
+    def match_node(
+        self, label: str, variable: str = "n", properties: dict[str, Any] = None
+    ) -> "CypherBuilder":
         if not re.match(r"^[A-Za-z0-9_]+$", label) or not re.match(r"^[A-Za-z0-9_]+$", variable):
             raise ValueError("Invalid label or variable name")
-        
+
         prop_str = ""
         if properties:
             prop_parts = []
@@ -29,21 +33,21 @@ class CypherBuilder:
         self.query_parts.append(f"MATCH ({variable}:{label}{prop_str})")
         return self
 
-    def return_vars(self, *variables: str) -> 'CypherBuilder':
+    def return_vars(self, *variables: str) -> "CypherBuilder":
         for var in variables:
             if not re.match(r"^[A-Za-z0-9_]+$", var):
                 raise ValueError("Invalid variable name")
-        
+
         self.query_parts.append(f"RETURN {', '.join(variables)}")
         return self
 
-    def limit(self, max_records: int) -> 'CypherBuilder':
+    def limit(self, max_records: int) -> "CypherBuilder":
         self.query_parts.append(f"LIMIT {int(max_records)}")
         return self
 
-    def skip(self, offset: int) -> 'CypherBuilder':
+    def skip(self, offset: int) -> "CypherBuilder":
         self.query_parts.append(f"SKIP {int(offset)}")
         return self
 
-    def build(self) -> Tuple[str, Dict[str, Any]]:
+    def build(self) -> tuple[str, dict[str, Any]]:
         return "\n".join(self.query_parts), self.parameters

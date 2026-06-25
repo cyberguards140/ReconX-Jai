@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Response, status
 import logging
-from typing import Dict, Any
+from typing import Any
+
+from fastapi import APIRouter, Response, status
 
 from reconx.database.session import engine
 from reconx.platform.redis.client import redis_manager
@@ -8,6 +9,7 @@ from reconx.platform.redis.client import redis_manager
 logger = logging.getLogger(__name__)
 
 router = APIRouter(tags=["Health"])
+
 
 @router.get("/live", summary="Liveness Probe")
 async def liveness_probe():
@@ -18,26 +20,21 @@ async def liveness_probe():
     """
     return {"status": "ok"}
 
+
 @router.get("/ready", summary="Readiness Probe")
-async def readiness_probe(response: Response) -> Dict[str, Any]:
+async def readiness_probe(response: Response) -> dict[str, Any]:
     """
     K8s Readiness Probe. Checks if the service is ready to accept traffic.
     Actively pings PostgreSQL, Redis, and (optionally) Kafka/Neo4j.
     If dependencies are down, returns 503 so the K8s load balancer stops sending traffic here.
     """
-    health_status = {
-        "status": "ready",
-        "dependencies": {
-            "postgres": "unknown",
-            "redis": "unknown"
-        }
-    }
-    
+    health_status = {"status": "ready", "dependencies": {"postgres": "unknown", "redis": "unknown"}}
+
     is_ready = True
 
     # 1. Check Postgres
     try:
-        async with engine.connect() as conn:
+        async with engine.connect():
             # We just need to execute a simple query to ensure the pool is alive
             # In asyncpg/sqlalchemy, executing a simple scalar works
             # Actually, just connecting is often enough, but let's be thorough

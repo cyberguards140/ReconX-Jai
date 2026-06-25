@@ -1,5 +1,6 @@
 from core.auth_db import SessionLocal, Team, TeamMember
 
+
 class TeamManager:
     @staticmethod
     def create_team(org_id, name):

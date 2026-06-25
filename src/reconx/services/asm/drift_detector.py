@@ -1,12 +1,11 @@
-from typing import Dict
-from reconx.events.event_stream import event_stream
 from reconx.core.models import AdapterResult
+from reconx.events.event_stream import event_stream
 
 
 class DriftDetector:
     def __init__(self):
         # target -> set of asset values
-        self.state: Dict[str, set] = {}
+        self.state: dict[str, set] = {}
 
     def process_result(self, target: str, result: AdapterResult):
         """Compares new result against previous state to detect drift."""

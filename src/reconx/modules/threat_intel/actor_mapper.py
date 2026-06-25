@@ -1,13 +1,15 @@
-from typing import List, Dict, Any
+from typing import Any
+
 
 class ThreatActorMapper:
     """
     Maps IOC clusters to Threat Actor profiles.
     """
+
     def __init__(self):
         pass
 
-    def map_to_actor(self, ioc_matches: List[Dict[str, Any]]) -> List[str]:
+    def map_to_actor(self, ioc_matches: list[dict[str, Any]]) -> list[str]:
         """
         Conceptually maps matched IOCs to actor groups.
         """

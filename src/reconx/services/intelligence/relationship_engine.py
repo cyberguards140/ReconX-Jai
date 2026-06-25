@@ -1,9 +1,9 @@
-from typing import Dict, Any, List
+from typing import Any
 
 
 class RelationshipEngine:
     @staticmethod
-    def infer_parent_child(assets: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def infer_parent_child(assets: list[dict[str, Any]]) -> list[dict[str, Any]]:
         relationships = []
         # Group by value for easy lookup
         # In a real scenario, this would query DB, but we do it in memory for ingested batch

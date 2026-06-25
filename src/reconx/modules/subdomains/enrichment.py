@@ -1,8 +1,9 @@
 import socket
 
+
 class SubdomainEnricher:
     """Verifies subdomains and attaches resolution info."""
-    
+
     @staticmethod
     def resolve_subdomain(subdomain: str) -> bool:
         try:

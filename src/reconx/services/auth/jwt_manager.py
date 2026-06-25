@@ -1,7 +1,9 @@
-import jwt
-from datetime import datetime, timedelta, timezone
-from reconx.config.settings import settings
 import uuid
+from datetime import datetime, timedelta, timezone
+
+import jwt
+
+from reconx.config.settings import settings
 
 ALGORITHM = "HS256"
 
@@ -15,9 +17,7 @@ def create_access_token(user_id: str, role: str) -> str:
         "exp": expire,
         "jti": str(uuid.uuid4()),
     }
-    encoded_jwt = jwt.encode(
-        to_encode, settings.security.jwt_secret, algorithm=ALGORITHM
-    )
+    encoded_jwt = jwt.encode(to_encode, settings.security.jwt_secret, algorithm=ALGORITHM)
     return encoded_jwt
 
 
@@ -31,17 +31,13 @@ def create_refresh_token(user_id: str) -> dict:
         "exp": expire,
         "jti": token_id,
     }
-    encoded_jwt = jwt.encode(
-        to_encode, settings.security.jwt_secret, algorithm=ALGORITHM
-    )
+    encoded_jwt = jwt.encode(to_encode, settings.security.jwt_secret, algorithm=ALGORITHM)
     return {"token": encoded_jwt, "jti": token_id, "exp": expire}
 
 
 def verify_token(token: str) -> dict:
     try:
-        payload = jwt.decode(
-            token, settings.security.jwt_secret, algorithms=[ALGORITHM]
-        )
+        payload = jwt.decode(token, settings.security.jwt_secret, algorithms=[ALGORITHM])
         return payload
     except jwt.ExpiredSignatureError:
         raise ValueError("Token is expired")

@@ -1,32 +1,34 @@
 import logging
-from typing import Dict, Any
+from typing import Any
 
 logger = logging.getLogger(__name__)
+
 
 class RecommendationGenerator:
     """
     Translates triaged intelligence into actionable Mitigation and Containment Plans.
     """
+
     def __init__(self):
         pass
 
-    def generate(self, triage_case: Dict[str, Any]) -> Dict[str, Any]:
+    def generate(self, triage_case: dict[str, Any]) -> dict[str, Any]:
         """
         Generates a recommendation based on the priority and evidence of the triage case.
         """
         priority = triage_case.get("scoring", {}).get("priority", "Low")
-        
+
         recommendation = {
             "case_id": triage_case.get("event_id"),
             "suggested_actions": [],
             "risk_reduction_score": 0,
-            "confidence": triage_case.get("scoring", {}).get("confidence", 0.5)
+            "confidence": triage_case.get("scoring", {}).get("confidence", 0.5),
         }
 
         if priority == "Critical":
             recommendation["suggested_actions"] = [
                 {"action_type": "network_isolation", "target": "10.0.0.5", "impact": "high"},
-                {"action_type": "revoke_credentials", "target": "user_foo", "impact": "medium"}
+                {"action_type": "revoke_credentials", "target": "user_foo", "impact": "medium"},
             ]
             recommendation["risk_reduction_score"] = 90
         elif priority == "High":
@@ -41,5 +43,6 @@ class RecommendationGenerator:
             recommendation["risk_reduction_score"] = 10
 
         return recommendation
+
 
 recommendation_engine = RecommendationGenerator()

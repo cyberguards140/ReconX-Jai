@@ -1,6 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from reconx.database.repositories.refresh_token import refresh_token_repo
+
 from reconx.database.models import RefreshToken
+from reconx.database.repositories.refresh_token import refresh_token_repo
 
 
 async def store_refresh_token(
@@ -20,9 +21,7 @@ async def store_refresh_token(
 async def revoke_refresh_token(db: AsyncSession, token_id: str):
     token_record = await refresh_token_repo.get_by_token_id(db, token_id)
     if token_record:
-        await refresh_token_repo.update(
-            db, db_obj=token_record, obj_in={"revoked": True}
-        )
+        await refresh_token_repo.update(db, db_obj=token_record, obj_in={"revoked": True})
 
 
 async def is_token_revoked(db: AsyncSession, token_id: str) -> bool:

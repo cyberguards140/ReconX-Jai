@@ -1,5 +1,5 @@
 import subprocess
-import os
+
 
 class RepairEngine:
     REPAIRS = {
@@ -12,7 +12,7 @@ class RepairEngine:
         "gau": "go install github.com/lc/gau/v2/cmd/gau@latest",
         "waybackurls": "go install github.com/tomnomnom/waybackurls@latest",
         "assetfinder": "go install github.com/tomnomnom/assetfinder@latest",
-        "chaos": "go install -v github.com/projectdiscovery/chaos-client/cmd/chaos@latest"
+        "chaos": "go install -v github.com/projectdiscovery/chaos-client/cmd/chaos@latest",
     }
 
     @staticmethod

@@ -1,16 +1,20 @@
-from typing import List, Optional
 from fastapi import Query
 from pydantic import BaseModel
+
 
 class SortField(BaseModel):
     field: str
     descending: bool
 
+
 class SortParams(BaseModel):
-    sorts: List[SortField]
+    sorts: list[SortField]
+
 
 def get_sort_params(
-    sort: Optional[str] = Query(None, description="Comma-separated fields to sort by. Prefix with '-' for descending.")
+    sort: str | None = Query(
+        None, description="Comma-separated fields to sort by. Prefix with '-' for descending."
+    ),
 ) -> SortParams:
     """
     Extracts sorting parameters.

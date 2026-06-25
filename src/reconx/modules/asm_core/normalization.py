@@ -1,8 +1,10 @@
 import re
 import uuid
-from typing import Dict, Any, Optional
 from datetime import datetime, timezone
+from typing import Any
+
 from reconx.modules.asm_core.schema import UnifiedAsset
+
 
 class NormalizationEngine:
     def __init__(self):
@@ -24,28 +26,33 @@ class NormalizationEngine:
             return "subdomain"
         if value.startswith("/"):
             return "endpoint"
-        
+
         return "unknown"
 
-    def normalize(self, raw_data: Dict[str, Any], source: str) -> UnifiedAsset:
+    def normalize(self, raw_data: dict[str, Any], source: str) -> UnifiedAsset:
         """Normalize a raw dictionary into a UnifiedAsset."""
-        value = raw_data.get("value") or raw_data.get("host") or raw_data.get("ip") or raw_data.get("url", "")
+        value = (
+            raw_data.get("value")
+            or raw_data.get("host")
+            or raw_data.get("ip")
+            or raw_data.get("url", "")
+        )
         value = str(value).strip()
-        
+
         asset_type = raw_data.get("asset_type") or self.detect_type(value)
         asset_id = str(uuid.uuid4())
-        
+
         confidence = float(raw_data.get("confidence", 50.0))
-        
+
         metadata = raw_data.get("metadata", {})
         if not metadata:
             metadata = {
                 "dns": raw_data.get("dns", {}),
                 "http": raw_data.get("http", {}),
                 "tech": raw_data.get("tech", []),
-                "geo": raw_data.get("geo", {})
+                "geo": raw_data.get("geo", {}),
             }
-            
+
         return UnifiedAsset(
             asset_id=asset_id,
             asset_type=asset_type,
@@ -53,5 +60,5 @@ class NormalizationEngine:
             source=source,
             confidence=confidence,
             metadata=metadata,
-            timestamp=datetime.now(timezone.utc)
+            timestamp=datetime.now(timezone.utc),
         )

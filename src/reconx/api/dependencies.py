@@ -1,7 +1,6 @@
 """FastAPI dependency injection functions for ReconX API routes."""
 
-from typing import Optional
-from fastapi import Depends, HTTPException, status, Request
+from fastapi import Depends, HTTPException, Request, status
 
 
 async def get_current_user(request: Request) -> dict:

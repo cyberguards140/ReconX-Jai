@@ -4,6 +4,6 @@ class RBACCore:
         matrix = {
             "Viewer": ["View_Assets"],
             "Operator": ["View_Assets", "Run_Jobs"],
-            "Admin": ["View_Assets", "Run_Jobs", "Manage_Users"]
+            "Admin": ["View_Assets", "Run_Jobs", "Manage_Users"],
         }
         return action in matrix.get(user_role, [])

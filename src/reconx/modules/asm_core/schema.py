@@ -1,6 +1,8 @@
-from pydantic import BaseModel, Field
-from typing import Dict, List, Any, Optional
 from datetime import datetime, timezone
+from typing import Any
+
+from pydantic import BaseModel, Field
+
 
 class UnifiedAsset(BaseModel):
     asset_id: str
@@ -8,11 +10,14 @@ class UnifiedAsset(BaseModel):
     value: str
     source: str
     confidence: float = 0.0
-    metadata: Dict[str, Any] = Field(default_factory=lambda: {"dns": {}, "http": {}, "tech": [], "geo": {}})
+    metadata: dict[str, Any] = Field(
+        default_factory=lambda: {"dns": {}, "http": {}, "tech": [], "geo": {}}
+    )
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
 
 class ValidationSignal(BaseModel):
     asset_id: str
     status: str  # alive | dead | unknown
-    signals: List[Dict[str, Any]] = Field(default_factory=list)
+    signals: list[dict[str, Any]] = Field(default_factory=list)
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))

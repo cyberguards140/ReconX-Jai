@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class WorkflowState(Enum):
     PENDING = "pending"
     QUEUED = "queued"
@@ -7,6 +8,7 @@ class WorkflowState(Enum):
     COMPLETED = "completed"
     FAILED = "failed"
     CANCELLED = "cancelled"
+
 
 class TaskStatus(Enum):
     PENDING = "pending"
@@ -16,6 +18,7 @@ class TaskStatus(Enum):
     CANCELLED = "cancelled"
     SKIPPED = "skipped"
     RETRYING = "retrying"
+
 
 class PluginState(Enum):
     IDLE = "idle"

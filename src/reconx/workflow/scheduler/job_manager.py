@@ -1,10 +1,12 @@
 import logging
-from typing import Dict, Any, List
+from typing import Any
 
-from reconx.workflow.scheduler.celery_app import celery_app
 from celery.schedules import crontab
 
+from reconx.workflow.scheduler.celery_app import celery_app
+
 logger = logging.getLogger(__name__)
+
 
 class JobManager:
     """
@@ -17,18 +19,19 @@ class JobManager:
         Configures the default recurring jobs for the ReconX platform.
         """
         celery_app.conf.beat_schedule = {
-            'daily-recon-sync': {
-                'task': 'reconx.workflow.queue.task_queue.run_recon_sync',
-                'schedule': crontab(hour=2, minute=0),  # Run daily at 2:00 AM
+            "daily-recon-sync": {
+                "task": "reconx.workflow.queue.task_queue.run_recon_sync",
+                "schedule": crontab(hour=2, minute=0),  # Run daily at 2:00 AM
             },
         }
         logger.info("Celery beat schedules configured.")
 
     @staticmethod
-    def trigger_ad_hoc_job(job_type: str, payload: Dict[str, Any]):
+    def trigger_ad_hoc_job(job_type: str, payload: dict[str, Any]):
         """
         Triggers an immediate ad-hoc job.
         """
         from reconx.workflow.queue.task_queue import run_job
+
         logger.info(f"Triggering ad-hoc job: {job_type}")
         return run_job.delay(job_type, payload)

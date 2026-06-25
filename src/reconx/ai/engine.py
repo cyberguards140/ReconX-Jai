@@ -1,5 +1,5 @@
-from reconx.ai.heuristics import HeuristicsEngine
 from reconx.ai.graph import AttackGraph
+from reconx.ai.heuristics import HeuristicsEngine
 from reconx.ai.memory import ContextMemory
 from reconx.ai.prioritization import PrioritizationEngine
 
@@ -30,9 +30,7 @@ class IntelligenceEngine:
 
         # Service Evaluation
         for port in data.get("ports", []):
-            risk_label = HeuristicsEngine.evaluate_service(
-                port, data.get("tech_stack", [])
-            )
+            risk_label = HeuristicsEngine.evaluate_service(port, data.get("tech_stack", []))
             if "HIGH" in risk_label:
                 report["attack_surface"]["high_risk"].append(f"Port {port}")
 

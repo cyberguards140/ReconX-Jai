@@ -1,14 +1,13 @@
+from typing import Any
+
 from jinja2 import Environment, FileSystemLoader
-from typing import Dict, Any
 
 
 class HTMLGenerator:
     def __init__(self, templates_dir: str = "src/reconx/templates/reports"):
         self.env = Environment(loader=FileSystemLoader(templates_dir), autoescape=True)
 
-    def generate(
-        self, template_name: str, data: Dict[str, Any], output_path: str
-    ) -> str:
+    def generate(self, template_name: str, data: dict[str, Any], output_path: str) -> str:
         # Security validation
         if ".." in output_path or "\x00" in output_path:
             raise ValueError("Unsafe output path")

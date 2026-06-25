@@ -1,22 +1,32 @@
 import asyncio
 import datetime
-from reconx.workflow.models.workflow import WorkflowTask, TaskExecutionState
-from reconx.state.models import TaskStatus
-from reconx.plugins.manager import plugin_manager
+
+from reconx.database.session import async_session_factory
 from reconx.events.bus import event_bus
 from reconx.events.models import TaskEvent
-from reconx.database.session import async_session_factory
-from reconx.workflow.execution_context import ExecutionContext
 from reconx.logger import setup_logger
+from reconx.plugins.manager import plugin_manager
+from reconx.state.models import TaskStatus
+from reconx.workflow.execution_context import ExecutionContext
+from reconx.workflow.models.workflow import TaskExecutionState, WorkflowTask
 
 logger = setup_logger("TaskExecutor")
+
 
 class TaskExecutor:
     @staticmethod
     async def execute(task: WorkflowTask, context: ExecutionContext, state: TaskExecutionState):
         state.status = TaskStatus.RUNNING
         state.start_time = datetime.datetime.now(datetime.timezone.utc)
-        await event_bus.publish(TaskEvent(event_id=task.id, event_type="TaskStarted", correlation_id=context.workflow_id, source="executor", task_id=task.id))
+        await event_bus.publish(
+            TaskEvent(
+                event_id=task.id,
+                event_type="TaskStarted",
+                correlation_id=context.workflow_id,
+                source="executor",
+                task_id=task.id,
+            )
+        )
 
         success = False
         while state.retries_used <= task.retries and not success:
@@ -25,7 +35,7 @@ class TaskExecutor:
 
             try:
                 # Use wait_for on top of the plugin manager execution
-                async with async_session_factory() as db:
+                async with async_session_factory():
                     coro = plugin_manager.execute(task.plugin, context.target)
                     result = await asyncio.wait_for(coro, timeout=task.timeout)
 
@@ -33,16 +43,36 @@ class TaskExecutor:
                     success = True
                     state.status = TaskStatus.SUCCESS
                     state.result = result.model_dump()
-                    await event_bus.publish(TaskEvent(event_id=task.id, event_type="TaskCompleted", correlation_id=context.workflow_id, source="executor", task_id=task.id, payload={"result": "success"}))
+                    await event_bus.publish(
+                        TaskEvent(
+                            event_id=task.id,
+                            event_type="TaskCompleted",
+                            correlation_id=context.workflow_id,
+                            source="executor",
+                            task_id=task.id,
+                            payload={"result": "success"},
+                        )
+                    )
                 else:
                     state.retries_used += 1
                     error_msg = f"Plugin returned errors: {result.errors}"
                     if state.retries_used > task.retries:
                         state.status = TaskStatus.FAILED
                         state.error = error_msg
-                        await event_bus.publish(TaskEvent(event_id=task.id, event_type="TaskFailed", correlation_id=context.workflow_id, source="executor", task_id=task.id, payload={"error": state.error}))
+                        await event_bus.publish(
+                            TaskEvent(
+                                event_id=task.id,
+                                event_type="TaskFailed",
+                                correlation_id=context.workflow_id,
+                                source="executor",
+                                task_id=task.id,
+                                payload={"error": state.error},
+                            )
+                        )
                     else:
-                        logger.warning(f"Task {task.id} failed, retrying... ({state.retries_used}/{task.retries})")
+                        logger.warning(
+                            f"Task {task.id} failed, retrying... ({state.retries_used}/{task.retries})"
+                        )
 
             except asyncio.TimeoutError:
                 state.retries_used += 1
@@ -50,16 +80,42 @@ class TaskExecutor:
                 if state.retries_used > task.retries:
                     state.status = TaskStatus.FAILED
                     state.error = error_msg
-                    await event_bus.publish(TaskEvent(event_id=task.id, event_type="TaskFailed", correlation_id=context.workflow_id, source="executor", task_id=task.id, payload={"error": state.error}))
+                    await event_bus.publish(
+                        TaskEvent(
+                            event_id=task.id,
+                            event_type="TaskFailed",
+                            correlation_id=context.workflow_id,
+                            source="executor",
+                            task_id=task.id,
+                            payload={"error": state.error},
+                        )
+                    )
             except asyncio.CancelledError:
                 state.status = TaskStatus.CANCELLED
-                await event_bus.publish(TaskEvent(event_id=task.id, event_type="TaskCancelled", correlation_id=context.workflow_id, source="executor", task_id=task.id))
+                await event_bus.publish(
+                    TaskEvent(
+                        event_id=task.id,
+                        event_type="TaskCancelled",
+                        correlation_id=context.workflow_id,
+                        source="executor",
+                        task_id=task.id,
+                    )
+                )
                 raise
             except Exception as e:
                 state.retries_used += 1
                 if state.retries_used > task.retries:
                     state.status = TaskStatus.FAILED
                     state.error = str(e)
-                    await event_bus.publish(TaskEvent(event_id=task.id, event_type="TaskFailed", correlation_id=context.workflow_id, source="executor", task_id=task.id, payload={"error": state.error}))
+                    await event_bus.publish(
+                        TaskEvent(
+                            event_id=task.id,
+                            event_type="TaskFailed",
+                            correlation_id=context.workflow_id,
+                            source="executor",
+                            task_id=task.id,
+                            payload={"error": state.error},
+                        )
+                    )
 
         state.end_time = datetime.datetime.now(datetime.timezone.utc)

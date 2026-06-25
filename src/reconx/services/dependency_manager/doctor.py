@@ -3,17 +3,16 @@ ReconX Doctor — system health checks for dependencies, config, and environment
 """
 
 from pathlib import Path
+
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 WORKFLOWS_DIR = BASE_DIR / "workflows"
 PLUGINS_DIR = BASE_DIR / "plugins"
 
 
-import os
 import json
+import os
 import shutil
 import sys
-from typing import Dict, List
-
 
 REQUIRED_PYTHON_PACKAGES = [
     "rich",
@@ -57,9 +56,9 @@ SYSTEM_BINARIES = [
 
 class Doctor:
     def __init__(self):
-        self.checks: List[Dict] = []
+        self.checks: list[dict] = []
 
-    def run_all(self) -> List[Dict]:
+    def run_all(self) -> list[dict]:
         self.checks = []
         self._check_python_version()
         self._check_python_packages()
@@ -225,9 +224,7 @@ class Doctor:
         self._add(
             "Env file: .env",
             env_path.exists(),
-            str(env_path)
-            if env_path.exists()
-            else "not found (optional — needed for API keys)",
+            str(env_path) if env_path.exists() else "not found (optional — needed for API keys)",
             is_warning=True,
         )
 
@@ -277,7 +274,7 @@ class Doctor:
         )
 
     # ── summary ─────────────────────────────────────────────────────────
-    def summary(self) -> Dict:
+    def summary(self) -> dict:
         passed = sum(1 for c in self.checks if c["status"] is True)
         failed = sum(1 for c in self.checks if c["status"] is False)
         warned = sum(1 for c in self.checks if c["status"] is None)

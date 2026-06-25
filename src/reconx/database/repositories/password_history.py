@@ -1,12 +1,14 @@
-from reconx.database.repositories.base import BaseRepository
-from reconx.database.models import PasswordHistory
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from typing import List
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from reconx.database.models import PasswordHistory
+from reconx.database.repositories.base import BaseRepository
 
 
 class PasswordHistoryRepository(BaseRepository[PasswordHistory]):
-    async def get_recent_history(self, db: AsyncSession, user_id: str, limit: int) -> List[PasswordHistory]:
+    async def get_recent_history(
+        self, db: AsyncSession, user_id: str, limit: int
+    ) -> list[PasswordHistory]:
         res = await db.execute(
             select(PasswordHistory)
             .filter(PasswordHistory.user_id == user_id)

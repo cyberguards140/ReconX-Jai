@@ -1,7 +1,9 @@
-from reconx.auth.identity import IdentityContext
-from typing import Any, Dict, Optional
+from typing import Any
 
-def allow(identity: IdentityContext, action: str, resource: Optional[Dict[str, Any]] = None) -> bool:
+from reconx.auth.identity import IdentityContext
+
+
+def allow(identity: IdentityContext, action: str, resource: dict[str, Any] | None = None) -> bool:
     """
     Evaluate ABAC policies based on identity, action, and resource attributes.
     Returns True if allowed, False if denied.
@@ -19,12 +21,16 @@ def allow(identity: IdentityContext, action: str, resource: Optional[Dict[str, A
         # Analysts cannot perform deletion actions
         if action.endswith(".delete"):
             return False
-            
+
     if "EXECUTIVE" in identity.roles:
         # Executives primarily view reports and dashboards
-        if not action.startswith("report.") and not action.startswith("dashboard.") and not action.endswith(".read"):
+        if (
+            not action.startswith("report.")
+            and not action.startswith("dashboard.")
+            and not action.endswith(".read")
+        ):
             return False
-                
+
     if "AUDITOR" in identity.roles:
         # Auditors have read-only access to everything
         if not action.endswith(".read") and not action.endswith(".export"):

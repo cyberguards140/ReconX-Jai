@@ -1,4 +1,5 @@
-from core.auth_db import SessionLocal, Permission, Role, User
+from core.auth_db import Permission, Role, SessionLocal, User
+
 
 class RBACEngine:
     @staticmethod
@@ -8,13 +9,13 @@ class RBACEngine:
         if not user:
             db.close()
             return False
-            
+
         # Super admin bypass
         role = db.query(Role).filter(Role.id == user.role_id).first()
         if role and role.name == "Super Admin":
             db.close()
             return True
-            
+
         perms = db.query(Permission).filter(Permission.role_id == user.role_id).all()
         has_perm = any(p.permission == required_permission for p in perms)
         db.close()

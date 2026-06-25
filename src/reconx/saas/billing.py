@@ -12,9 +12,7 @@ class BillingEngine:
     @classmethod
     def can_dispatch_job(cls, tenant_id: str) -> bool:
         if tenant_id not in cls.USAGE:
-            logger.error(
-                f"[BILLING] Tenant {tenant_id} not registered in billing matrix."
-            )
+            logger.error(f"[BILLING] Tenant {tenant_id} not registered in billing matrix.")
             return False
 
         data = cls.USAGE[tenant_id]

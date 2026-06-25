@@ -1,10 +1,13 @@
 import uuid
+
 from reconx.modules.asm_core.schema import UnifiedAsset
+
 
 class AssetScreenshotMapper:
     """
     Attaches abstract visual snapshots (reference paths) to assets.
     """
+
     def __init__(self):
         pass
 

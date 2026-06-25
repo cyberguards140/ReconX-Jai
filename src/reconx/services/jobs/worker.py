@@ -1,4 +1,5 @@
 import asyncio
+
 from reconx.services.jobs.queue import job_queue
 from reconx.services.observability.metrics import metrics
 
@@ -14,9 +15,7 @@ class JobWorker:
 
         while self.running:
             try:
-                priority, job = await asyncio.wait_for(
-                    job_queue.queue.get(), timeout=1.0
-                )
+                priority, job = await asyncio.wait_for(job_queue.queue.get(), timeout=1.0)
                 await self.process_job(job)
                 job_queue.queue.task_done()
             except asyncio.TimeoutError:
@@ -34,9 +33,7 @@ class JobWorker:
 
         # Run capability in a thread pool to avoid blocking the async worker
         loop = asyncio.get_running_loop()
-        await loop.run_in_executor(
-            None, capability_manager.run, job["capability"], job["target"]
-        )
+        await loop.run_in_executor(None, capability_manager.run, job["capability"], job["target"])
 
         duration = asyncio.get_running_loop().time() - start_time
         metrics.record_scan(job["capability"], duration)

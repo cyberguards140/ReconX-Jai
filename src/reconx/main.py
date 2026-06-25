@@ -1,9 +1,10 @@
 import argparse
+import logging
+
+from reconx.api.server import start_server
+from reconx.config.settings import settings
 from reconx.logger import setup_logging
 from reconx.version import __version__
-from reconx.api.server import start_server
-import logging
-from reconx.config.settings import settings
 
 logger = logging.getLogger("reconx")
 
@@ -18,7 +19,7 @@ BANNER = f"""
 def main():
     print(BANNER)
     setup_logging()
-    
+
     logger.info("ReconX Configuration Loaded")
     logger.info(f"Project ID: {settings.project_id}")
     logger.info(f"Database: {settings.database_url}")

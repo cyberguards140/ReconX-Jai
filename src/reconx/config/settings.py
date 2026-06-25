@@ -1,6 +1,7 @@
 import os
-import yaml
 from pathlib import Path
+
+import yaml
 from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -52,14 +53,14 @@ class Settings(BaseSettings):
             if self.app_env == "production":
                 raise ValueError("JWT_SECRET cannot be 'CHANGE_ME' in production!")
             import secrets
+
             return secrets.token_urlsafe(32)
         return self.jwt_secret
+
     workflow_timeout: int = Field(300, ge=10, le=3600, alias="WORKFLOW_TIMEOUT")
     workflow_directory: str = Field("src/reconx/workflows", alias="WORKFLOW_DIRECTORY")
 
-    model_config = SettingsConfigDict(
-        env_file=".env", env_file_encoding="utf-8", extra="ignore"
-    )
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
     @property
     def app(self) -> AppSettings:
@@ -94,7 +95,7 @@ def load_settings() -> Settings:
 
     kwargs = {}
     if config_file.exists():
-        with open(config_file, "r") as f:
+        with open(config_file) as f:
             yaml_config = yaml.safe_load(f) or {}
 
             # Map nested yaml to flat fields

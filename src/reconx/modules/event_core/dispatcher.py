@@ -1,23 +1,26 @@
 import logging
 import queue
-from typing import Dict, Callable
+from collections.abc import Callable
+
 from reconx.modules.event_core.event_types import SystemEvent
 
 logger = logging.getLogger(__name__)
+
 
 class EventDispatcher:
     """
     Handles execution logic: Event -> Trigger -> Module -> Result -> New Event.
     """
+
     def __init__(self, bus):
         self.bus = bus
-        self._queues: Dict[str, queue.Queue] = {
+        self._queues: dict[str, queue.Queue] = {
             "asm_engine": queue.Queue(),
             "infra_engine": queue.Queue(),
             "analytics_engine": queue.Queue(),
-            "background": queue.Queue()
+            "background": queue.Queue(),
         }
-        self._handlers: Dict[str, Callable[[SystemEvent], None]] = {}
+        self._handlers: dict[str, Callable[[SystemEvent], None]] = {}
 
     def register_handler(self, target_queue: str, handler: Callable[[SystemEvent], None]):
         """Register the worker logic for a specific queue."""
@@ -27,9 +30,9 @@ class EventDispatcher:
         """Place an event into a queue based on prioritization."""
         if target_queue not in self._queues:
             self._queues[target_queue] = queue.Queue()
-        
+
         self._queues[target_queue].put(event)
-        
+
         # In a real async system, workers would pull from the queue.
         # Here we mimic synchronous dispatch for structural demonstration.
         self._process_queue(target_queue)
@@ -38,7 +41,7 @@ class EventDispatcher:
         """Process items in a queue."""
         q = self._queues[target_queue]
         handler = self._handlers.get(target_queue)
-        
+
         while not q.empty():
             event = q.get()
             if handler:

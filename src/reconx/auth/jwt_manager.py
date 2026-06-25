@@ -1,7 +1,8 @@
 import os
+from datetime import datetime, timedelta, timezone
+from typing import Any
+
 import jwt
-from datetime import datetime, timezone, timedelta
-from typing import Dict, Any, List, Optional
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 15
 REFRESH_TOKEN_EXPIRE_DAYS = 30
@@ -11,16 +12,13 @@ ALGORITHM = "HS256"
 # We fallback to a default secure-ish secret for backward compatibility or local dev.
 SECRET_KEY = os.getenv("JWT_SECRET_KEY", "super-secret-reconx-enterprise-key-change-in-prod")
 
+
 def create_access_token(
-    user_id: str, 
-    tenant_id: Optional[str], 
-    roles: List[str], 
-    permissions: List[str], 
-    session_id: str
+    user_id: str, tenant_id: str | None, roles: list[str], permissions: list[str], session_id: str
 ) -> str:
     expires_delta = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     expire = datetime.now(timezone.utc) + expires_delta
-    
+
     to_encode = {
         "sub": str(user_id),
         "tenant_id": str(tenant_id) if tenant_id else None,
@@ -29,31 +27,34 @@ def create_access_token(
         "session_id": str(session_id),
         "exp": expire,
         "iat": datetime.now(timezone.utc),
-        "type": "access"
+        "type": "access",
     }
-    
+
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
-def create_refresh_token(user_id: str, tenant_id: Optional[str]) -> Dict[str, Any]:
+
+def create_refresh_token(user_id: str, tenant_id: str | None) -> dict[str, Any]:
     import uuid
+
     expires_delta = timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
     expire = datetime.now(timezone.utc) + expires_delta
     jti = str(uuid.uuid4())
-    
+
     to_encode = {
         "sub": str(user_id),
         "tenant_id": str(tenant_id) if tenant_id else None,
         "exp": expire,
         "iat": datetime.now(timezone.utc),
         "jti": jti,
-        "type": "refresh"
+        "type": "refresh",
     }
-    
+
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return {"token": encoded_jwt, "jti": jti, "exp": expire}
 
-def verify_token(token: str) -> Dict[str, Any]:
+
+def verify_token(token: str) -> dict[str, Any]:
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         return payload

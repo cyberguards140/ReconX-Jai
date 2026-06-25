@@ -13,10 +13,12 @@ class ReconXPlugin:
     def on_unload(self):
         pass
 
+
 # Decorator for hooking into core events
 def on_event(event_type):
     def decorator(func):
         func._is_event_hook = True
         func._hook_event_type = event_type
         return func
+
     return decorator

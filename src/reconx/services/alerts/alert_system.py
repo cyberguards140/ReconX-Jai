@@ -1,5 +1,6 @@
 import json
 from datetime import datetime
+
 from reconx.events.event_stream import event_stream
 
 
@@ -37,9 +38,7 @@ class AlertSystem:
                 }
 
                 self.alerts.append(alert)
-                print(
-                    f"[ASM ALERT] {alert['severity']} - {alert['reason']} -> {alert['asset']}"
-                )
+                print(f"[ASM ALERT] {alert['severity']} - {alert['reason']} -> {alert['asset']}")
                 event_stream.sync_emit("alert.generated", alert)
 
 

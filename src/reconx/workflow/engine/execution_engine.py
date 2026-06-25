@@ -1,14 +1,16 @@
 import asyncio
 import logging
-from typing import Dict, Any, List
 from datetime import datetime, timezone
+from typing import Any
 
-from reconx.database.session import async_session_factory
-from reconx.database.models import SOARWorkflowTemplate, SOARWorkflowExecution, SOARTaskExecution
 from sqlalchemy import select
-from reconx.workflow.engine.state_machine import WorkflowState, TaskState, StateMachine
+
+from reconx.database.models import SOARTaskExecution, SOARWorkflowExecution, SOARWorkflowTemplate
+from reconx.database.session import async_session_factory
+from reconx.workflow.engine.state_machine import TaskState, WorkflowState
 
 logger = logging.getLogger(__name__)
+
 
 class ExecutionEngine:
     """
@@ -16,7 +18,7 @@ class ExecutionEngine:
     Called by Celery worker processes.
     """
 
-    def run_workflow(self, execution_id: str, payload: Dict[str, Any]) -> Dict[str, Any]:
+    def run_workflow(self, execution_id: str, payload: dict[str, Any]) -> dict[str, Any]:
         """
         Synchronous wrapper to run an async workflow execution.
         """
@@ -26,7 +28,9 @@ class ExecutionEngine:
             logger.error(f"Failed to execute workflow asynchronously: {e}")
             raise
 
-    async def _run_workflow_async(self, execution_id: str, payload: Dict[str, Any]) -> Dict[str, Any]:
+    async def _run_workflow_async(
+        self, execution_id: str, payload: dict[str, Any]
+    ) -> dict[str, Any]:
         async with async_session_factory() as session:
             # 1. Fetch the execution record
             result = await session.execute(
@@ -44,7 +48,9 @@ class ExecutionEngine:
 
             # 2. Fetch the template
             result = await session.execute(
-                select(SOARWorkflowTemplate).filter(SOARWorkflowTemplate.id == execution.workflow_id)
+                select(SOARWorkflowTemplate).filter(
+                    SOARWorkflowTemplate.id == execution.workflow_id
+                )
             )
             template = result.scalars().first()
 
@@ -59,20 +65,20 @@ class ExecutionEngine:
             tasks_def = definition.get("tasks", [])
 
             logs = []
-            
+
             try:
                 # Naive sequential execution of tasks for the Engine
                 for task_def in tasks_def:
                     task_name = task_def.get("name", "Unknown Task")
                     action = task_def.get("action", "noop")
-                    
+
                     # Create Task Execution Record
                     task_exec = SOARTaskExecution(
                         id=f"task-{execution_id}-{task_name}",
                         execution_id=execution.id,
                         celery_task_id="local",
                         task_name=task_name,
-                        status=TaskState.RUNNING.value
+                        status=TaskState.RUNNING.value,
                     )
                     session.add(task_exec)
                     await session.commit()
@@ -80,7 +86,7 @@ class ExecutionEngine:
                     # Execute task action (mocked or routed to plugins)
                     logger.info(f"Executing task: {task_name} (Action: {action})")
                     logs.append({"task": task_name, "status": "started", "action": action})
-                    
+
                     # Mock execution result
                     task_exec.status = TaskState.COMPLETED.value
                     task_exec.result = {"status": "success", "data": f"Executed {action}"}
@@ -95,7 +101,7 @@ class ExecutionEngine:
                 execution.logs = logs
                 await session.commit()
                 return {"status": WorkflowState.COMPLETED.value, "logs": logs}
-                
+
             except Exception as e:
                 execution.status = WorkflowState.FAILED.value
                 execution.end_time = datetime.now(timezone.utc)

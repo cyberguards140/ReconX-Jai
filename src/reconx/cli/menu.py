@@ -1,16 +1,17 @@
-import questionary
 import sys
-from cli.ui import print_banner, console
-from cli.project_menu import create_project, open_project, manage_projects
+
+import questionary
 from cli.doctor_menu import DoctorMenu
-import os
+from cli.project_menu import create_project, manage_projects, open_project
+from cli.ui import console, print_banner
+
 
 def display_menu(session, config, launcher):
     while True:
         print_banner(session)
-        
+
         console.print("═══════════════════════════════════════", style="dim")
-        
+
         choice = questionary.select(
             "Select an option:",
             choices=[
@@ -21,9 +22,9 @@ def display_menu(session, config, launcher):
                 questionary.Choice(title="[5] Exit", value="5"),
             ],
             qmark="?",
-            instruction="(Use arrow keys)"
+            instruction="(Use arrow keys)",
         ).ask()
-        
+
         if choice == "1":
             launcher.start(project_name=session.current_project or "None")
             questionary.press_any_key_to_continue("Press any key to return to menu...").ask()
@@ -32,12 +33,14 @@ def display_menu(session, config, launcher):
         elif choice == "3":
             # Sub-menu for projects
             p_choice = questionary.select(
-                "Projects:",
-                choices=["Open Project", "Create Project", "Manage Projects", "Back"]
+                "Projects:", choices=["Open Project", "Create Project", "Manage Projects", "Back"]
             ).ask()
-            if p_choice == "Open Project": open_project(session)
-            elif p_choice == "Create Project": create_project(session)
-            elif p_choice == "Manage Projects": manage_projects(session)
+            if p_choice == "Open Project":
+                open_project(session)
+            elif p_choice == "Create Project":
+                create_project(session)
+            elif p_choice == "Manage Projects":
+                manage_projects(session)
         elif choice == "4":
             while True:
                 console.print("\n=== Enterprise Settings & Governance ===", style="bold cyan")
@@ -62,14 +65,16 @@ def display_menu(session, config, launcher):
                         "Node Health",
                         "Job Distribution",
                         "Scaling Policies",
-                        "Back"
-                    ]
+                        "Back",
+                    ],
                 ).ask()
-                
+
                 if s_choice == "Back":
                     break
                 else:
-                    console.print(f"[*] Accessing {s_choice} module via Dashboard APIs...", style="dim")
+                    console.print(
+                        f"[*] Accessing {s_choice} module via Dashboard APIs...", style="dim"
+                    )
                     questionary.press_any_key_to_continue("Press any key to return...").ask()
         elif choice == "5":
             if questionary.confirm("Exit ReconX?").ask():

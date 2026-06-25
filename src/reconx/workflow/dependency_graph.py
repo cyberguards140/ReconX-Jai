@@ -1,12 +1,12 @@
-from typing import List, Dict, Set
-from reconx.workflow.models.workflow import WorkflowTask as Task
 from reconx.workflow.exceptions import DependencyCycleError
+from reconx.workflow.models.workflow import WorkflowTask as Task
+
 
 class DependencyGraph:
-    def __init__(self, tasks: List[Task]):
+    def __init__(self, tasks: list[Task]):
         self.tasks = {t.id: t for t in tasks}
-        self.graph: Dict[str, List[str]] = {t.id: [] for t in tasks}
-        self.in_degree: Dict[str, int] = {t.id: 0 for t in tasks}
+        self.graph: dict[str, list[str]] = {t.id: [] for t in tasks}
+        self.in_degree: dict[str, int] = {t.id: 0 for t in tasks}
         self._build()
 
     def _build(self):
@@ -33,7 +33,9 @@ class DependencyGraph:
         if visited != len(self.tasks):
             raise DependencyCycleError("Cycle detected in workflow tasks")
 
-    def get_ready_tasks(self, completed_tasks: Set[str], failed_tasks: Set[str], current_running: Set[str]) -> List[Task]:
+    def get_ready_tasks(
+        self, completed_tasks: set[str], failed_tasks: set[str], current_running: set[str]
+    ) -> list[Task]:
         """
         Returns tasks that are ready to run, ignoring any that have missing or failed dependencies.
         """
@@ -47,10 +49,10 @@ class DependencyGraph:
 
             if deps_met and not deps_failed:
                 ready.append(task)
-        
+
         return ready
 
-    def get_skipped_tasks(self, failed_tasks: Set[str], completed_tasks: Set[str]) -> Set[str]:
+    def get_skipped_tasks(self, failed_tasks: set[str], completed_tasks: set[str]) -> set[str]:
         """
         Returns tasks that should be skipped because their dependencies failed.
         """
@@ -58,7 +60,7 @@ class DependencyGraph:
         for task_id, task in self.tasks.items():
             if task_id in completed_tasks or task_id in failed_tasks:
                 continue
-            
+
             deps_failed = any((dep in failed_tasks or dep in skipped) for dep in task.depends_on)
             if deps_failed:
                 skipped.add(task_id)

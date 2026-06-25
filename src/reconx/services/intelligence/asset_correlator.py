@@ -1,9 +1,9 @@
-from typing import List, Dict, Any
+from typing import Any
 
 
 class AssetCorrelator:
     @staticmethod
-    def correlate_findings(findings: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def correlate_findings(findings: list[dict[str, Any]]) -> list[dict[str, Any]]:
         # Merges findings with same asset, title, and severity across multiple sources
         correlated = {}
         for finding in findings:

@@ -9,7 +9,7 @@ class MessageBroker:
 
     def __new__(cls):
         if cls._instance is None:
-            cls._instance = super(MessageBroker, cls).__new__(cls)
+            cls._instance = super().__new__(cls)
             cls._instance.subscribers = {}
             cls._instance.queue = asyncio.Queue()
         return cls._instance

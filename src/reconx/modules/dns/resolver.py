@@ -1,8 +1,9 @@
 import socket
 
+
 class DNSResolver:
     """Utility class to perform quick, authoritative lookups internally if needed."""
-    
+
     @staticmethod
     def resolve_a(domain: str) -> list[str]:
         try:

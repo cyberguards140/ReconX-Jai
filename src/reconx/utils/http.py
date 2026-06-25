@@ -1,5 +1,6 @@
+from typing import Any
+
 import aiohttp
-from typing import Optional, Dict, Any
 
 
 class HttpClient:
@@ -7,11 +8,9 @@ class HttpClient:
         self.timeout = aiohttp.ClientTimeout(total=timeout)
         self.headers = {"User-Agent": user_agent}
 
-    async def get(self, url: str, params: Optional[Dict] = None) -> Dict[str, Any]:
+    async def get(self, url: str, params: dict | None = None) -> dict[str, Any]:
         try:
-            async with aiohttp.ClientSession(
-                timeout=self.timeout, headers=self.headers
-            ) as session:
+            async with aiohttp.ClientSession(timeout=self.timeout, headers=self.headers) as session:
                 async with session.get(url, params=params) as response:
                     return {
                         "status": response.status,
@@ -21,11 +20,9 @@ class HttpClient:
         except Exception as e:
             return {"status": 0, "error": str(e)}
 
-    async def post(self, url: str, data: Optional[Dict] = None) -> Dict[str, Any]:
+    async def post(self, url: str, data: dict | None = None) -> dict[str, Any]:
         try:
-            async with aiohttp.ClientSession(
-                timeout=self.timeout, headers=self.headers
-            ) as session:
+            async with aiohttp.ClientSession(timeout=self.timeout, headers=self.headers) as session:
                 async with session.post(url, data=data) as response:
                     return {
                         "status": response.status,

@@ -1,6 +1,3 @@
-import asyncio
-import json
-
 class EventDispatcher:
     def __init__(self):
         self.subscribers = {}
@@ -18,5 +15,6 @@ class EventDispatcher:
         if channel in self.subscribers:
             for queue in self.subscribers[channel]:
                 await queue.put(event)
+
 
 event_dispatcher = EventDispatcher()

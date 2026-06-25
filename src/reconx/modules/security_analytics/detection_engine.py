@@ -1,12 +1,13 @@
-from reconx.modules.security_analytics.schema import NormalizedEventModel, DetectionRuleModel
-from typing import List
+from reconx.modules.security_analytics.schema import DetectionRuleModel, NormalizedEventModel
+
 
 class DetectionEngine:
     """
     Evaluates normalized events against detection logic and thresholds.
     """
+
     def __init__(self):
-        self.rules: List[DetectionRuleModel] = []
+        self.rules: list[DetectionRuleModel] = []
 
     def load_rule(self, rule: DetectionRuleModel):
         self.rules.append(rule)

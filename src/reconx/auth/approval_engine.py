@@ -1,5 +1,6 @@
-from core.auth_db import SessionLocal, ApprovalRequest
+from core.auth_db import ApprovalRequest, SessionLocal
 from dashboard.backend.websocket import broadcast
+
 
 class ApprovalEngine:
     @staticmethod
@@ -9,12 +10,8 @@ class ApprovalEngine:
         db.add(ar)
         db.commit()
         db.refresh(ar)
-        
-        broadcast({
-            "type": "approval_requested",
-            "request_id": ar.id,
-            "action": action
-        })
-        
+
+        broadcast({"type": "approval_requested", "request_id": ar.id, "action": action})
+
         db.close()
         return ar.id

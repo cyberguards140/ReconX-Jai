@@ -1,14 +1,20 @@
 import logging
-from typing import Optional
-from reconx.modules.event_core.event_types import SystemEvent, ASSET_DISCOVERED, RELATIONSHIP_CREATED
+
+from reconx.modules.event_core.event_types import (
+    ASSET_DISCOVERED,
+    RELATIONSHIP_CREATED,
+    SystemEvent,
+)
 
 logger = logging.getLogger(__name__)
+
 
 class EventCorrelationEngine:
     """
     Correlates events in real-time.
     For example: resolving duplicate assets, or linking shared certificates.
     """
+
     def __init__(self, bus):
         self.bus = bus
 
@@ -17,7 +23,7 @@ class EventCorrelationEngine:
         Processes an event and emits new relationship events if correlation found.
         """
         logger.debug(f"EventCorrelationEngine evaluating {event.event_id}")
-        
+
         # Example dynamic correlation rule
         if event.event_type == ASSET_DISCOVERED:
             # Hypothetical check for infrastructure overlap
@@ -30,7 +36,7 @@ class EventCorrelationEngine:
                     payload={
                         "source_node": event.payload.get("value"),
                         "target_node": "parent_domain",
-                        "relationship": "BELONGS_TO"
-                    }
+                        "relationship": "BELONGS_TO",
+                    },
                 )
                 self.bus.publish(new_event)

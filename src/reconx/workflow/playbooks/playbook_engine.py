@@ -1,10 +1,11 @@
 import logging
 import uuid
-from typing import List, Dict, Any
-from datetime import datetime, timezone
-from reconx.database.session import async_session_factory
-from reconx.database.models import SOARWorkflowTemplate
+from typing import Any
+
 from sqlalchemy import select
+
+from reconx.database.models import SOARWorkflowTemplate
+from reconx.database.session import async_session_factory
 
 logger = logging.getLogger(__name__)
 
@@ -19,9 +20,9 @@ BUILTIN_PLAYBOOKS = [
             "tasks": [
                 {"name": "Extract Indicators", "action": "extract_iocs"},
                 {"name": "Query Threat Intel", "action": "query_ti"},
-                {"name": "Update Severity", "action": "update_incident_severity"}
-            ]
-        }
+                {"name": "Update Severity", "action": "update_incident_severity"},
+            ],
+        },
     },
     {
         "name": "ASM_Vulnerability_Scan",
@@ -32,11 +33,12 @@ BUILTIN_PLAYBOOKS = [
             "tasks": [
                 {"name": "Run Nmap", "action": "scan_port"},
                 {"name": "Run Nuclei", "action": "scan_vulns"},
-                {"name": "Create Alert", "action": "create_vulnerability_alert"}
-            ]
-        }
-    }
+                {"name": "Create Alert", "action": "create_vulnerability_alert"},
+            ],
+        },
+    },
 ]
+
 
 class PlaybookEngine:
     """
@@ -53,7 +55,7 @@ class PlaybookEngine:
                     select(SOARWorkflowTemplate).filter(SOARWorkflowTemplate.name == pb["name"])
                 )
                 existing = result.scalars().first()
-                
+
                 if not existing:
                     logger.info(f"Installing built-in playbook: {pb['name']}")
                     template = SOARWorkflowTemplate(
@@ -61,18 +63,18 @@ class PlaybookEngine:
                         name=pb["name"],
                         description=pb["description"],
                         version=pb["version"],
-                        definition_json=pb["definition"]
+                        definition_json=pb["definition"],
                     )
                     session.add(template)
                 else:
                     # Update definition if needed
                     existing.definition_json = pb["definition"]
                     existing.description = pb["description"]
-                    
+
             await session.commit()
             logger.info("Built-in playbooks synchronized.")
 
-    async def get_all_playbooks(self) -> List[Dict[str, Any]]:
+    async def get_all_playbooks(self) -> list[dict[str, Any]]:
         async with async_session_factory() as session:
             result = await session.execute(select(SOARWorkflowTemplate))
             templates = result.scalars().all()
@@ -82,7 +84,7 @@ class PlaybookEngine:
                     "name": t.name,
                     "description": t.description,
                     "version": t.version,
-                    "definition": t.definition_json
+                    "definition": t.definition_json,
                 }
                 for t in templates
             ]

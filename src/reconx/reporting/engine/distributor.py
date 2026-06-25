@@ -1,11 +1,12 @@
 import logging
-from typing import List, Dict, Any
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
+
 class ReportDistributor:
     @staticmethod
-    async def distribute(report_id: str, distribute_config: List[Dict[str, Any]]):
+    async def distribute(report_id: str, distribute_config: list[dict[str, Any]]):
         """
         Distribute a generated report based on the provided configuration.
         """

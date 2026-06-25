@@ -1,5 +1,4 @@
 from pydantic import BaseModel, EmailStr
-from typing import Optional
 
 
 class UserBase(BaseModel):
@@ -18,9 +17,9 @@ class UserRead(UserBase):
 
 
 class UserUpdate(BaseModel):
-    email: Optional[EmailStr] = None
-    role: Optional[str] = None
-    is_active: Optional[bool] = None
+    email: EmailStr | None = None
+    role: str | None = None
+    is_active: bool | None = None
 
 
 class Token(BaseModel):

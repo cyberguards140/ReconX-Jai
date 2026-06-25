@@ -1,8 +1,8 @@
 import logging
 import os
-from typing import Dict
 
 logger = logging.getLogger(__name__)
+
 
 class ServiceRegistry:
     """
@@ -10,14 +10,14 @@ class ServiceRegistry:
     In a Kubernetes environment, this mostly wraps K8s DNS resolution,
     but provides a unified interface for service-to-service calls.
     """
-    
+
     # Defaults mapping logical service names to K8s DNS or local Docker compose names
-    _registry: Dict[str, str] = {
+    _registry: dict[str, str] = {
         "auth-service": os.getenv("AUTH_SERVICE_URL", "http://auth-service:8000"),
         "asset-service": os.getenv("ASSET_SERVICE_URL", "http://asset-service:8000"),
         "workflow-service": os.getenv("WORKFLOW_SERVICE_URL", "http://workflow-service:8000"),
         "graph-service": os.getenv("GRAPH_SERVICE_URL", "http://graph-service:8000"),
-        "gateway": os.getenv("API_GATEWAY_URL", "http://api-gateway:8000")
+        "gateway": os.getenv("API_GATEWAY_URL", "http://api-gateway:8000"),
     }
 
     @classmethod

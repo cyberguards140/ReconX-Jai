@@ -1,24 +1,24 @@
-import sqlite3
 import os
+import sqlite3
 
-DB_PATH = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'workspace', 'reconx.db')
+DB_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "..", "workspace", "reconx.db")
+
 
 class ResultsAPI:
     def handle_request(self, method, path):
-        parts = path.strip('/').split('/')
-        if len(parts) >= 2 and parts[0] == 'api':
-            
-            if parts[1] == 'assets' and method == 'GET':
+        parts = path.strip("/").split("/")
+        if len(parts) >= 2 and parts[0] == "api":
+            if parts[1] == "assets" and method == "GET":
                 return self.get_all("assets")
-            elif parts[1] == 'findings' and method == 'GET':
+            elif parts[1] == "findings" and method == "GET":
                 return self.get_all("findings")
-            elif parts[1] == 'technologies' and method == 'GET':
+            elif parts[1] == "technologies" and method == "GET":
                 return self.get_all("technologies")
-            elif parts[1] == 'relationships' and method == 'GET':
+            elif parts[1] == "relationships" and method == "GET":
                 return self.get_all("relationships")
-            
+
         return {"error": "Invalid results endpoint"}
-        
+
     def get_all(self, table):
         allowed_tables = {"assets", "findings", "technologies", "relationships"}
         if table not in allowed_tables:

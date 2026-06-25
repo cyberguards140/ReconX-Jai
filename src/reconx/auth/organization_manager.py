@@ -1,4 +1,5 @@
-from core.auth_db import SessionLocal, Organization
+from core.auth_db import Organization, SessionLocal
+
 
 class OrganizationManager:
     @staticmethod

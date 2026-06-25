@@ -1,14 +1,14 @@
-import sqlite3
 import os
+import sqlite3
 import uuid
-import logging
 
-DB_PATH = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'workspace', 'reconx.db')
+DB_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "..", "workspace", "reconx.db")
+
 
 def init_db():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    cursor.executescript('''
+    cursor.executescript("""
         CREATE TABLE IF NOT EXISTS assets (
             asset_id TEXT PRIMARY KEY,
             asset_type TEXT,
@@ -37,9 +37,10 @@ def init_db():
         );
         CREATE TABLE IF NOT EXISTS jobs (job_id TEXT PRIMARY KEY);
         CREATE TABLE IF NOT EXISTS metadata (asset_id TEXT PRIMARY KEY, data TEXT);
-    ''')
+    """)
     conn.commit()
     conn.close()
+
 
 class AssetManager:
     def __init__(self):
@@ -48,9 +49,11 @@ class AssetManager:
     def create_asset(self, asset_type, value):
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
-        
+
         # Check deduplication
-        cursor.execute("SELECT asset_id FROM assets WHERE asset_type = ? AND value = ?", (asset_type, value))
+        cursor.execute(
+            "SELECT asset_id FROM assets WHERE asset_type = ? AND value = ?", (asset_type, value)
+        )
         row = cursor.fetchone()
         if row:
             conn.close()
@@ -58,7 +61,7 @@ class AssetManager:
 
         asset_id = str(uuid.uuid4())
         cursor.execute("INSERT INTO assets VALUES (?, ?, ?)", (asset_id, asset_type, value))
-        
+
         if asset_type == "domain":
             cursor.execute("INSERT INTO domains VALUES (?, ?)", (asset_id, value))
         elif asset_type == "subdomain":
@@ -67,16 +70,19 @@ class AssetManager:
             cursor.execute("INSERT INTO ips VALUES (?, ?)", (asset_id, value))
         elif asset_type == "url":
             cursor.execute("INSERT INTO urls VALUES (?, ?)", (asset_id, value))
-            
+
         conn.commit()
         conn.close()
         return asset_id
-        
+
     def add_finding(self, asset_id, severity, name, description):
         finding_id = str(uuid.uuid4())
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO findings VALUES (?, ?, ?, ?, ?)", (finding_id, asset_id, severity, name, description))
+        cursor.execute(
+            "INSERT INTO findings VALUES (?, ?, ?, ?, ?)",
+            (finding_id, asset_id, severity, name, description),
+        )
         conn.commit()
         conn.close()
         return finding_id

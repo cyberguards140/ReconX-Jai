@@ -1,8 +1,9 @@
 import asyncio
 import logging
-from reconx.distributed.queue import JobQueue
+
 from reconx.distributed.aggregator import CentralAggregator
 from reconx.distributed.messaging import MessageBroker
+from reconx.distributed.queue import JobQueue
 
 logger = logging.getLogger("reconx")
 
@@ -20,9 +21,7 @@ class MasterNode:
         job_id = data.get("job_id")
         target = data.get("target")
         task = data.get("task")
-        logger.error(
-            f"[MASTER] Fault Tolerance triggered. Re-queueing job {job_id} for {target}"
-        )
+        logger.error(f"[MASTER] Fault Tolerance triggered. Re-queueing job {job_id} for {target}")
         await self.queue.push(target, task, priority="high")
 
     async def dispatch_campaign(self, targets: list):

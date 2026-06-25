@@ -1,6 +1,7 @@
 import asyncio
-from reconx.database.session import engine
+
 from reconx.database.base import BaseModel
+from reconx.database.session import engine
 
 # Import models to ensure they are registered with BaseModel.metadata
 from reconx.logger import setup_logger

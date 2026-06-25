@@ -1,6 +1,7 @@
 import datetime
-from sqlalchemy import Column, String, Float, DateTime, ForeignKey, Text, JSON, Boolean
-from sqlalchemy.orm import relationship, declarative_base
+
+from sqlalchemy import JSON, Boolean, Column, DateTime, Float, ForeignKey, String, Text
+from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
 
@@ -19,21 +20,15 @@ class ScanModel(Base):
     workflow_runs = relationship(
         "WorkflowRunModel", back_populates="scan", cascade="all, delete-orphan"
     )
-    findings = relationship(
-        "FindingModel", back_populates="scan", cascade="all, delete-orphan"
-    )
-    assets = relationship(
-        "AssetModel", back_populates="scan", cascade="all, delete-orphan"
-    )
+    findings = relationship("FindingModel", back_populates="scan", cascade="all, delete-orphan")
+    assets = relationship("AssetModel", back_populates="scan", cascade="all, delete-orphan")
 
 
 class WorkflowRunModel(Base):
     __tablename__ = "workflow_runs"
 
     id = Column(String, primary_key=True, index=True)
-    scan_id = Column(
-        String, ForeignKey("scans.id", ondelete="CASCADE"), index=True, nullable=False
-    )
+    scan_id = Column(String, ForeignKey("scans.id", ondelete="CASCADE"), index=True, nullable=False)
     status = Column(String)
     started_at = Column(DateTime, default=datetime.datetime.utcnow)
     finished_at = Column(DateTime, nullable=True)
@@ -68,9 +63,7 @@ class AssetModel(Base):
     __tablename__ = "assets"
 
     id = Column(String, primary_key=True, index=True)
-    scan_id = Column(
-        String, ForeignKey("scans.id", ondelete="CASCADE"), index=True, nullable=False
-    )
+    scan_id = Column(String, ForeignKey("scans.id", ondelete="CASCADE"), index=True, nullable=False)
     type = Column(String, index=True)
     value = Column(String, index=True)
     source = Column(String)
@@ -79,9 +72,7 @@ class AssetModel(Base):
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
     scan = relationship("ScanModel", back_populates="assets")
-    findings = relationship(
-        "FindingModel", back_populates="asset", cascade="all, delete-orphan"
-    )
+    findings = relationship("FindingModel", back_populates="asset", cascade="all, delete-orphan")
 
     # Relationships for RelationshipModel
     relationships_as_source = relationship(
@@ -102,9 +93,7 @@ class FindingModel(Base):
     __tablename__ = "findings"
 
     id = Column(String, primary_key=True, index=True)
-    scan_id = Column(
-        String, ForeignKey("scans.id", ondelete="CASCADE"), index=True, nullable=False
-    )
+    scan_id = Column(String, ForeignKey("scans.id", ondelete="CASCADE"), index=True, nullable=False)
     title = Column(String)
     severity = Column(String, index=True)
     asset_id = Column(

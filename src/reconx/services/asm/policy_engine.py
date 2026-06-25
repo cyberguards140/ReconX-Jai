@@ -1,5 +1,6 @@
-import json
 import asyncio
+import json
+
 from reconx.events.event_stream import event_stream
 
 
@@ -26,9 +27,7 @@ class PolicyEngine:
                     from core.capabilities import capability_manager
 
                     loop = asyncio.get_running_loop()
-                    loop.run_in_executor(
-                        None, capability_manager.run, "web.probe", target
-                    )
+                    loop.run_in_executor(None, capability_manager.run, "web.probe", target)
 
 
 policy_engine = PolicyEngine()

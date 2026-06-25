@@ -1,5 +1,4 @@
 import re
-from typing import Optional
 from ipaddress import ip_address
 
 
@@ -25,7 +24,7 @@ class AssetNormalizer:
         return url.rstrip("/")
 
     @staticmethod
-    def validate_ip(ip: str) -> Optional[str]:
+    def validate_ip(ip: str) -> str | None:
         ip = ip.strip()
         try:
             return str(ip_address(ip))

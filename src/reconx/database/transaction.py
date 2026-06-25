@@ -1,7 +1,10 @@
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator
+
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from reconx.database.session import async_session_factory
+
 
 @asynccontextmanager
 async def transaction() -> AsyncGenerator[AsyncSession, None]:

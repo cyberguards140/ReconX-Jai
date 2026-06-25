@@ -1,5 +1,6 @@
 from reconx.modules.automation.monitoring import MonitoringCore
 
+
 class MonitoringEngineService:
     @staticmethod
     def analyze_changes(old_assets: list[str], new_assets: list[str]) -> list[dict]:

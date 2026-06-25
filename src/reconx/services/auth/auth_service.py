@@ -1,20 +1,21 @@
+from datetime import datetime, timedelta, timezone
+
+from fastapi import HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
-from reconx.database.models import User, PasswordHistory, LoginAttempt
-from reconx.database.repositories.user import user_repo
-from reconx.database.repositories.password_history import password_history_repo
+
+from reconx.auth.audit_identity import log_security_event
+from reconx.auth.jwt_manager import create_access_token, create_refresh_token
+from reconx.auth.session_manager import create_session
+from reconx.database.models import User
 from reconx.database.repositories.login_attempt import login_attempt_repo
+from reconx.database.repositories.password_history import password_history_repo
+from reconx.database.repositories.user import user_repo
 from reconx.services.auth.password_manager import (
     hash_password,
-    verify_password,
     validate_password_strength,
+    verify_password,
 )
-from reconx.auth.jwt_manager import create_access_token, create_refresh_token
 from reconx.services.auth.refresh_tokens import store_refresh_token
-from reconx.auth.session_manager import create_session
-from reconx.auth.audit_identity import log_security_event
-from fastapi import HTTPException, status
-from datetime import datetime, timezone, timedelta
 
 MAX_LOGIN_ATTEMPTS = 5
 LOCKOUT_MINUTES = 15
@@ -50,9 +51,7 @@ async def register_user(
     )
 
     # Store password history
-    await password_history_repo.create(
-        db, obj_in={"user_id": user.id, "password_hash": hashed}
-    )
+    await password_history_repo.create(db, obj_in={"user_id": user.id, "password_hash": hashed})
 
     await log_security_event(
         db,
@@ -101,9 +100,7 @@ async def authenticate_user(
         )
 
     if not user.is_active:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail="Account is disabled"
-        )
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Account is disabled")
 
     await login_attempt_repo.create(
         db, obj_in={"username": username, "ip_address": ip_address, "successful": True}
@@ -112,12 +109,14 @@ async def authenticate_user(
 
     # Convert roles and permissions (in a real scenario, fetch from user.user_roles)
     roles = [user.role] if user.role else []
-    permissions = [] # populated from roles in real implementation
+    permissions = []  # populated from roles in real implementation
 
     # Tokens
     session = await create_session(db, user.id, user.tenant_id, ip_address, user_agent)
-    
-    access_token = create_access_token(user.id, user.tenant_id, roles, permissions, session.session_id)
+
+    access_token = create_access_token(
+        user.id, user.tenant_id, roles, permissions, session.session_id
+    )
     refresh_data = create_refresh_token(user.id, user.tenant_id)
 
     await store_refresh_token(db, user.id, refresh_data["jti"], refresh_data["exp"])
@@ -160,9 +159,5 @@ async def change_password(
     hashed = hash_password(new_password)
     await user_repo.update(db, db_obj=user, obj_in={"password_hash": hashed})
 
-    await password_history_repo.create(
-        db, obj_in={"user_id": user.id, "password_hash": hashed}
-    )
-    await log_security_event(
-        db, action="Password Change", user_id=user.id, ip_address=ip_address
-    )
+    await password_history_repo.create(db, obj_in={"user_id": user.id, "password_hash": hashed})
+    await log_security_event(db, action="Password Change", user_id=user.id, ip_address=ip_address)

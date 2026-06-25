@@ -1,9 +1,6 @@
-from typing import List
-
-
 class PrioritizationEngine:
     @staticmethod
-    def generate_next_actions(high_risk_targets: List[str]) -> List[str]:
+    def generate_next_actions(high_risk_targets: list[str]) -> list[str]:
         actions = []
         for target in high_risk_targets:
             if "api" in target:

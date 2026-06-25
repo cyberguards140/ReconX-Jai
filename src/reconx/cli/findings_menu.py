@@ -1,5 +1,3 @@
-import sys
-
 class FindingsMenu:
     @staticmethod
     def show():
@@ -9,9 +7,9 @@ class FindingsMenu:
             print("2. Risk Dashboard")
             print("3. Vulnerability Queue")
             print("4. Return to Main Menu")
-            
+
             choice = input("Select an option: ")
-            
+
             if choice == "1":
                 print("\n[+] Fetching findings...")
                 # Call internal engine logic here

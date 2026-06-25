@@ -1,8 +1,9 @@
 import logging
-from reconx.agents.state import AgentState
-from reconx.agents.planner import PlannerAgent
-from reconx.agents.executor import ExecutionAgent
+
 from reconx.agents.analyzer import AnalysisAgent
+from reconx.agents.executor import ExecutionAgent
+from reconx.agents.planner import PlannerAgent
+from reconx.agents.state import AgentState
 
 logger = logging.getLogger("reconx")
 
@@ -15,9 +16,7 @@ class AgentOrchestrator:
         self.analyzer = AnalysisAgent()
 
     async def run(self, target: str, goal: str):
-        logger.warning(
-            f"Initializing Autonomous Agent against {target} with Goal: '{goal}'"
-        )
+        logger.warning(f"Initializing Autonomous Agent against {target} with Goal: '{goal}'")
 
         plan = self.planner.generate_plan(goal)
         logger.info(f"Generated Strategic Plan: {plan}")

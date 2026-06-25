@@ -1,25 +1,21 @@
 import logging
-from typing import Dict, Any
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
 # Basic Event Schemas for Platform
 SCHEMAS = {
-    "assets.events": {
-        "required_fields": ["event_type", "asset_id", "timestamp"]
-    },
-    "threat.events": {
-        "required_fields": ["event_type", "indicator", "severity", "timestamp"]
-    },
-    "workflow.events": {
-        "required_fields": ["event_type", "workflow_id", "status", "timestamp"]
-    }
+    "assets.events": {"required_fields": ["event_type", "asset_id", "timestamp"]},
+    "threat.events": {"required_fields": ["event_type", "indicator", "severity", "timestamp"]},
+    "workflow.events": {"required_fields": ["event_type", "workflow_id", "status", "timestamp"]},
 }
+
 
 class SchemaValidationError(Exception):
     pass
 
-def validate_event(topic: str, event_data: Dict[str, Any]):
+
+def validate_event(topic: str, event_data: dict[str, Any]):
     """
     Validates that the outgoing/incoming event matches the registered schema for the topic.
     In a fully decoupled system, this might use Confluent Schema Registry with Avro/Protobuf.

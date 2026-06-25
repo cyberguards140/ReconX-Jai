@@ -1,8 +1,10 @@
 import time
 import uuid
+
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
-from reconx.observability.metrics import API_REQUESTS_TOTAL, API_REQUEST_DURATION
+
+from reconx.observability.metrics import API_REQUEST_DURATION, API_REQUESTS_TOTAL
 
 
 class TracingMiddleware(BaseHTTPMiddleware):
@@ -29,9 +31,9 @@ class TracingMiddleware(BaseHTTPMiddleware):
                 status=response.status_code,
             ).inc()
 
-            API_REQUEST_DURATION.labels(
-                method=request.method, endpoint=request.url.path
-            ).observe(process_time)
+            API_REQUEST_DURATION.labels(method=request.method, endpoint=request.url.path).observe(
+                process_time
+            )
 
         response.headers["X-Trace-Id"] = trace_id
         return response

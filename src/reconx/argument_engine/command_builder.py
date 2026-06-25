@@ -1,19 +1,23 @@
-import logging
-from typing import Dict, Any, List
+from typing import Any
 
-def build_command(binary: str, schema: List[Dict], selections: Dict[str, Any], target: str = "") -> str:
+
+def build_command(
+    binary: str, schema: list[dict], selections: dict[str, Any], target: str = ""
+) -> str:
     cmd_parts = [binary]
-    
+
     # Simple compatibility checks
-    if selections.get('-active') and selections.get('-passive'):
-        raise ValueError("Incompatible Arguments: Cannot use active and passive mode simultaneously")
-        
+    if selections.get("-active") and selections.get("-passive"):
+        raise ValueError(
+            "Incompatible Arguments: Cannot use active and passive mode simultaneously"
+        )
+
     for arg in schema:
         flag = arg["flag"]
         if flag in selections:
             val = selections[flag]
             arg_type = arg["type"]
-            
+
             if arg_type == "toggle" and val is True:
                 cmd_parts.append(flag)
             elif arg_type == "multiselect" and isinstance(val, list) and val:
@@ -27,5 +31,5 @@ def build_command(binary: str, schema: List[Dict], selections: Dict[str, Any], t
 
     if target:
         cmd_parts.append(target)
-        
+
     return " ".join(cmd_parts)

@@ -1,20 +1,21 @@
-from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
-from reportlab.lib.styles import getSampleStyleSheet
+from typing import Any
+
 from reportlab.lib import colors
-from typing import Dict, List, Any
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
 
 class PDFGenerator:
     @staticmethod
-    def generate(data: Dict[str, Any], output_path: str) -> str:
+    def generate(data: dict[str, Any], output_path: str) -> str:
         # Security validation for output_path
         if ".." in output_path or "\x00" in output_path:
             raise ValueError("Unsafe output path")
 
         doc = SimpleDocTemplate(output_path, pagesize=letter)
         styles = getSampleStyleSheet()
-        story: List[Any] = []
+        story: list[Any] = []
 
         # Title
         story.append(
@@ -29,9 +30,7 @@ class PDFGenerator:
         exec_summary = data.get("executive_summary", {})
         story.append(Paragraph("Executive Summary", styles["Heading1"]))
         story.append(
-            Paragraph(
-                f"Total Assets: {exec_summary.get('total_assets', 0)}", styles["Normal"]
-            )
+            Paragraph(f"Total Assets: {exec_summary.get('total_assets', 0)}", styles["Normal"])
         )
         story.append(
             Paragraph(
@@ -45,9 +44,7 @@ class PDFGenerator:
         story.append(Paragraph("Assets", styles["Heading1"]))
         table_data = [["Type", "Value", "Source"]]
         for a in data.get("assets", [])[:50]:  # limit to 50 for pdf brevity
-            table_data.append(
-                [a.get("type", ""), a.get("value", ""), a.get("source", "")]
-            )
+            table_data.append([a.get("type", ""), a.get("value", ""), a.get("source", "")])
 
         if len(table_data) > 1:
             t = Table(table_data)

@@ -1,6 +1,6 @@
+from reconx.config.secrets import validate_secrets
 from reconx.config.settings import settings
 from reconx.core.errors import ConfigurationError
-from reconx.config.secrets import validate_secrets
 
 
 def run_startup_checks():

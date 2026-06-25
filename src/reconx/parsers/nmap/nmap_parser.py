@@ -1,5 +1,3 @@
-import json
-
 class NmapParser:
     def extract(self, raw_output):
         assets = []

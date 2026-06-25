@@ -1,12 +1,14 @@
-from typing import List, Dict, Any
-from reconx.modules.asm_core.schema import UnifiedAsset
+from typing import Any
+
 from reconx.modules.asm_core.normalization import NormalizationEngine
+from reconx.modules.asm_core.schema import UnifiedAsset
+
 
 class IngestEngine:
     def __init__(self):
         self.normalization_engine = NormalizationEngine()
 
-    def ingest_records(self, records: List[Dict[str, Any]], source: str) -> List[UnifiedAsset]:
+    def ingest_records(self, records: list[dict[str, Any]], source: str) -> list[UnifiedAsset]:
         """Ingest a list of raw records and normalize them."""
         normalized_assets = []
         for record in records:

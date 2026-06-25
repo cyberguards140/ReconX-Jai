@@ -1,5 +1,6 @@
 from reconx.database.models import SeverityEnum
 
+
 class SeverityMapper:
     @staticmethod
     def map_severity(tool: str, raw_severity: str) -> SeverityEnum:

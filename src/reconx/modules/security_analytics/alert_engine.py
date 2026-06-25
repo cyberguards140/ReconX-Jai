@@ -1,11 +1,13 @@
 import uuid
+
 from reconx.modules.security_analytics.schema import AlertModel, NormalizedEventModel
-from typing import List, Dict, Any
+
 
 class AlertEngine:
     """
     Manages the generation of actionable alerts.
     """
+
     def __init__(self):
         pass
 
@@ -17,11 +19,11 @@ class AlertEngine:
             severity = "high"
         elif score > 40:
             severity = "medium"
-            
+
         return AlertModel(
             alert_id=f"alrt_{uuid.uuid4().hex[:8]}",
             severity=severity,
             title=f"Suspicious activity detected on {event.asset_id}",
             entities=[event.asset_id],
-            evidence=[event.model_dump()]
+            evidence=[event.model_dump()],
         )

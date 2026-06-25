@@ -1,13 +1,14 @@
 import asyncio
 import json
-from typing import Callable, List, Any
+from collections.abc import Callable
+from typing import Any
 
 
 class EventStream:
     """A simple Pub/Sub event bus for live recon monitoring."""
 
     def __init__(self):
-        self.subscribers: List[Callable[[str], Any]] = []
+        self.subscribers: list[Callable[[str], Any]] = []
 
     def subscribe(self, callback: Callable[[str], Any]):
         self.subscribers.append(callback)

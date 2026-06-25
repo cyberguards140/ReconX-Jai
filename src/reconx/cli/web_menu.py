@@ -1,5 +1,3 @@
-import sys
-
 class WebMenu:
     @staticmethod
     def show():
@@ -10,9 +8,9 @@ class WebMenu:
             print("3. Secret Center (Extracted Keys/Tokens)")
             print("4. Technology Map (Stack Info)")
             print("5. Return to Main Menu")
-            
+
             choice = input("Select an option: ")
-            
+
             if choice == "1":
                 print("\n[+] Loading URL Inventory...")
             elif choice == "2":

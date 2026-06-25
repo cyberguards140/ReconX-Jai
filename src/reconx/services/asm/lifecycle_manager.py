@@ -1,5 +1,5 @@
 import json
-from typing import Dict
+
 from reconx.events.event_stream import event_stream
 from reconx.services.asm.timeline_engine import timeline_engine
 
@@ -7,7 +7,7 @@ from reconx.services.asm.timeline_engine import timeline_engine
 class LifecycleManager:
     def __init__(self):
         # Asset ID -> Current Version Info
-        self.asset_versions: Dict[str, dict] = {}
+        self.asset_versions: dict[str, dict] = {}
         event_stream.subscribe(self.handle_event)
 
     def handle_event(self, payload: str):

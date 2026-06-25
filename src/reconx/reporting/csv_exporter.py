@@ -1,10 +1,10 @@
 import csv
-from typing import Dict, Any, List
+from typing import Any
 
 
 class CSVExporter:
     @staticmethod
-    def export_assets(assets: List[Dict[str, Any]], output_path: str) -> str:
+    def export_assets(assets: list[dict[str, Any]], output_path: str) -> str:
         if ".." in output_path or "\x00" in output_path:
             raise ValueError("Unsafe output path")
 
@@ -12,7 +12,5 @@ class CSVExporter:
             writer = csv.writer(f)
             writer.writerow(["ID", "Type", "Value", "Source"])
             for a in assets:
-                writer.writerow(
-                    [a.get("id"), a.get("type"), a.get("value"), a.get("source")]
-                )
+                writer.writerow([a.get("id"), a.get("type"), a.get("value"), a.get("source")])
         return output_path

@@ -1,8 +1,9 @@
 from fastapi import APIRouter
 from fastapi.responses import PlainTextResponse
-from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 
 router = APIRouter(tags=["Observability"])
+
 
 @router.get("/metrics", response_class=PlainTextResponse, summary="Prometheus Scrape Endpoint")
 async def metrics():
@@ -14,5 +15,6 @@ async def metrics():
     data = generate_latest()
     return PlainTextResponse(content=data, media_type=CONTENT_TYPE_LATEST)
 
-# Note: Additional telemetry summary APIs (e.g., getting SLIs directly for the dashboard) 
+
+# Note: Additional telemetry summary APIs (e.g., getting SLIs directly for the dashboard)
 # could be added here if the dashboard doesn't query Grafana/Prometheus directly.

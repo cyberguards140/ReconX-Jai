@@ -1,8 +1,8 @@
-from enum import Enum
-from typing import List, Dict, Optional
 import logging
+from enum import Enum
 
 logger = logging.getLogger(__name__)
+
 
 class WorkflowState(str, Enum):
     QUEUED = "Queued"
@@ -11,6 +11,7 @@ class WorkflowState(str, Enum):
     FAILED = "Failed"
     CANCELLED = "Cancelled"
 
+
 class TaskState(str, Enum):
     PENDING = "Pending"
     RUNNING = "Running"
@@ -18,20 +19,29 @@ class TaskState(str, Enum):
     FAILED = "Failed"
     RETRYING = "Retrying"
 
+
 class StateMachine:
     """
     Manages state transitions for SOAR workflows and tasks.
     """
-    
-    WORKFLOW_TRANSITIONS: Dict[WorkflowState, List[WorkflowState]] = {
-        WorkflowState.QUEUED: [WorkflowState.RUNNING, WorkflowState.CANCELLED, WorkflowState.FAILED],
-        WorkflowState.RUNNING: [WorkflowState.COMPLETED, WorkflowState.FAILED, WorkflowState.CANCELLED],
+
+    WORKFLOW_TRANSITIONS: dict[WorkflowState, list[WorkflowState]] = {
+        WorkflowState.QUEUED: [
+            WorkflowState.RUNNING,
+            WorkflowState.CANCELLED,
+            WorkflowState.FAILED,
+        ],
+        WorkflowState.RUNNING: [
+            WorkflowState.COMPLETED,
+            WorkflowState.FAILED,
+            WorkflowState.CANCELLED,
+        ],
         WorkflowState.COMPLETED: [],
         WorkflowState.FAILED: [],
         WorkflowState.CANCELLED: [],
     }
 
-    TASK_TRANSITIONS: Dict[TaskState, List[TaskState]] = {
+    TASK_TRANSITIONS: dict[TaskState, list[TaskState]] = {
         TaskState.PENDING: [TaskState.RUNNING, TaskState.FAILED],
         TaskState.RUNNING: [TaskState.COMPLETED, TaskState.FAILED, TaskState.RETRYING],
         TaskState.RETRYING: [TaskState.RUNNING, TaskState.FAILED],

@@ -1,5 +1,6 @@
-import json
 import asyncio
+import json
+
 from reconx.events.event_stream import event_stream
 
 

@@ -7,5 +7,7 @@ class AnalyticsCorrelationEngine:
             if key not in merged:
                 merged[key] = finding
             else:
-                merged[key]["sources"] = list(set(merged[key].get("sources", []) + finding.get("sources", [])))
+                merged[key]["sources"] = list(
+                    set(merged[key].get("sources", []) + finding.get("sources", []))
+                )
         return list(merged.values())

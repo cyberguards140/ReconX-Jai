@@ -1,17 +1,18 @@
-import sqlite3
-import os
 import json
-import uuid
 import logging
+import os
+import sqlite3
+import uuid
 from datetime import datetime
 
-WORKSPACE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'workspace')
-DB_PATH = os.path.join(WORKSPACE_DIR, 'jobs.db')
+WORKSPACE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "workspace")
+DB_PATH = os.path.join(WORKSPACE_DIR, "jobs.db")
+
 
 def init_db():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    cursor.executescript('''
+    cursor.executescript("""
         CREATE TABLE IF NOT EXISTS jobs (
             job_id TEXT PRIMARY KEY,
             tool TEXT,
@@ -43,33 +44,37 @@ def init_db():
             duration REAL,
             exit_code INTEGER
         );
-    ''')
+    """)
     conn.commit()
     conn.close()
+
 
 class JobTracker:
     def __init__(self):
         init_db()
-        
+
     def create_job(self, tool, project, target, arguments):
         job_id = str(uuid.uuid4())
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         now = datetime.now().isoformat()
-        cursor.execute("INSERT INTO jobs VALUES (?, ?, ?, ?, ?, ?)",
-                       (job_id, tool, project, target, json.dumps(arguments), now))
-        cursor.execute("INSERT INTO job_status VALUES (?, ?, ?)",
-                       (job_id, "queued", now))
+        cursor.execute(
+            "INSERT INTO jobs VALUES (?, ?, ?, ?, ?, ?)",
+            (job_id, tool, project, target, json.dumps(arguments), now),
+        )
+        cursor.execute("INSERT INTO job_status VALUES (?, ?, ?)", (job_id, "queued", now))
         conn.commit()
         conn.close()
         logging.info(f"Job created: {job_id} for tool {tool}")
         return job_id
-        
+
     def update_status(self, job_id, status):
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
-        cursor.execute("UPDATE job_status SET status = ?, updated_at = ? WHERE job_id = ?",
-                       (status, datetime.now().isoformat(), job_id))
+        cursor.execute(
+            "UPDATE job_status SET status = ?, updated_at = ? WHERE job_id = ?",
+            (status, datetime.now().isoformat(), job_id),
+        )
         conn.commit()
         conn.close()
         logging.info(f"Job {job_id} status updated to {status}")

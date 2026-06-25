@@ -1,7 +1,8 @@
-from pydantic import BaseModel, Field
-from typing import Dict, Any, Optional
-from datetime import datetime, timezone
 import uuid
+from datetime import datetime, timezone
+from typing import Any
+
+from pydantic import BaseModel, Field
 
 # Event Constants
 ASSET_DISCOVERED = "ASSET_DISCOVERED"
@@ -16,10 +17,11 @@ NEW_SERVICE_DETECTED = "NEW_SERVICE_DETECTED"
 RISK_SCORE_CHANGED = "RISK_SCORE_CHANGED"
 RELATIONSHIP_CREATED = "RELATIONSHIP_CREATED"
 
+
 class SystemEvent(BaseModel):
     event_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     event_type: str
     source: str
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    payload: Dict[str, Any] = Field(default_factory=dict)
+    payload: dict[str, Any] = Field(default_factory=dict)
     severity: str = "low"  # low | medium | high | critical

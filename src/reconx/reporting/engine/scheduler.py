@@ -1,12 +1,15 @@
 import asyncio
 import logging
 from datetime import datetime, timezone
+
 from croniter import croniter
 from sqlalchemy import select
+
 from reconx.database.models import ReportSchedule
 from reconx.reporting.engine.report_engine import ReportEngine
 
 logger = logging.getLogger(__name__)
+
 
 class ReportScheduler:
     def __init__(self, session_maker, report_engine: ReportEngine):
@@ -40,13 +43,13 @@ class ReportScheduler:
                 await self._check_and_run_schedules()
             except Exception as e:
                 logger.error(f"Error in scheduler loop: {e}")
-            
+
             # Sleep before checking again
             await asyncio.sleep(60)
 
     async def _check_and_run_schedules(self):
         now = datetime.now(timezone.utc)
-        
+
         async with self.session_maker() as session:
             stmt = select(ReportSchedule).where(ReportSchedule.status == "active")
             result = await session.execute(stmt)
@@ -66,8 +69,10 @@ class ReportScheduler:
                         schedule.next_run = schedule.next_run.replace(tzinfo=timezone.utc)
 
                     if now >= schedule.next_run:
-                        logger.info(f"Running scheduled report {schedule.id} ({schedule.report_type})")
-                        
+                        logger.info(
+                            f"Running scheduled report {schedule.id} ({schedule.report_type})"
+                        )
+
                         # Trigger report generation
                         # We pass a default scope, or parse it from schedule config if we had it
                         if schedule.report_type == "Executive":
@@ -75,14 +80,14 @@ class ReportScheduler:
                                 session=session,
                                 target_scope=f"Tenant-{schedule.tenant_id}",
                                 title=f"Scheduled Executive Report - {now.strftime('%Y-%m-%d')}",
-                                export_format="pdf"
+                                export_format="pdf",
                             )
                         elif schedule.report_type == "Technical":
                             await self.report_engine.generate_technical_report(
                                 session=session,
                                 target_scope=f"Tenant-{schedule.tenant_id}",
                                 title=f"Scheduled Technical Report - {now.strftime('%Y-%m-%d')}",
-                                export_format="json"
+                                export_format="json",
                             )
 
                         # Update timestamps

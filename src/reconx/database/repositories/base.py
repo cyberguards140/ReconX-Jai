@@ -1,22 +1,24 @@
-from typing import Generic, TypeVar, Type, Optional, List, Any
-from sqlalchemy.ext.asyncio import AsyncSession
+from typing import Any, Generic, TypeVar
+
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from reconx.database.base import BaseModel
 
 ModelType = TypeVar("ModelType", bound=BaseModel)
 
 
 class BaseRepository(Generic[ModelType]):
-    def __init__(self, model: Type[ModelType]):
+    def __init__(self, model: type[ModelType]):
         self.model = model
 
-    async def get(self, db: AsyncSession, id: Any) -> Optional[ModelType]:
+    async def get(self, db: AsyncSession, id: Any) -> ModelType | None:
         result = await db.execute(select(self.model).filter(self.model.id == id))
         return result.scalars().first()
 
     async def get_multi(
         self, db: AsyncSession, *, skip: int = 0, limit: int = 100
-    ) -> List[ModelType]:
+    ) -> list[ModelType]:
         result = await db.execute(select(self.model).offset(skip).limit(limit))
         return list(result.scalars().all())
 
@@ -27,9 +29,7 @@ class BaseRepository(Generic[ModelType]):
         await db.refresh(db_obj)
         return db_obj
 
-    async def update(
-        self, db: AsyncSession, *, db_obj: ModelType, obj_in: dict
-    ) -> ModelType:
+    async def update(self, db: AsyncSession, *, db_obj: ModelType, obj_in: dict) -> ModelType:
         for field, value in obj_in.items():
             setattr(db_obj, field, value)
         db.add(db_obj)
@@ -37,7 +37,7 @@ class BaseRepository(Generic[ModelType]):
         await db.refresh(db_obj)
         return db_obj
 
-    async def delete(self, db: AsyncSession, *, id: Any) -> Optional[ModelType]:
+    async def delete(self, db: AsyncSession, *, id: Any) -> ModelType | None:
         obj = await self.get(db, id=id)
         if obj:
             await db.delete(obj)

@@ -1,8 +1,10 @@
-from typing import Dict, Any
+from typing import Any
+
 from reconx.workflow.exceptions import WorkflowValidationError
 
+
 class WorkflowValidator:
-    def validate_workflow_def(self, data: Dict[str, Any]) -> None:
+    def validate_workflow_def(self, data: dict[str, Any]) -> None:
         if "name" not in data or not data["name"]:
             raise WorkflowValidationError("Workflow must have a valid 'name'")
         if "tasks" not in data or not isinstance(data["tasks"], list) or not data["tasks"]:
@@ -20,4 +22,6 @@ class WorkflowValidator:
             deps = task.get("depends_on", [])
             for dep in deps:
                 if dep not in task_ids:
-                    raise WorkflowValidationError(f"Task '{task['id']}' depends on unknown task '{dep}'")
+                    raise WorkflowValidationError(
+                        f"Task '{task['id']}' depends on unknown task '{dep}'"
+                    )

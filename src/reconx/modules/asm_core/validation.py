@@ -1,6 +1,7 @@
-from typing import List, Dict, Any
 from datetime import datetime, timezone
+
 from reconx.modules.asm_core.schema import UnifiedAsset, ValidationSignal
+
 
 class AbstractValidationLayer:
     """
@@ -9,7 +10,7 @@ class AbstractValidationLayer:
     (e.g., pinging, HTTP requests, or live DNS resolution). It provides structural
     stubs and abstract interfaces for validation.
     """
-    
+
     def __init__(self):
         pass
 
@@ -22,17 +23,19 @@ class AbstractValidationLayer:
         # strictly for pipeline testing purposes.
         status = "unknown"
         signals = []
-        
+
         if asset.metadata.get("dns") or asset.metadata.get("http"):
             status = "alive"
-            signals.append({"source": "metadata_heuristic", "message": "Metadata present, assumed alive"})
-            
+            signals.append(
+                {"source": "metadata_heuristic", "message": "Metadata present, assumed alive"}
+            )
+
         return ValidationSignal(
             asset_id=asset.asset_id,
             status=status,
             signals=signals,
-            timestamp=datetime.now(timezone.utc)
+            timestamp=datetime.now(timezone.utc),
         )
-        
-    def batch_validate(self, assets: List[UnifiedAsset]) -> List[ValidationSignal]:
+
+    def batch_validate(self, assets: list[UnifiedAsset]) -> list[ValidationSignal]:
         return [self.validate_asset(a) for a in assets]

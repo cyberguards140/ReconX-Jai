@@ -1,10 +1,9 @@
 import dns.resolver
-from dns.exception import DNSException
-from reconx.core.exceptions.errors import DnsError
+
 
 class DnsClient:
     """Canonical Unified DNS Resolver, replacing repetitive custom scripts."""
-    
+
     def __init__(self, nameservers=None, timeout=2.0, lifetime=5.0, retries=3):
         self.resolver = dns.resolver.Resolver()
         if nameservers:
@@ -18,11 +17,7 @@ class DnsClient:
             try:
                 answers = self.resolver.resolve(domain, rdtype)
                 records = [rdata.to_text() for rdata in answers]
-                return {
-                    "records": records,
-                    "status": "NOERROR",
-                    "error": None
-                }
+                return {"records": records, "status": "NOERROR", "error": None}
             except dns.resolver.NXDOMAIN:
                 return {"records": [], "status": "NXDOMAIN", "error": None}
             except dns.resolver.NoAnswer:
@@ -35,7 +30,7 @@ class DnsClient:
                 continue
             except Exception as e:
                 return {"records": [], "status": "ERROR", "error": str(e)}
-        
+
         return {"records": [], "status": "TIMEOUT", "error": "Max retries exceeded"}
 
     @staticmethod

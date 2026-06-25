@@ -1,15 +1,17 @@
 from reconx.modules.soc_ops.schema import IncidentModel
 
+
 class EscalationEngine:
     """
     Evaluates incident priority and routes them to appropriate analyst queues based on severity.
     """
+
     def __init__(self):
         self.queues = {
             "immediate_escalation": [],
             "fast_response": [],
             "analyst_queue": [],
-            "monitoring_queue": []
+            "monitoring_queue": [],
         }
 
     def route_incident(self, incident: IncidentModel):

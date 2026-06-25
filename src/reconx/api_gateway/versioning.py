@@ -1,17 +1,10 @@
-from typing import Dict, Any
+from typing import Any
 
-API_VERSIONS: Dict[str, Dict[str, Any]] = {
-    "v1": {
-        "status": "active",
-        "deprecated": False,
-        "description": "Stable V1 API"
-    },
-    "v2": {
-        "status": "beta",
-        "deprecated": False,
-        "description": "Upcoming V2 API"
-    }
+API_VERSIONS: dict[str, dict[str, Any]] = {
+    "v1": {"status": "active", "deprecated": False, "description": "Stable V1 API"},
+    "v2": {"status": "beta", "deprecated": False, "description": "Upcoming V2 API"},
 }
+
 
 class VersioningConfig:
     default_version = "v1"

@@ -5,6 +5,7 @@ from enum import Enum
 
 class AssetType(str, Enum):
     """Enumeration of recognized asset types."""
+
     DOMAIN = "DOMAIN"
     SUBDOMAIN = "SUBDOMAIN"
     IP = "IP"

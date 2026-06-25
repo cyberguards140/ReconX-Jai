@@ -1,14 +1,15 @@
 import asyncio
-from reconx.workflow.models.workflow import WorkflowTask, TaskExecutionState, WorkflowExecution
-from reconx.state.models import TaskStatus, WorkflowState
+
+from reconx.logger import setup_logger
+from reconx.state.models import TaskStatus
 from reconx.workflow.dependency_graph import DependencyGraph
 from reconx.workflow.execution_context import ExecutionContext
 from reconx.workflow.executor import TaskExecutor
+from reconx.workflow.models.workflow import WorkflowExecution, WorkflowTask
 from reconx.workflow.result_aggregator import ResultAggregator
-from reconx.events.bus import event_bus
-from reconx.logger import setup_logger
 
 logger = setup_logger("WorkflowScheduler")
+
 
 class WorkflowScheduler:
     def __init__(
@@ -22,7 +23,7 @@ class WorkflowScheduler:
         self.graph = graph
         self.context = context
         self.aggregator = aggregator
-        
+
         self.completed = set()
         self.failed = set()
         self.running_tasks = set()
@@ -55,6 +56,7 @@ class WorkflowScheduler:
                 # Parse results back into aggregator
                 if state.result:
                     from reconx.plugins.schemas.plugin import PluginResult
+
                     await self.aggregator.add_result(task.id, PluginResult(**state.result))
             else:
                 self.failed.add(task.id)
@@ -65,7 +67,7 @@ class WorkflowScheduler:
             while len(self.completed) + len(self.failed) < total_tasks:
                 if self._cancelled:
                     break
-                    
+
                 # Mark skipped tasks
                 skipped = self.graph.get_skipped_tasks(self.failed, self.completed)
                 for s in skipped:
@@ -73,8 +75,10 @@ class WorkflowScheduler:
                         self.execution.tasks[s].status = TaskStatus.SKIPPED
                         self.failed.add(s)
 
-                ready_tasks = self.graph.get_ready_tasks(self.completed, self.failed, self.running_tasks)
-                
+                ready_tasks = self.graph.get_ready_tasks(
+                    self.completed, self.failed, self.running_tasks
+                )
+
                 tasks_to_schedule = []
                 for t in ready_tasks:
                     self.running_tasks.add(t.id)

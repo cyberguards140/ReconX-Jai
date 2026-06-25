@@ -1,5 +1,5 @@
-from reconx.database.repositories.base import BaseRepository
 from reconx.database.models import AuditLog
+from reconx.database.repositories.base import BaseRepository
 
 
 class AuditLogRepository(BaseRepository[AuditLog]):

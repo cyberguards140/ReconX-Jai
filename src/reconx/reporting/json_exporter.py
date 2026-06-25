@@ -1,10 +1,10 @@
 import json
-from typing import Dict, Any
+from typing import Any
 
 
 class JSONExporter:
     @staticmethod
-    def export(data: Dict[str, Any], output_path: str) -> str:
+    def export(data: dict[str, Any], output_path: str) -> str:
         if ".." in output_path or "\x00" in output_path:
             raise ValueError("Unsafe output path")
 

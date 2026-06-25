@@ -1,5 +1,6 @@
-from core.plugin_db import SessionLocal, Plugin, PluginPermission
+from core.plugin_db import Plugin, PluginPermission, SessionLocal
 from plugins.plugin_loader import PluginLoader
+
 
 class PluginManager:
     @staticmethod
@@ -7,26 +8,28 @@ class PluginManager:
         # Discovers plugins on disk and syncs them to the DB
         discovered = PluginLoader.discover_plugins()
         db = SessionLocal()
-        
+
         for manifest in discovered:
             name = manifest.get("name")
             version = manifest.get("version")
             author = manifest.get("author")
             category = manifest.get("category", "Tool")
-            
+
             p = db.query(Plugin).filter(Plugin.name == name).first()
             if not p:
-                p = Plugin(name=name, version=version, author=author, category=category, status="Installed")
+                p = Plugin(
+                    name=name, version=version, author=author, category=category, status="Installed"
+                )
                 db.add(p)
                 db.commit()
                 db.refresh(p)
-                
+
                 # Sync Permissions
                 perms = manifest.get("permissions", [])
                 for perm in perms:
                     db.add(PluginPermission(plugin_id=p.id, permission=perm))
                 db.commit()
-                
+
         db.close()
 
     @staticmethod

@@ -1,15 +1,16 @@
-import uuid
 import logging
-from typing import Dict, Any, Optional
-from datetime import datetime, timezone
+import uuid
+from typing import Any
 
-from reconx.database.session import async_session_factory
-from reconx.database.models import SOARWorkflowTemplate, SOARWorkflowExecution
 from sqlalchemy import select
-from reconx.workflow.queue.task_queue import execute_workflow_task
+
+from reconx.database.models import SOARWorkflowExecution, SOARWorkflowTemplate
+from reconx.database.session import async_session_factory
 from reconx.workflow.engine.state_machine import WorkflowState
+from reconx.workflow.queue.task_queue import execute_workflow_task
 
 logger = logging.getLogger(__name__)
+
 
 class WorkflowEngine:
     """
@@ -17,7 +18,9 @@ class WorkflowEngine:
     Responsible for creating execution records and queuing them to Celery.
     """
 
-    async def trigger_workflow(self, workflow_name: str, payload: Dict[str, Any], tenant_id: Optional[str] = None) -> str:
+    async def trigger_workflow(
+        self, workflow_name: str, payload: dict[str, Any], tenant_id: str | None = None
+    ) -> str:
         """
         Triggers a workflow by name and queues its execution via Celery.
         Returns the Execution ID.
@@ -39,7 +42,7 @@ class WorkflowEngine:
                 workflow_id=template.id,
                 trigger_type="Manual",
                 status=WorkflowState.QUEUED.value,
-                tenant_id=tenant_id
+                tenant_id=tenant_id,
             )
             session.add(execution)
             await session.commit()
@@ -51,7 +54,7 @@ class WorkflowEngine:
 
         return execution_id
 
-    async def get_execution_status(self, execution_id: str) -> Optional[Dict[str, Any]]:
+    async def get_execution_status(self, execution_id: str) -> dict[str, Any] | None:
         """
         Retrieves the status and logs of a workflow execution.
         """
@@ -69,5 +72,5 @@ class WorkflowEngine:
                 "status": execution.status,
                 "start_time": execution.start_time,
                 "end_time": execution.end_time,
-                "logs": execution.logs
+                "logs": execution.logs,
             }

@@ -1,23 +1,29 @@
 from enum import Enum
-from typing import List
+
 
 class ScanProfile(str, Enum):
     QUICK = "quick"
     STANDARD = "standard"
     DEEP = "deep"
 
-def get_profile_tools(profile: ScanProfile) -> List[dict]:
+
+def get_profile_tools(profile: ScanProfile) -> list[dict]:
     """Returns the ordered list of tools/tasks to run for a given profile."""
     if profile == ScanProfile.QUICK:
         return [
             {"id": "fping", "plugin": "fping", "depends_on": []},
-            {"id": "masscan", "plugin": "masscan", "depends_on": ["fping"]}
+            {"id": "masscan", "plugin": "masscan", "depends_on": ["fping"]},
         ]
     elif profile == ScanProfile.STANDARD:
         return [
             {"id": "fping", "plugin": "fping", "depends_on": []},
             {"id": "masscan", "plugin": "masscan", "depends_on": ["fping"]},
-            {"id": "nmap", "plugin": "nmap", "depends_on": ["masscan"], "args": {"mode": "standard"}}
+            {
+                "id": "nmap",
+                "plugin": "nmap",
+                "depends_on": ["masscan"],
+                "args": {"mode": "standard"},
+            },
         ]
     elif profile == ScanProfile.DEEP:
         return [
@@ -25,6 +31,6 @@ def get_profile_tools(profile: ScanProfile) -> List[dict]:
             {"id": "arpscan", "plugin": "arpscan", "depends_on": []},
             {"id": "masscan", "plugin": "masscan", "depends_on": ["netdiscover", "arpscan"]},
             {"id": "nmap", "plugin": "nmap", "depends_on": ["masscan"], "args": {"mode": "deep"}},
-            {"id": "traceroute", "plugin": "traceroute", "depends_on": []}
+            {"id": "traceroute", "plugin": "traceroute", "depends_on": []},
         ]
     return []

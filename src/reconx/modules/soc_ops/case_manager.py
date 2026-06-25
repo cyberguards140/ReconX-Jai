@@ -1,23 +1,27 @@
 import uuid
 from datetime import datetime, timezone
+
 from reconx.modules.soc_ops.schema import CaseModel
-from typing import List, Dict, Any
+
 
 class CaseManager:
     """
     Manages the state machine and lifecycle of an investigation.
     """
+
     def __init__(self):
         self.cases = {}
 
-    def create_case(self, title: str, severity: str, alerts: List[str], assets: List[str]) -> CaseModel:
+    def create_case(
+        self, title: str, severity: str, alerts: list[str], assets: list[str]
+    ) -> CaseModel:
         case = CaseModel(
             case_id=f"case_{uuid.uuid4().hex[:8]}",
             title=title,
             severity=severity,
             created_at=datetime.now(timezone.utc).isoformat(),
             linked_alerts=alerts,
-            linked_assets=assets
+            linked_assets=assets,
         )
         self.cases[case.case_id] = case
         return case

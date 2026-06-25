@@ -1,7 +1,8 @@
 import logging
-from reconx.global_intel.timeline import TimelineEngine
+
 from reconx.global_intel.confidence import NoiseController
 from reconx.global_intel.predictive import PredictiveEngine
+from reconx.global_intel.timeline import TimelineEngine
 
 logger = logging.getLogger("reconx")
 
@@ -15,9 +16,7 @@ class StreamingPipeline:
         logger.info(f"[STREAM] Ingesting telemetry for {target} from {source}")
 
         # 1. Noise Control
-        filtered_payload = [
-            item for item in payload if NoiseController.filter_noise(source, item)
-        ]
+        filtered_payload = [item for item in payload if NoiseController.filter_noise(source, item)]
 
         # 2. Timeline Diffs
         diffs = self.timeline.detect_changes(target, filtered_payload)

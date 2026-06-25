@@ -1,12 +1,13 @@
 import questionary
 from cli.ui import console
-from core.project_manager import ProjectManager
-from core.project_db import SessionLocal, Project
 from core.profile_engine import ProfileEngine
+from core.project_db import Project, SessionLocal
+from core.project_manager import ProjectManager
+
 
 def manage_projects(session):
     console.print("\n=== Project Workspace Manager ===", style="bold cyan")
-    
+
     choice = questionary.select(
         "Select an option:",
         choices=[
@@ -26,10 +27,10 @@ def manage_projects(session):
             "Reports",
             "Import",
             "Archive",
-            "Back"
-        ]
+            "Back",
+        ],
     ).ask()
-    
+
     if choice == "Create Project":
         create_project(session)
     elif choice == "Analytics Center":
@@ -58,13 +59,14 @@ def manage_projects(session):
     elif choice == "Archive":
         console.print("[*] Archiving Project...")
 
+
 def create_project(session):
     console.print("\n=== Create Project ===")
     name = questionary.text("Project Name:").ask()
     desc = questionary.text("Description:").ask()
     client = questionary.text("Client:").ask()
     targets = questionary.text("Targets (comma-separated):").ask()
-    
+
     project_id = ProjectManager.create_project(name, desc, client, [])
     if project_id:
         console.print(f"\n[+] Project '{name}' created successfully.", style="bold green")
@@ -75,41 +77,44 @@ def create_project(session):
     else:
         console.print("\n[-] Project already exists.", style="bold red")
 
+
 def open_project(session):
     db = SessionLocal()
     projects = db.query(Project).filter(Project.status != "Archived").all()
     db.close()
-    
+
     if not projects:
         console.print("\n[-] No active projects found.", style="bold yellow")
         return
-        
+
     choices = [p.name for p in projects] + ["Cancel"]
     choice = questionary.select("Select a project:", choices=choices).ask()
-    
+
     if choice and choice != "Cancel":
         project = next((p for p in projects if p.name == choice), None)
         session.set_project(project.name, project.id)
         console.print(f"\n[+] Opened Project: {project.name}", style="bold green")
 
+
 def list_existing_projects():
     db = SessionLocal()
     projects = db.query(Project).all()
     db.close()
-    
+
     if not projects:
         console.print("\n[-] No projects found.", style="bold yellow")
         return
-        
+
     console.print("\n=== Existing Projects ===")
     for p in projects:
         console.print(f"[{p.status}] {p.name} - {p.description}")
+
 
 def manage_reports(session):
     if not session.project_id:
         console.print("[-] Open a project first.", style="bold red")
         return
-        
+
     console.print("\n=== Report Center ===", style="bold cyan")
     choice = questionary.select(
         "Generate:",
@@ -121,25 +126,34 @@ def manage_reports(session):
             "Campaign Report",
             "Evidence Package",
             "Export Center",
-            "Back"
-        ]
+            "Back",
+        ],
     ).ask()
-    
-    from reporting.report_engine import ReportEngine
+
     from reporting.evidence_packager import EvidencePackager
+    from reporting.report_engine import ReportEngine
 
     if choice == "Evidence Package":
         EvidencePackager.create_package(session.project_id, session.current_project)
-    elif choice in ["Executive Report", "Technical Report", "Vulnerability Report", "Cloud Report", "Campaign Report"]:
-        ReportEngine.generate_report(session.project_id, session.current_project, choice.split(' ')[0].lower())
+    elif choice in [
+        "Executive Report",
+        "Technical Report",
+        "Vulnerability Report",
+        "Cloud Report",
+        "Campaign Report",
+    ]:
+        ReportEngine.generate_report(
+            session.project_id, session.current_project, choice.split(" ")[0].lower()
+        )
     elif choice == "Export Center":
         console.print("[*] Exporting project data...")
+
 
 def manage_workflows(session):
     if not session.project_id:
         console.print("[-] Open a project first.", style="bold red")
         return
-        
+
     console.print("\n=== Automation & Workflows ===", style="bold cyan")
     choice = questionary.select(
         "Automation:",
@@ -149,14 +163,13 @@ def manage_workflows(session):
             "Schedule Workflow",
             "Workflow History",
             "Alerts",
-            "Back"
-        ]
+            "Back",
+        ],
     ).ask()
-    
-    from automation.workflow_engine import WorkflowEngine
-    from automation.scheduler import SchedulerEngine
-    from automation.queue_manager import QueueManager
+
     from automation.alert_manager import AlertManager
+    from automation.scheduler import SchedulerEngine
+    from automation.workflow_engine import WorkflowEngine
 
     if choice == "Create Workflow":
         name = questionary.text("Workflow Name:").ask()
@@ -172,11 +185,11 @@ def manage_workflows(session):
         if not wfs:
             console.print("[-] No workflows exist.")
             return
-        w_choice = questionary.select("Select Workflow:", choices=[w['name'] for w in wfs]).ask()
+        w_choice = questionary.select("Select Workflow:", choices=[w["name"] for w in wfs]).ask()
         freq = questionary.select("Frequency:", choices=["daily", "weekly", "monthly"]).ask()
         time_str = questionary.text("Time (HH:MM):").ask()
-        
-        w_id = next(w['id'] for w in wfs if w['name'] == w_choice)
+
+        w_id = next(w["id"] for w in wfs if w["name"] == w_choice)
         SchedulerEngine.schedule_job(w_id, freq, time_str)
         console.print(f"[+] Workflow {w_choice} scheduled.")
     elif choice == "Alerts":
@@ -186,11 +199,12 @@ def manage_workflows(session):
         for a in alerts:
             console.print(f"[{a['severity'].upper()}] {a['type']}: {a['message']}")
 
+
 def manage_intelligence(session):
     if not session.project_id:
         console.print("[-] Open a project first.", style="bold red")
         return
-        
+
     console.print("\n=== Asset Intelligence Center ===", style="bold cyan")
     choice = questionary.select(
         "Intelligence Operations:",
@@ -213,14 +227,14 @@ def manage_intelligence(session):
             "Exposure Monitor",
             "ASN Explorer",
             "Passive DNS",
-            "Back"
-        ]
+            "Back",
+        ],
     ).ask()
-    
-    from intelligence.search_engine import SearchEngine
+
     from core.intelligence_db import SessionLocal, UniversalAsset
+    from intelligence.search_engine import SearchEngine
     from screenshots.screenshot_manager import ScreenshotManager
-    
+
     if choice == "Screenshot Center":
         console.print("\n=== Screenshot Center ===")
         url = questionary.text("URL to capture:").ask()
@@ -228,7 +242,9 @@ def manage_intelligence(session):
             ScreenshotManager.process_asset(session.current_project, "temp-id", url)
     elif choice == "Asset Explorer":
         db = SessionLocal()
-        assets = db.query(UniversalAsset).filter(UniversalAsset.project_id == session.project_id).all()
+        assets = (
+            db.query(UniversalAsset).filter(UniversalAsset.project_id == session.project_id).all()
+        )
         console.print(f"Total Assets: {len(assets)}")
         for a in assets[:10]:
             console.print(f"- [{a.asset_type}] {a.value} (Risk: {a.risk_score})")
@@ -240,14 +256,26 @@ def manage_intelligence(session):
         for r in res:
             console.print(f"- [{r['type']}] {r['value']} (Risk: {r['risk']})")
     elif choice == "CVE Center":
-        from core.threat_db import SessionLocal as ThreatSession, CVEData
+        from core.threat_db import CVEData
+        from core.threat_db import SessionLocal as ThreatSession
+
         db = ThreatSession()
         cves = db.query(CVEData).all()
         console.print(f"Total CVEs Correlated: {len(cves)}")
         for c in cves[:10]:
             console.print(f"- {c.cve} (Severity: {c.severity})")
         db.close()
-    elif choice in ["Relationship Map", "Risk Center", "Timeline", "Threat Center", "IOC Explorer", "Reputation Center", "Exposure Monitor", "ASN Explorer", "Passive DNS"]:
+    elif choice in [
+        "Relationship Map",
+        "Risk Center",
+        "Timeline",
+        "Threat Center",
+        "IOC Explorer",
+        "Reputation Center",
+        "Exposure Monitor",
+        "ASN Explorer",
+        "Passive DNS",
+    ]:
         console.print(f"[*] Accessing {choice} framework via Dashboard APIs...", style="dim")
 
 
@@ -264,19 +292,24 @@ def manage_analytics(session):
                 "Forecasts",
                 "Historical Data",
                 "KPIs",
-                "Back"
-            ]
+                "Back",
+            ],
         ).ask()
 
         if choice == "Back":
             break
         else:
-            console.print(f"[*] Accessing {choice} module via Dashboard Analytics APIs...", style="dim")
+            console.print(
+                f"[*] Accessing {choice} module via Dashboard Analytics APIs...", style="dim"
+            )
             questionary.press_any_key_to_continue("Press any key to return...").ask()
+
 
 def manage_asset_intelligence(session):
     while True:
-        console.print(f"\n[bold green]Asset Intelligence & Graph Explorer[/] - {session.current_project}")
+        console.print(
+            f"\n[bold green]Asset Intelligence & Graph Explorer[/] - {session.current_project}"
+        )
         choice = questionary.select(
             "Select Graph Module:",
             choices=[
@@ -293,8 +326,8 @@ def manage_asset_intelligence(session):
                 "Ownership",
                 "SLA Tracking",
                 "Executive Risk",
-                "Back"
-            ]
+                "Back",
+            ],
         ).ask()
 
         if choice == "Back":
@@ -318,8 +351,8 @@ def manage_campaigns(session):
                 "Evidence",
                 "Operations Center",
                 "Analytics",
-                "Back"
-            ]
+                "Back",
+            ],
         ).ask()
 
         if choice == "Back":
@@ -342,8 +375,8 @@ def manage_cases(session):
                 "Reviews",
                 "Timeline",
                 "Analytics",
-                "Back"
-            ]
+                "Back",
+            ],
         ).ask()
 
         if choice == "Back":
@@ -351,4 +384,3 @@ def manage_cases(session):
         else:
             console.print(f"[*] Loading {choice} module via Case APIs...", style="dim")
             questionary.press_any_key_to_continue("Press any key to return...").ask()
-

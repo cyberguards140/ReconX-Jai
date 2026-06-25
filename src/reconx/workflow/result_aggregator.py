@@ -1,13 +1,15 @@
-from typing import Dict, Any, List
-from reconx.schemas.normalization import NormalizedRecord
 import asyncio
+from typing import Any
+
+from reconx.schemas.normalization import NormalizedRecord
+
 
 class ResultAggregator:
     def __init__(self):
-        self.assets: Dict[str, Dict[str, Any]] = {}
-        self.findings: List[Dict[str, Any]] = []
-        self.logs: List[str] = []
-        self.records: List[NormalizedRecord] = []
+        self.assets: dict[str, dict[str, Any]] = {}
+        self.findings: list[dict[str, Any]] = []
+        self.logs: list[str] = []
+        self.records: list[NormalizedRecord] = []
         self._lock = asyncio.Lock()
 
     async def add_result(self, task_id: str, result: Any):  # result is a PluginResult
@@ -27,7 +29,7 @@ class ResultAggregator:
             for error in getattr(result, "errors", []):
                 self.logs.append(f"[{task_id}] ERROR: {error}")
 
-    def get_summary(self) -> Dict[str, Any]:
+    def get_summary(self) -> dict[str, Any]:
         return {
             "total_assets": len(self.assets),
             "total_findings": len(self.findings),

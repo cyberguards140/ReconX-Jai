@@ -1,13 +1,16 @@
-from typing import Callable, Dict, List, Any, Type
 import asyncio
+from collections.abc import Callable
+from typing import Any
+
 from reconx.events.models import BaseEvent
 from reconx.logger import setup_logger
 
 logger = setup_logger("EventBus")
 
+
 class EventBus:
     def __init__(self):
-        self._subscribers: Dict[str, List[Callable]] = {}
+        self._subscribers: dict[str, list[Callable]] = {}
 
     def subscribe(self, event_type: str, handler: Callable[[BaseEvent], Any]):
         if event_type not in self._subscribers:
@@ -30,10 +33,13 @@ class EventBus:
                     else:
                         handler(event)
                 except Exception as e:
-                    logger.error(f"Error dispatching {event.event_type} to {handler.__name__}: {str(e)}")
-            
+                    logger.error(
+                        f"Error dispatching {event.event_type} to {handler.__name__}: {str(e)}"
+                    )
+
             if coroutines:
                 await asyncio.gather(*coroutines, return_exceptions=True)
+
 
 # Global singleton
 event_bus = EventBus()

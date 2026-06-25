@@ -1,6 +1,6 @@
 class OSINTEnricher:
     """Helper to verify target types before sending to specific OSINT tools."""
-    
+
     @staticmethod
     def is_email(target: str) -> bool:
         return "@" in target and "." in target

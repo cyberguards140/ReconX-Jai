@@ -1,9 +1,11 @@
 from reconx.modules.cloud_intel.schema import K8sClusterData
 
+
 class K8sClusterEngine:
     """
     Abstracts Kubernetes hierarchies: Cluster -> Namespace -> Pod -> Service
     """
+
     def __init__(self):
         pass
 
@@ -13,5 +15,5 @@ class K8sClusterEngine:
             nodes=data.get("nodes", []),
             namespaces=data.get("namespaces", []),
             pods=data.get("pods", []),
-            services=data.get("services", [])
+            services=data.get("services", []),
         )

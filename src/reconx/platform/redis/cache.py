@@ -1,18 +1,20 @@
+import hashlib
 import json
 import logging
-import hashlib
+from collections.abc import Callable
 from functools import wraps
-from typing import Any, Callable
 
 from reconx.platform.redis.client import redis_manager
 
 logger = logging.getLogger(__name__)
+
 
 def cached(ttl: int = 300, key_prefix: str = "reconx:cache"):
     """
     Distributed caching decorator for async functions.
     Handles serialization and automatic cache invalidation policies via TTL.
     """
+
     def decorator(func: Callable):
         @wraps(func)
         async def wrapper(*args, **kwargs):
@@ -45,5 +47,7 @@ def cached(ttl: int = 300, key_prefix: str = "reconx:cache"):
                 logger.warning(f"Cache write failed for {cache_key}: {e}")
 
             return result
+
         return wrapper
+
     return decorator

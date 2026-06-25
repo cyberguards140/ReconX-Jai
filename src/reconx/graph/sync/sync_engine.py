@@ -1,17 +1,19 @@
 import logging
-from typing import Dict, Any, Optional
+from typing import Any
+
 from neo4j import AsyncDriver
+
 from reconx.graph.neo4j.connection import get_neo4j_driver
-from reconx.graph.schema.nodes import NodeLabel
-from reconx.graph.schema.relationships import RelType
 
 logger = logging.getLogger(__name__)
+
 
 class GraphSyncEngine:
     """
     Handles synchronization of entities into Neo4j graph nodes and relationships.
     """
-    def __init__(self, driver: Optional[AsyncDriver] = None):
+
+    def __init__(self, driver: AsyncDriver | None = None):
         self._driver = driver
 
     async def get_driver(self) -> AsyncDriver:
@@ -19,7 +21,7 @@ class GraphSyncEngine:
             self._driver = await get_neo4j_driver()
         return self._driver
 
-    async def sync_node(self, label: str, node_id: str, properties: Dict[str, Any]):
+    async def sync_node(self, label: str, node_id: str, properties: dict[str, Any]):
         """
         Merge a node into the graph.
         """
@@ -40,10 +42,12 @@ class GraphSyncEngine:
 
     async def sync_relationship(
         self,
-        from_label: str, from_id: str,
+        from_label: str,
+        from_id: str,
         rel_type: str,
-        to_label: str, to_id: str,
-        properties: Optional[Dict[str, Any]] = None
+        to_label: str,
+        to_id: str,
+        properties: dict[str, Any] | None = None,
     ):
         """
         Merge a relationship between two nodes.
@@ -62,7 +66,9 @@ class GraphSyncEngine:
             try:
                 await session.run(query, from_id=from_id, to_id=to_id, props=props)
             except Exception as e:
-                logger.error(f"Failed to sync relationship {from_label}:{from_id} -> {rel_type} -> {to_label}:{to_id} - {e}")
+                logger.error(
+                    f"Failed to sync relationship {from_label}:{from_id} -> {rel_type} -> {to_label}:{to_id} - {e}"
+                )
 
     async def remove_node(self, label: str, node_id: str):
         driver = await self.get_driver()
@@ -77,10 +83,7 @@ class GraphSyncEngine:
                 logger.error(f"Failed to remove node {label}:{node_id} - {e}")
 
     async def remove_relationship(
-        self,
-        from_label: str, from_id: str,
-        rel_type: str,
-        to_label: str, to_id: str
+        self, from_label: str, from_id: str, rel_type: str, to_label: str, to_id: str
     ):
         driver = await self.get_driver()
         query = f"""
@@ -92,6 +95,7 @@ class GraphSyncEngine:
                 await session.run(query, from_id=from_id, to_id=to_id)
             except Exception as e:
                 logger.error(f"Failed to remove relationship - {e}")
+
 
 # Global instance
 sync_engine = GraphSyncEngine()

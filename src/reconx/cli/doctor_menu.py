@@ -3,6 +3,7 @@ from cli.ui import console
 from doctor.doctor_engine import DoctorEngine
 from doctor.repair_engine import RepairEngine
 
+
 class DoctorMenu:
     @staticmethod
     def show():
@@ -15,25 +16,28 @@ class DoctorMenu:
                     "Repair Missing Tools",
                     "Install Dependencies",
                     "Update Templates",
-                    "Exit Doctor"
-                ]
+                    "Exit Doctor",
+                ],
             ).ask()
 
             if choice == "Scan System":
                 console.print("\n[*] Scanning environment...", style="yellow")
                 report = DoctorEngine.scan()
-                console.print(f"Status: {report['status']}", style="bold green" if report['status'] == "Healthy" else "bold red")
-                
+                console.print(
+                    f"Status: {report['status']}",
+                    style="bold green" if report["status"] == "Healthy" else "bold red",
+                )
+
                 console.print("\nMissing Tools:")
-                for t in report['missing_tools']:
+                for t in report["missing_tools"]:
                     console.print(f"  - {t}", style="red")
-                if not report['missing_tools']:
+                if not report["missing_tools"]:
                     console.print("  None (All tools installed!)", style="green")
 
             elif choice == "Repair Missing Tools":
                 console.print("\n[*] Checking for missing tools to repair...")
                 report = DoctorEngine.scan()
-                missing = report['missing_tools']
+                missing = report["missing_tools"]
                 if not missing:
                     console.print("[+] All tools are already installed.", style="green")
                 else:
@@ -46,7 +50,7 @@ class DoctorMenu:
 
             elif choice == "Install Dependencies":
                 console.print("\n[*] Not yet fully implemented. Run install.sh.", style="yellow")
-            
+
             elif choice == "Update Templates":
                 RepairEngine.update_templates()
                 console.print("[+] Templates updated successfully.", style="green")
