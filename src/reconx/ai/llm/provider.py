@@ -1,3 +1,4 @@
+from __future__ import annotations
 import os
 import logging
 from typing import List, Dict, Any, Optional
@@ -9,6 +10,11 @@ try:
     HAS_LANGCHAIN = True
 except ImportError:
     HAS_LANGCHAIN = False
+    BaseChatModel = Any
+    BaseMessage = Any
+    HumanMessage = Any
+    SystemMessage = Any
+    AIMessage = Any
 
 logger = logging.getLogger(__name__)
 

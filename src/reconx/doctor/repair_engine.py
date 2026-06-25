@@ -22,7 +22,7 @@ class RepairEngine:
             print(f"[*] Attempting to repair {tool} via: {cmd}")
             # Ensure GOPATH/bin is in PATH for successful go installs
             try:
-                subprocess.run(cmd, shell=True, check=True)
+                subprocess.run(cmd.split(), shell=False, check=True)
                 return True
             except subprocess.CalledProcessError:
                 return False

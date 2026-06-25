@@ -44,7 +44,14 @@ dependencies = [
     "hvac",
     "langchain-core",
     "langchain-openai",
-    "openai"
+    "openai",
+    "neo4j",
+    "weasyprint",
+    "croniter",
+    "celery",
+    "dnspython",
+    "email-validator",
+    "websockets"
 ]
 
 [project.optional-dependencies]
@@ -70,4 +77,4 @@ exclude = ["archive*", "workspace*"]
 reconx = ["config/*.yaml"]
 
 [project.scripts]
-reconx = "reconx.cli.main:app"
+reconx = "reconx.__main__:main"

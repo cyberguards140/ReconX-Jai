@@ -14,7 +14,7 @@ class EnvironmentValidator:
                 try:
                     os.makedirs(p, exist_ok=True)
                     results.append({"directory": d, "status": "Created", "writable": True})
-                except:
+                except Exception:
                     results.append({"directory": d, "status": "Missing", "writable": False})
             else:
                 writable = os.access(p, os.W_OK)

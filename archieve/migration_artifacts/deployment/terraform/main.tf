@@ -1,1 +1,0 @@
-terraform {\n  required_providers {\n    aws = { source = "hashicorp/aws", version = "~> 5.0" }\n  }\n}\n\n# Provision EKS cluster for global ReconX deployment\nresource "aws_eks_cluster" "reconx" {\n  name     = "reconx-global"\n  role_arn = aws_iam_role.eks_role.arn\n}

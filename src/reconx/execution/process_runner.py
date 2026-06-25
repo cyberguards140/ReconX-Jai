@@ -15,7 +15,7 @@ class ProcessRunner:
         try:
             process = subprocess.Popen(
                 command,
-                shell=True,
+                shell=False,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True

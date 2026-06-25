@@ -20,6 +20,9 @@ class ResultsAPI:
         return {"error": "Invalid results endpoint"}
         
     def get_all(self, table):
+        allowed_tables = {"assets", "findings", "technologies", "relationships"}
+        if table not in allowed_tables:
+            return {"error": "Invalid table requested"}
         try:
             conn = sqlite3.connect(DB_PATH)
             conn.row_factory = sqlite3.Row

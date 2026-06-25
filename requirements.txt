@@ -1,6 +1,0 @@
-rich
-questionary
-pyyaml
-flask
-flask-sock
-websockets

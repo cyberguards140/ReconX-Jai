@@ -45,6 +45,15 @@ class Settings(BaseSettings):
     log_level: str = Field("INFO", alias="LOG_LEVEL")
     project_id: str = Field("default", alias="PROJECT_ID")
     plugin_timeout: int = Field(120, ge=10, le=3600, alias="PLUGIN_TIMEOUT")
+
+    @property
+    def get_jwt_secret(self) -> str:
+        if self.jwt_secret == "CHANGE_ME":
+            if self.app_env == "production":
+                raise ValueError("JWT_SECRET cannot be 'CHANGE_ME' in production!")
+            import secrets
+            return secrets.token_urlsafe(32)
+        return self.jwt_secret
     workflow_timeout: int = Field(300, ge=10, le=3600, alias="WORKFLOW_TIMEOUT")
     workflow_directory: str = Field("src/reconx/workflows", alias="WORKFLOW_DIRECTORY")
 
@@ -68,7 +77,7 @@ class Settings(BaseSettings):
 
     @property
     def security(self) -> SecuritySettings:
-        return SecuritySettings(jwt_secret=self.jwt_secret)
+        return SecuritySettings(jwt_secret=self.get_jwt_secret)
 
     @property
     def logging(self) -> LoggingSettings:
