@@ -2,7 +2,7 @@ import json
 import os
 from datetime import datetime
 
-SESSION_FILE = "workspace/current_project.json"
+SESSION_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "workspace", "current_project.json"))
 
 
 class SessionManager:

@@ -6,7 +6,7 @@ from sqlalchemy import Column, DateTime, Float, String, Text, create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 DB_PATH = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", "workspace", "screenshots.db")
+    os.path.join(os.path.dirname(__file__), "..", "..", "..", "workspace", "screenshots.db")
 )
 engine = create_engine(f"sqlite:///{DB_PATH}")
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

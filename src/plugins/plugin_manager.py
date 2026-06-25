@@ -9,7 +9,9 @@ class PluginManager:
     Core plugin system handling YAML-based integration definitions.
     """
 
-    def __init__(self, plugin_dir: str = "/home/kali/ReconX/plugins"):
+    def __init__(self, plugin_dir: str = None):
+        if plugin_dir is None:
+            plugin_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "plugins"))
         self.plugin_dir = plugin_dir
         self.plugins: dict[str, Any] = {}
 

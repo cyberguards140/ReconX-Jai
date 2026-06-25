@@ -3,7 +3,7 @@ import sqlite3
 import uuid
 from datetime import datetime
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "..", "workspace", "projects.db")
+DB_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", "workspace", "projects.db")
 
 
 def init_db():
