@@ -1,0 +1,1 @@
+apiVersion: v2\nname: reconx\ndescription: ReconX Cyber Operations Platform Helm Chart\ntype: application\nversion: 1.0.0\nappVersion: 1.0.0

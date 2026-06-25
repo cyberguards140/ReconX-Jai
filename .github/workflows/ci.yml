@@ -1,25 +1,33 @@
-name: ReconX CI/CD Pipeline
+name: ReconX CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ "main", "develop", "release/*" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main", "develop" ]
 
 jobs:
-  build-and-test:
+  quality:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python
+    - name: Set up Python 3.11
       uses: actions/setup-python@v4
       with:
-        python-version: '3.11'
+        python-version: "3.11"
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install pytest
-    - name: Run Unit Tests
+        pip install -e .[dev]
+    - name: Static Analysis (Ruff)
       run: |
-        PYTHONPATH=product/src pytest product/tests/ -v
+        ruff check .
+    - name: Type Checking (MyPy)
+      run: |
+        mypy src/
+    - name: Run Tests
+      run: |
+        pytest --cov=src tests/
+    - name: Build Package
+      run: |
+        python -m build

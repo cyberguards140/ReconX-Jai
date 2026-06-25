@@ -1,0 +1,10 @@
+name: "Test Workflow"
+description: "A workflow for testing."
+tasks:
+  - id: "task_1"
+    plugin: "test_plugin"
+    timeout: 300
+    retries: 3
+  - id: "task_2"
+    plugin: "test_plugin"
+    depends_on: ["task_1"]

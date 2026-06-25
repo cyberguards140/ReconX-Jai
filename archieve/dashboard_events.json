@@ -1,0 +1,26 @@
+{
+  "events": [
+    { "type": "Tab Switch", "trigger": "switchTab(this, 'recon')", "target": "topnav-center" },
+    { "type": "Tab Switch", "trigger": "switchTab(this, 'vuln')", "target": "topnav-center" },
+    { "type": "Tab Switch", "trigger": "switchTab(this, 'web')", "target": "topnav-center" },
+    { "type": "Tab Switch", "trigger": "switchTab(this, 'cloud')", "target": "topnav-center" },
+    { "type": "Tab Switch", "trigger": "switchRTab('terminal', this)", "target": "right-tabs" },
+    { "type": "Tab Switch", "trigger": "switchRTab('findings', this)", "target": "right-tabs" },
+    { "type": "Tab Switch", "trigger": "switchRTab('history', this)", "target": "right-tabs" },
+    { "type": "Button Click", "trigger": "openModal('deleteModal')", "target": "deleteModal" },
+    { "type": "Button Click", "trigger": "openModal('switchModal')", "target": "switchModal" },
+    { "type": "Button Click", "trigger": "openModal('newModal')", "target": "newModal" },
+    { "type": "Button Click", "trigger": "closeModal('deleteModal')", "target": "deleteModal" },
+    { "type": "Button Click", "trigger": "closeModal('switchModal')", "target": "switchModal" },
+    { "type": "Button Click", "trigger": "closeModal('newModal')", "target": "newModal" },
+    { "type": "Button Click", "trigger": "confirmDelete()", "action": "delete_project" },
+    { "type": "Button Click", "trigger": "confirmNew()", "action": "create_project" },
+    { "type": "Tool Launch", "trigger": "runAllTools()", "action": "start_all_tools" },
+    { "type": "Tool Launch", "trigger": "runOnlyNmap()", "action": "start_nmap" },
+    { "type": "Toggle Change", "trigger": "toggleExpand()", "target": "nmapExpand" },
+    { "type": "Toggle Change", "trigger": "classList.toggle('on')", "target": "nmap_options" },
+    { "type": "Input Change", "trigger": "updatePreview()", "target": "nmapPreview" },
+    { "type": "Button Click", "trigger": "copyLog()", "action": "copy_terminal_output" },
+    { "type": "Project Select", "trigger": "toast('Switched to ...')", "action": "switch_project" }
+  ]
+}

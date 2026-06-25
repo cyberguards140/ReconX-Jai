@@ -1,21 +1,19 @@
-# Python cache and environments
 __pycache__/
-*.py[cod]
-*$py.class
+*.pyc
+
+.env
+.env.*
+
+archive/
+workspace/
+
+node_modules/
+dist/
+build/
+
 .pytest_cache/
 .mypy_cache/
-venv/
-env/
-.env
 
-# IDEs
-.vscode/
-.idea/
-
-# ReconX Specific Runtime Data & Archives
-archive/
-archieve/
-logs/*.log
-workspace/*.db
-registry/*.db
-*.deb
+coverage/
+htmlcov/
+vscode.deb

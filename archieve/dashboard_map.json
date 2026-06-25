@@ -1,0 +1,141 @@
+{
+  "layout": {
+    "header": {
+      "id": "topnav",
+      "sections": {
+        "left": {
+          "logo": "ReconX",
+          "breadcrumb": ["Q3", "2625"]
+        },
+        "center": {
+          "tabs": [
+            { "id": "recon", "label": "Recon & Info" },
+            { "id": "vuln", "label": "Vuln Scan" },
+            { "id": "web", "label": "Web Enum" },
+            { "id": "cloud", "label": "Cloud" }
+          ]
+        },
+        "right": {
+          "actions": [
+            { "id": "btn-delete-project", "label": "Delete Project" },
+            { "id": "btn-switch-project", "label": "Switch Project" },
+            { "id": "btn-new-project", "label": "+ New Project" }
+          ]
+        }
+      }
+    },
+    "stat_bar": {
+      "widgets": [
+        { "id": "scanStatusVal", "label": "Status", "type": "indicator" },
+        { "id": "statTarget", "label": "Target", "type": "text" },
+        { "id": "statPorts", "label": "Open Ports", "type": "counter" },
+        { "id": "statServices", "label": "Services", "type": "counter" },
+        { "id": "statLastScan", "label": "Last Scan", "type": "timestamp" },
+        { "id": "statDuration", "label": "Duration", "type": "timer" }
+      ]
+    },
+    "main_content": {
+      "left_panel": {
+        "header": {
+          "title": "Recon & Info Gathering",
+          "description": "Discover live hosts, open ports, subdomains, and exposed services."
+        },
+        "sections": [
+          {
+            "name": "General Options",
+            "inputs": [
+              { "id": "targetScope", "label": "Target Scope", "type": "text" },
+              { "id": "wordlistTemplate", "label": "Wordlist / Template", "type": "select" },
+              { "id": "rateLimit", "label": "Rate Limit / Threads", "type": "number" },
+              { "id": "apiKey", "label": "API Key / Auth Token", "type": "text" }
+            ]
+          }
+        ],
+        "global_actions": [
+          { "id": "runBtn", "label": "Run All Tools" }
+        ],
+        "tool_list": [
+          {
+            "id": "nmap",
+            "name": "Nmap",
+            "status": "active",
+            "expandable": true,
+            "inputs": [
+              { "id": "nmapType", "label": "Scan Type", "type": "select" },
+              { "id": "nmapPorts", "label": "Port Range", "type": "text" },
+              { "id": "nmapTiming", "label": "Timing", "type": "select" },
+              { "id": "nmapOutput", "label": "Output", "type": "select" },
+              { "id": "toggle-sV", "label": "Service Version Detection (-sV)", "type": "toggle" },
+              { "id": "toggle-O", "label": "OS Detection (-O)", "type": "toggle" },
+              { "id": "toggle-sC", "label": "Script Scan (-sC)", "type": "toggle" }
+            ]
+          },
+          { "id": "subfinder", "name": "Subfinder", "status": "coming soon" },
+          { "id": "amass", "name": "Amass", "status": "coming soon" },
+          { "id": "masscan", "name": "Masscan", "status": "coming soon" },
+          { "id": "naabu", "name": "Naabu", "status": "coming soon" },
+          { "id": "theharvester", "name": "theHarvester", "status": "coming soon" },
+          { "id": "shodan-cli", "name": "Shodan CLI", "status": "coming soon" }
+        ]
+      },
+      "right_panel": {
+        "navigation": [
+          { "id": "tab-terminal", "label": "Terminal", "panel_id": "view-terminal" },
+          { "id": "tab-findings", "label": "Findings", "panel_id": "view-findings" },
+          { "id": "tab-history", "label": "History", "panel_id": "view-history" }
+        ],
+        "header": {
+          "title": "Execution Log",
+          "time_indicator": "execTime",
+          "status_indicator": "livePill"
+        },
+        "panels": [
+          {
+            "id": "view-terminal",
+            "components": [
+              { "id": "termTitle", "type": "text" },
+              { "id": "copy-log-btn", "type": "button" },
+              { "id": "termBody", "type": "terminal_output" }
+            ]
+          },
+          {
+            "id": "view-findings",
+            "components": [
+              { "type": "finding-card", "variants": ["open-port", "info-host", "warn-port"] }
+            ]
+          },
+          {
+            "id": "view-history",
+            "components": [
+              { "type": "history-row", "variants": ["success", "error"] }
+            ]
+          }
+        ]
+      }
+    },
+    "modals": [
+      {
+        "id": "deleteModal",
+        "title": "Delete Project",
+        "actions": ["Cancel", "Delete Project"]
+      },
+      {
+        "id": "switchModal",
+        "title": "Switch Project",
+        "actions": ["Cancel"]
+      },
+      {
+        "id": "newModal",
+        "title": "New Project",
+        "inputs": ["newProjectName", "newProjectTarget"],
+        "actions": ["Cancel", "Create Project"]
+      }
+    ],
+    "overlays": [
+      {
+        "id": "toast",
+        "components": ["toastDot", "toastMsg"]
+      }
+    ]
+  }
+}
