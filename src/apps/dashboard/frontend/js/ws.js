@@ -1,7 +1,7 @@
 let ws;
 
 function connectWebSocket() {
-    const wsUrl = `ws://${window.location.host}/ws`;
+    const wsUrl = `ws://${window.location.host}/api/v1/ws/live`;
     ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
@@ -31,7 +31,34 @@ function connectWebSocket() {
                     badge.style.display = 'inline-block';
                     if (data.status === 'running') badge.className = 'badge b-run';
                     else if (data.status === 'completed') badge.className = 'badge b-done';
+                    else if (data.status === 'failed') badge.className = 'badge b-err';
                     else badge.className = 'badge';
+                }
+                
+                // Toast Notifications
+                if (window.toast) {
+                    if (data.status === 'completed' && data.tool_id !== 'all') {
+                        window.toast(`Task ${data.tool_id} completed`, "green");
+                    } else if (data.status === 'failed') {
+                        window.toast(`Task ${data.tool_id} failed!`, "red");
+                    } else if (data.status === 'stopped') {
+                        window.toast(`Task ${data.tool_id === 'all' ? 'Pipeline' : data.tool_id} stopped`, "amber");
+                    } else if (data.status === 'paused') {
+                        window.toast(`Task ${data.tool_id === 'all' ? 'Pipeline' : data.tool_id} paused`, "amber");
+                    }
+                }
+                
+                // Pipeline global state reset
+                if (data.tool_id === 'all' && (data.status === 'stopped' || data.status === 'completed' || data.status === 'failed')) {
+                    if (window.isRunning !== undefined) {
+                        window.isRunning = false;
+                        const runBtn = document.getElementById('runBtn');
+                        const runBtnTxt = document.getElementById('runBtnTxt');
+                        const runIcon = document.querySelector('.run-icon');
+                        if (runBtnTxt) runBtnTxt.textContent = "Run All Tools";
+                        if (runIcon) runIcon.textContent = "▶";
+                        if (runBtn) runBtn.classList.remove('running');
+                    }
                 }
             } else if (data.type === "new_asset") {
                 // Instantly update dashboard counters based on new asset discovery

@@ -37,6 +37,7 @@ questionary
 psutil
 flask
 flask-sock
+python-multipart
 
 [dev]
 pytest

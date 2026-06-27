@@ -6,8 +6,9 @@ from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String, Tex
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 DB_PATH = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "..", "workspace", "findings.db")
+    os.path.join(os.path.expanduser("~/ReconX/workspace"), "findings.db")
 )
+import os; os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
 engine = create_engine(f"sqlite:///{DB_PATH}")
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
@@ -53,7 +54,7 @@ class FindingHistory(Base):
     timestamp = Column(DateTime, default=datetime.utcnow)
 
 
-Base.metadata.create_all(bind=engine)
+
 
 
 def get_finding_db():

@@ -30,7 +30,7 @@ class ProjectManager:
     @staticmethod
     def scaffold_project_directories(project_name):
         base_dir = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), "..", "projects", project_name)
+            os.path.join(os.path.expanduser("~/ReconX/projects"), project_name)
         )
         dirs = [
             "assets",

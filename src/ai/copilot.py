@@ -4,7 +4,9 @@ from typing import Any
 try:
     from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, ToolMessage
 except ImportError:
-    pass
+    class SystemMessage:
+        def __init__(self, content):
+            self.content = content
 
 from ai.agents.orchestrator import orchestrator_agent
 from ai.explainability.tracker import explainability_tracker

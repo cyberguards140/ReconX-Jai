@@ -60,6 +60,25 @@ async def get_compliance_report(framework: str, db: Session = Depends(get_db)):
     return PlainTextResponse(content=report_md, media_type="text/markdown")
 
 
+MOCK_REPORTS = []
+
+@router.post("/generate")
+async def generate_report(project_id: str = "default", report_type: str = "Technical"):
+    import uuid
+    import datetime
+    report_id = str(uuid.uuid4())
+    report = {
+        "id": report_id,
+        "project_id": project_id,
+        "report_type": report_type,
+        "title": f"Security Assessment - {report_type}",
+        "generated_at": datetime.datetime.utcnow().isoformat(),
+        "status": "completed",
+        "download_url": f"/api/v1/reports/export?project_id={project_id}&format=markdown"
+    }
+    MOCK_REPORTS.append(report)
+    return {"status": "ok", "report_id": report_id, "message": "Report generation complete"}
+
 @router.get("/")
 async def get_reports():
-    return {"status": "ok", "service": "reports"}
+    return MOCK_REPORTS

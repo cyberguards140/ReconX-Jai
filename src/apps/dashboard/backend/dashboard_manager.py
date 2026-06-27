@@ -44,7 +44,7 @@ class DashboardManager:
             print("[+] Opening existing instance...")
             if self.auto_open:
                 try:
-                    webbrowser.open(f"http://127.0.0.1:{self.port}")
+                    webbrowser.open(f"http://127.0.0.1:8000/dashboard")
                 except Exception:
                     pass
             return
@@ -54,11 +54,16 @@ class DashboardManager:
         print("[+] Loading Project...")
         print("[+] Starting UI...")
 
-        from apps.dashboard.backend.server import run_server
+        import subprocess
+        import sys
 
         def run():
             try:
-                run_server(self.port)
+                subprocess.Popen(
+                    [sys.executable, "-m", "apps.cli.main", "api"],
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                )
             except Exception as e:
                 print(
                     f"\n[-] Failed to start dashboard. Possible causes:\n• Port already in use\n• Flask missing\n• Browser launch failure\nError: {e}"
@@ -69,6 +74,6 @@ class DashboardManager:
 
         if self.auto_open:
             try:
-                webbrowser.open(f"http://127.0.0.1:{self.port}")
+                webbrowser.open(f"http://127.0.0.1:8000/dashboard")
             except Exception:
                 pass

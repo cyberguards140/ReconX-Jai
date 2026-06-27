@@ -47,6 +47,7 @@ Requires-Dist: questionary
 Requires-Dist: psutil
 Requires-Dist: flask
 Requires-Dist: flask-sock
+Requires-Dist: python-multipart
 Provides-Extra: dev
 Requires-Dist: pytest; extra == "dev"
 Requires-Dist: pytest-asyncio; extra == "dev"

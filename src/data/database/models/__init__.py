@@ -62,6 +62,7 @@ class Project(BaseModel):
     organization_id: Mapped[str | None] = mapped_column(
         ForeignKey("organizations.id"), index=True, nullable=True
     )
+    config: Mapped[dict | None] = mapped_column(JSON, nullable=True)
 
     owner: Mapped["User"] = relationship(back_populates="projects")
     department: Mapped[Optional["Department"]] = relationship()

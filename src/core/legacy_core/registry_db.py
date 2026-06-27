@@ -4,8 +4,9 @@ from sqlalchemy import JSON, Boolean, Column, ForeignKey, Integer, String, creat
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 DB_PATH = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", "registry", "registry.db")
+    os.path.join(os.path.expanduser("~/ReconX/registry"), "registry.db")
 )
+import os; os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
 engine = create_engine(f"sqlite:///{DB_PATH}")
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
@@ -64,7 +65,7 @@ class ToolTemplate(Base):
     tools_json = Column(JSON)
 
 
-Base.metadata.create_all(bind=engine)
+
 
 
 def get_registry_db():

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from dashboard.backend.websocket import broadcast
+from apps.dashboard.backend.websocket import broadcast
 
 from core.legacy_core.cloud_db import (
     CloudAsset,

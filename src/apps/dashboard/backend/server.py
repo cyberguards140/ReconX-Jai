@@ -9,11 +9,7 @@ from flask_sock import Sock
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")))
 
 
-class Scheduler:
-    @staticmethod
-    def start():
-        pass
-
+from core.legacy_core.scheduler import Scheduler
 
 from apps.dashboard.backend.api import api_bp
 from apps.dashboard.backend.websocket import setup_websocket
@@ -42,15 +38,18 @@ fh.setFormatter(logging.Formatter("%(asctime)s - %(message)s"))
 dashboard_logger.addHandler(fh)
 
 
+frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "frontend"))
+
 @app.route("/")
+@app.route("/dashboard")
 def index():
     dashboard_logger.info("Dashboard loaded")
-    return send_from_directory("../frontend", "reconx-dashboard-v2.html")
+    return send_from_directory(frontend_dir, "reconx-dashboard-v2.html")
 
 
 @app.route("/<path:path>")
 def static_files(path):
-    return send_from_directory("../frontend", path)
+    return send_from_directory(frontend_dir, path)
 
 
 def run_server(port=3000):

@@ -3,10 +3,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-from core.plugin_interface import PluginInterface
-
-
-class ToolAdapter(PluginInterface):
+class ToolAdapter:
     async def get_whois(self, domain: str, server: str) -> dict:
         whois_result = {}
         try:

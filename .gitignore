@@ -17,3 +17,9 @@ build/
 coverage/
 htmlcov/
 vscode.deb
+venv/
+.venv/
+registry/*.db
+*.database
+src/logs/
+logs/

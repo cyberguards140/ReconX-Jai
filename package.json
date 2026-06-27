@@ -1,0 +1,28 @@
+{
+  "name": "reconx",
+  "version": "1.0.0",
+  "description": "![ReconX Banner](https://img.shields.io/badge/ReconX-Enterprise_Intelligence-blue?style=for-the-badge&logo=shield) ![Python](https://img.shields.io/badge/Python-3.11+-yellow?style=flat-square&logo=python) ![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green?style=flat-square&logo=fastapi) ![Neo4j](https://img.shields.io/badge/Neo4j-Graph_Twin-blue?style=flat-square&logo=neo4j)",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cyberguards140/ReconX-Jai.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/cyberguards140/ReconX-Jai/issues"
+  },
+  "homepage": "https://github.com/cyberguards140/ReconX-Jai#readme",
+  "dependencies": {
+    "jsdom": "^29.1.1"
+  }
+}

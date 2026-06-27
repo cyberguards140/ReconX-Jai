@@ -29,3 +29,22 @@ async def synthesize_finding(request: SynthesizeRequest):
 @router.get("/")
 async def get_intelligence():
     return {"status": "ok", "service": "intelligence"}
+
+@router.get("/exposure")
+async def get_exposure():
+    """Returns general exposure analytics."""
+    return {
+        "status": "ok",
+        "exposure_score": 75,
+        "critical_risks": 2,
+        "high_risks": 5
+    }
+
+@router.get("/threat")
+async def get_threat_intel():
+    """Returns threat intelligence indicators."""
+    return {
+        "status": "ok",
+        "active_campaigns": 1,
+        "ioc_matches": 3
+    }

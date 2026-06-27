@@ -115,7 +115,10 @@ def current_project():
 @api_bp.route("/api/project/create", methods=["POST"])
 def create_project():
     data = request.json or {}
-    success = ProjectManager.create_project(data.get("name"), data.get("description", ""))
+    success = ProjectManager.create_project(
+        data.get("name"), data.get("description", ""),
+        data.get("client", ""), data.get("tags", [])
+    )
     if success:
         return jsonify({"status": "created", "name": data.get("name")})
     return jsonify({"error": "Failed"}), 400
@@ -521,16 +524,6 @@ def doctor_updates():
 # --- Project Endpoints ---
 
 
-@api_bp.route("/api/projects", methods=["GET"])
-def get_projects():
-    db = ProjectSession()
-    projects = db.query(Project).all()
-    res = [
-        {"id": p.id, "name": p.name, "description": p.description, "status": p.status}
-        for p in projects
-    ]
-    db.close()
-    return jsonify(res)
 
 
 @api_bp.route("/api/profiles", methods=["GET"])

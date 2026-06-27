@@ -19,7 +19,7 @@ def xor_crypt(text, encode=False):
 
 
 class SecretsManager:
-    DB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "workspace", "secrets.db"))
+    DB_PATH = os.path.abspath(os.path.join(os.path.expanduser("~/ReconX/workspace"), "secrets.db"))
 
     @classmethod
     def _init_db(cls):

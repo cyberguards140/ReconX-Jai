@@ -2,11 +2,11 @@ import asyncio
 import json
 import shutil
 
-from core.paths import OUTPUTS_DIR
-from core.plugin_interface import PluginInterface
+from pathlib import Path
 
+OUTPUTS_DIR = Path(__file__).parent.parent.parent / "workspace" / "outputs"
 
-class ToolAdapter(PluginInterface):
+class ToolAdapter:
     async def execute(self, config: dict, context: dict) -> dict:
         target = context.get("target")
         if not target:

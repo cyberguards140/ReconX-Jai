@@ -4,6 +4,7 @@ import asyncio
 from core.logging.logger import setup_logger
 from data.database.base import BaseModel
 from data.database.session import engine
+import data.database.models
 
 logger = setup_logger(__name__)
 
@@ -30,8 +31,7 @@ async def seed_defaults():
 
 async def init():
     await verify_connection()
-    # create_tables should be handled by alembic in production, but we can do it for sqlite
-    # await create_tables()
+    await create_tables()
     await seed_defaults()
 
 

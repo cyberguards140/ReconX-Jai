@@ -50,12 +50,15 @@ class ReconWorker:
 
             # Execute tool logic here (simulate)
             await asyncio.sleep(1)
+            
+            import random
+            status = "failed" if random.random() < 0.1 else "completed"
 
             # Push result back to centralized queue
             result_payload = {
                 "worker_id": self.worker_id,
                 "original_task": task_payload,
-                "status": "completed",
+                "status": status,
                 "stage": queue_name,
             }
             await broker.publish("store_results", result_payload)

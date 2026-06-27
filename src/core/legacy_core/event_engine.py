@@ -1,4 +1,4 @@
-from dashboard.backend.websocket import broadcast
+from apps.dashboard.backend.websocket import broadcast
 
 
 class EventEngine:

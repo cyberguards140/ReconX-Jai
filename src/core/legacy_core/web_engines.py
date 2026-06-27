@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from dashboard.backend.websocket import broadcast
+from apps.dashboard.backend.websocket import broadcast
 
 from core.legacy_core.web_db import Secret, SessionLocal, Technology, WebAsset, WebRelationship
 

@@ -27,7 +27,13 @@ class ResultsAPI:
             conn = sqlite3.connect(DB_PATH)
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
-            cursor.execute(f"SELECT * FROM {table} LIMIT 100")
+            QUERIES = {
+                "assets": "SELECT * FROM assets LIMIT 100",
+                "findings": "SELECT * FROM findings LIMIT 100",
+                "technologies": "SELECT * FROM technologies LIMIT 100",
+                "relationships": "SELECT * FROM relationships LIMIT 100"
+            }
+            cursor.execute(QUERIES[table])
             rows = cursor.fetchall()
             conn.close()
             return [dict(row) for row in rows]

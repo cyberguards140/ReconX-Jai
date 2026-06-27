@@ -1,8 +1,5 @@
 import aiohttp
-from core.plugin_interface import PluginInterface
-
-
-class ToolAdapter(PluginInterface):
+class ToolAdapter:
     async def get_asn_info(self, query: str) -> dict:
         # Replaces metabigor's ASN discovery using bgpview API natively in Python
         url = f"https://api.bgpview.io/search?query_term={query}"
